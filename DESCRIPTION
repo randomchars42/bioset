@@ -1,0 +1,30 @@
+Package: eckplates
+Type: Package
+Title: Handle data read from plates gracefully.
+Version: 0.1.0
+Authors@R: person("Eike Christian", "Kühn", email = "eike.kuehn@pixelwoelkchen.de",
+  role = c("aut", "cre"))
+Description: Package for dealing with data coming from a plate reader, e.g.
+    in a 8 x 12 (96-well plate) matrix.
+    With little formatting this package digests the values read by the automat
+    into a tibble.
+    You can add arbitray information per well through formatting the sheets fed
+    to plate_read().
+    Suitable for arbitray input matrices.
+    If there are standards on the plate, you may use plate_calc_conc() to
+    convert relative light units or extinction rates into concentrations
+    based on those standards.
+License: MIT
+Depends:
+    R (>= 3.4.2)
+Imports:
+    utils (>= 3.4.2),
+    tidyr (>= 0.7.1),
+    dplyr (>= 0.7.4),
+    tibble (>= 1.3.4),
+    magrittr (>= 1.5)
+Suggests:
+    tidyverse (>= 1.1.1),
+    testthat
+Encoding: UTF-8
+LazyData: true
