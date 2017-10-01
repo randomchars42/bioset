@@ -87,7 +87,7 @@ test_that("plates without additional names are read correctly", {
   plate3 <- plate_read(
     plate_num = 3,
     path = "./",
-    additional_vars = c(),
+    additional_vars = vector(),
     additional_sep = "[^[:alnum:]]+",
     file_name = "plate_#NUM#.csv",
     sep = ",",
@@ -97,7 +97,7 @@ test_that("plates without additional names are read correctly", {
   plate4 <- plate_read(
     plate_num = 4,
     path = "./",
-    additional_vars = c(),
+    additional_vars = vector(),
     additional_sep = "[^[:alnum:]]+",
     file_name = "plate_#NUM#.csv",
     sep = ",",
