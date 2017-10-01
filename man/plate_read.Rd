@@ -5,7 +5,7 @@
 \title{Read a matrix from a data-sheet and turn it into a multi-column tibble.}
 \usage{
 plate_read(file_name = "plate_#NUM#.csv", path = "./", plate_num = 1,
-  sep = ",", cols = 12, rows = 8, additional_vars = c(),
+  sep = ",", cols = 12, rows = 8, additional_vars = vector(),
   additional_sep = "[^[:alnum:]]+")
 }
 \arguments{
