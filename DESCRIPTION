@@ -1,6 +1,6 @@
 Package: eckplates
 Type: Package
-Title: Handle data read from plates gracefully.
+Title: Handle data read from plates gracefully
 Version: 0.1.0
 Authors@R: person("Eike Christian", "Kühn", email = "eike.kuehn@pixelwoelkchen.de",
   role = c("aut", "cre"))
@@ -14,7 +14,7 @@ Description: Package for dealing with data coming from a plate reader, e.g.
     If there are standards on the plate, you may use plate_calc_conc() to
     convert relative light units or extinction rates into concentrations
     based on those standards.
-License: MIT
+License: MIT + file LICENSE
 Depends:
     R (>= 3.4.2)
 Imports:
@@ -28,3 +28,4 @@ Suggests:
     testthat
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.0.1
