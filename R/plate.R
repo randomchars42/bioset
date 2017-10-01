@@ -66,33 +66,24 @@
 #' }
 #'
 #' @export
-#'
 #' @param file_name Name of the file from which to read the data. May contain
 #'   "#NUM#" as a placeholder if you have multiple files (see plate_num).
-#'
 #' @param path The path to file (needs to end with "/").
-#'
 #' @param plate_num Number of the plate to read, inserted for "#NUM#".
-#'
 #' @param sep Separator used in the csv-file, either "," or ";" (see
 #'   \code{\link[utils]{read.csv}})
-#'
 #' @param cols Number of columns in the input matrix (\code{NULL} means
 #'   auto-detect).
-#'
 #' @param rows Number of rows containing values (not names / additional data)
 #'   in the input matrix (\code{NULL} means auto-detect).
-#'
 #' @param additional_vars Vector of strings containing the names for the
 #'   additional columns.
-#'
 #' @param additional_sep String / RegExp that separates additional vars, e.g.:
 #'   \code{"ID_blue_cold"} with \code{additional_sep = "_"} will be separated
 #'   into three columns containg \code{"ID"}, \code{"blue"} and \code{"cold"}.
 #'   If the separated data would exceed the columns in \code{additional_vars}
 #'   the last column will contain a string with separator (e.g.: "blue_cold").
 #'   If data is missing \code{NA} is inserted.
-#'
 #' @return A tibble containing (at minimum) \code{plate}, \code{position} and
 #' \code{value}.
 #'
@@ -103,9 +94,21 @@ plate_read <- function(
   sep = ",",
   cols = 12,
   rows = 8,
-  additional_vars = c(),
+  additional_vars = vector(),
   additional_sep = "[^[:alnum:]]+"
 ) {
+
+  stopifnot(
+    is.character(file_name),
+    is.character(path),
+    is.numeric(as.numeric(plate_num)),
+    is.character(sep),
+    is.numeric(as.numeric(cols)),
+    is.numeric(as.numeric(rows)),
+    is.vector(additional_vars),
+    is.character(additional_sep)
+    )
+
   # make the pipe operator available to us
   `%>%` <- magrittr::`%>%`
 
@@ -132,7 +135,7 @@ plate_read <- function(
   actual_vars <- length(additional_vars)
 
   if (actual_vars == 0) {
-    additional_vars <- c("id")
+    additional_vars <- c("name")
   }
 
   if (is.null(cols)) {
