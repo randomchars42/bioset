@@ -13,14 +13,14 @@
 #' @param cal_unit A string indicating the unit, see \code{\link{calc_factor}}.
 #' @param target_unit A string indicating the unit, see
 #'   \code{\link{calc_factor}}.
-#' @param col_names A string indicating the name of the column used to identify
-#'   the calibrators.
-#' @param col_values A string indicating the name of the column holding the raw
-#'   values.
-#' @param col_target A string indicating the name of the column that will be
-#'   created for the calculated concentration.
-#' @param col_real A string indicating the name of the column that will be
-#'   created for the calculated concentration.
+#' @param col_names The name of the column used to identify the calibrators.
+#' @param col_values The name of the column holding the raw values.
+#' @param col_target The name of the column to created for the calculated
+#'   concentration.
+#' @param col_real The name of the column to create for the known
+#'   concentrations.
+#' @param col_recov The name of the column to create for the recovery of the
+#'   calibrators.
 #' @return A tibble containing all original and additional columns.
 #'
 calc_concentrations <- function(
@@ -33,6 +33,7 @@ calc_concentrations <- function(
   col_values = values,
   col_target = conc,
   col_real = real,
+  col_recov = recovery,
   model_func = fit_lnln,
   interp_func = interp_lnln
 ){
@@ -61,6 +62,8 @@ calc_concentrations <- function(
   col_names <- rlang::enquo(col_names)
   col_real <- rlang::enquo(col_real)
   col_real_name <- rlang::quo_name(col_real)
+  col_recov <- rlang::enquo(col_recov)
+  col_recov_name <- rlang::quo_name(col_recov)
 
   data <- data %>%
     dplyr::mutate(
@@ -89,13 +92,16 @@ calc_concentrations <- function(
 
   data <- data %>%
     dplyr::mutate(
-      !! col_target_name := interp_func(y = !! col_values, model = !! model)
+      !! col_target_name := interp_func(y = !! col_values, model = !! model),
+      !! col_recov_name := (!! col_target) / (!! col_real)
     )
 
   return(data)
 }
 
+#'
 #' @export
+#'
 fit_lnln <- function(x, y) {
   x <- log(x)
   y <- log(y)
@@ -103,7 +109,9 @@ fit_lnln <- function(x, y) {
   return(lm(formula = y~x))
 }
 
+#'
 #' @export
+#'
 interp_lnln <- function(y, model) {
   x <-
     exp(
