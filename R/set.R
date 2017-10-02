@@ -8,68 +8,11 @@
 #' This data tends to be presented in matrices in the shape of the measured
 #' plate. For a 96-well plate, something like this might be output:
 #'
-#' \tabular{rrrrr}{
-#'   ValA1 \tab ValA2 \tab ValA3 \tab ... \tab ValA12\cr
-#'   ValB1 \tab ValB2 \tab ValB3 \tab ... \tab ValB12\cr
-#'   ... \tab ... \tab ... \tab ... \tab ...\cr
-#'   ValH1 \tab ValH2 \tab ValH3 \tab ... \tab ValH12
-#' }
-#'
-#' Save these values as "plate_1.csv".
-#'
-#' You may add names by formatting your sheet like:
-#'
-#' \tabular{rrrrr}{
-#'   ValA1 \tab ValA2 \tab ValA3 \tab ... \tab ValA12\cr
-#'   ValB1 \tab ValB2 \tab ValB3 \tab ... \tab ValB12\cr
-#'   ... \tab ... \tab ... \tab ... \tab ...\cr
-#'   ValH1 \tab ValH2 \tab ValH3 \tab ... \tab ValH12\cr
-#'   NameA1 \tab NameA2 \tab NameA3 \tab ... \tab NameA12\cr
-#'   NameB1 \tab NameB2 \tab NameB3 \tab ... \tab NameB12\cr
-#'   ... \tab ... \tab ... \tab ... \tab ...\cr
-#' }
-#'
-#' (You get it ;) )
-#'
-#' \code{plate_read()} will turn it into a 3 x 96 tibble:
-#'
-#' \tabular{rrr}{
-#'   plate \tab name \tab value\cr
-#'   1 \tab NameA1 \tab ValA1\cr
-#'   1 \tab NameA2 \tab ValA2\cr
-#'   ... \tab ... \tab ...\cr
-#'   1 \tab NameH12 \tab ValH12\cr
-#' }
-#'
-#' To add arbitrary values you can format the data like:
-#'
-#' \tabular{rrrrr}{
-#'   ValA1 \tab ValA2 \tab ValA3 \tab ... \tab ValA12\cr
-#'   ValB1 \tab ValB2 \tab ValB3 \tab ... \tab ValB12\cr
-#'   ... \tab ... \tab ... \tab ... \tab ...\cr
-#'   ValH1 \tab ValH2 \tab ValH3 \tab ... \tab ValH12\cr
-#'   NameA1_PropA1 \tab NameA2_PropA2 \tab NameA3_PropA3 \tab ... \tab
-#'   NameA12_PropA12\cr
-#'   NameB1_PropB1 \tab NameB2_PropB2 \tab NameB3_PropB3 \tab ... \tab
-#'   NameB12_PropB12\cr
-#'   ... \tab ... \tab ... \tab ... \tab ...\cr
-#' }
-#'
-#' \code{plate_read()} will turn it into:
-#'
-#' \tabular{rrrr}{
-#'   plate \tab name \tab value \tab property\cr
-#'   1 \tab NameA1 \tab ValA1 \tab PropA1\cr
-#'   1 \tab NameA2 \tab ValA2 \tab PropA2\cr
-#'   ... \tab ... \tab ... \tab ...\cr
-#'   1 \tab NameH12 \tab ValH12 \tab PropH12\cr
-#' }
-#'
 #' @export
 #' @param file_name Name of the file from which to read the data. May contain
-#'   "#NUM#" as a placeholder if you have multiple files (see plate_num).
+#'   "#NUM#" as a placeholder if you have multiple files (see num).
 #' @param path The path to file (needs to end with "/").
-#' @param plate_num Number of the plate to read, inserted for "#NUM#".
+#' @param num Number of the plate to read, inserted for "#NUM#".
 #' @param sep Separator used in the csv-file, either "," or ";" (see
 #'   \code{\link[utils]{read.csv}})
 #' @param cols Number of columns in the input matrix (\code{NULL} means
@@ -87,10 +30,10 @@
 #' @return A tibble containing (at minimum) \code{plate}, \code{position} and
 #' \code{value}.
 #'
-plate_read <- function(
-  file_name = "plate_#NUM#.csv",
-  path = "./",
-  plate_num = 1,
+set_read <- function(
+  file_name = "set_#NUM#.csv",
+  path = "",
+  num = 1,
   sep = ",",
   cols = 12,
   rows = 8,
@@ -101,7 +44,7 @@ plate_read <- function(
   stopifnot(
     is.character(file_name),
     is.character(path),
-    is.numeric(as.numeric(plate_num)),
+    is.numeric(as.numeric(num)),
     is.character(sep),
     is.numeric(as.numeric(cols)),
     is.numeric(as.numeric(rows)),
@@ -114,7 +57,7 @@ plate_read <- function(
 
   # load file
 
-  file_name <- gsub(pattern = "#NUM#", replacement = plate_num, x = file_name)
+  file_name <- gsub(pattern = "#NUM#", replacement = num, x = file_name)
   file_name <- paste0(path, file_name)
 
   if (!file.exists(file_name)) {
@@ -226,7 +169,7 @@ plate_read <- function(
 
   data <-
     tibble::tibble(
-      plate = plate_num,
+      set = num,
       position = positions_vec,
       tmp = names_vec,
       value = data_vec
@@ -239,6 +182,145 @@ plate_read <- function(
       extra = "merge",
       fill = "right"
     )
+
+  return(data)
+}
+
+#'
+#' Bla.
+#'
+#' Vla.
+#'
+#' @export
+#'
+#' @param data A tibble containing the data.
+#' @param cal_names A vector of strings containing the names of the samples used
+#'   as calibrators,
+#' @param cal_values A numeric vector with the known concentrations of those
+#'   samples (must be in the same order).
+#' @param cal_unit A string indicating the unit, see \code{\link{calc_factor}}.
+#' @param target_unit A string indicating the unit, see
+#'   \code{\link{calc_factor}}.
+#' @param col_names The name of the column used to identify the calibrators.
+#' @param col_values The name of the column holding the raw values.
+#' @param col_target The name of the column to created for the calculated
+#'   concentration.
+#' @param col_real The name of the column to create for the known
+#'   concentrations.
+#' @param col_recov The name of the column to create for the recovery of the
+#'   calibrators.
+#' @return A tibble containing all original and additional columns.
+#'
+set_calc_concentrations <- function(
+  data,
+  cal_names,
+  cal_values,
+  cal_unit,
+  target_unit,
+  col_names = name,
+  col_values = values,
+  col_target = conc,
+  col_real = real,
+  col_recov = recovery,
+  model_func = fit_lnln,
+  interp_func = interpolate_lnln
+){
+  # make some handy operators available
+  `%>%` <- magrittr::`%>%`
+  `!!` <- rlang::`!!`
+  `:=` <- rlang::`:=`
+
+  stopifnot(
+    tibble::is.tibble(data),
+    is.vector(cal_names),
+    is.vector(cal_values),
+    is.character(cal_unit),
+    is.character(target_unit),
+    is.function(model_func),
+    is.function(interp_func)
+  )
+
+  # enquose the give column names
+  # for columns that appear to the left of := (i.e. are mutated) a string is
+  # stored in col_*_name
+
+  col_values <- rlang::enquo(col_values)
+  col_target <- rlang::enquo(col_target)
+  col_target_name <- rlang::quo_name(col_target)
+  col_names <- rlang::enquo(col_names)
+  col_real <- rlang::enquo(col_real)
+  col_real_name <- rlang::quo_name(col_real)
+  col_recov <- rlang::enquo(col_recov)
+  col_recov_name <- rlang::quo_name(col_recov)
+
+  data <- data %>%
+    dplyr::mutate(
+      !! col_real_name := NA
+    )
+
+  # set known values for calibrators
+  for (x in seq_along(cal_values)) {
+    cal <- cal_names[[x]]
+    value <- cal_values[[x]]
+
+    data <- data %>%
+      dplyr::mutate(
+        !! col_real_name :=
+          ifelse((!! col_names) == (!! cal), (!! value), (!! col_real))
+      )
+  }
+
+  cals <- data %>%
+    dplyr::filter(! is.na(!! col_real))
+
+  real <- dplyr::pull(cals, !! col_real)
+  measured <- dplyr::pull(cals, !! col_values)
+
+  model <- model_func(x = real, y = measured)
+
+  data <- data %>%
+    dplyr::mutate(
+      !! col_target_name := interp_func(y = !! col_values, model = !! model),
+      !! col_recov_name := (!! col_target) / (!! col_real)
+    )
+
+  return(data)
+}
+
+#'
+#' @export
+#'
+set_calc_variability <- function(data, groups, ...) {
+  # make some handy operators available
+  `%>%` <- magrittr::`%>%`
+  `!!` <- rlang::`!!`
+  `:=` <- rlang::`:=`
+
+  stopifnot(tibble::is.tibble(data))
+
+  groups <- rlang::enquo(groups)
+  calc_for <- rlang::quos(...)
+
+  for (i in seq_along(calc_for)) {
+    message(i)
+    message(rlang::quo_name(calc_for[[i]]))
+    target <- calc_for[[i]]
+    target_base <- rlang::quo_name(target)
+    target_mean <- paste0(target_base, "_mean")
+    target_n <- paste0(target_base, "_n")
+    target_sd <- paste0(target_base, "_sd")
+    target_cv <- paste0(target_base, "_cv")
+
+    data <- data %>%
+      dplyr::group_by(!! groups) %>%
+      dplyr::mutate(
+        !! target_n := n(),
+        !! target_mean := mean(!! target),
+        !! target_sd := sd(!! target),
+        !! target_cv := sd(!! target) / mean(!! target)
+      ) %>%
+      dplyr::ungroup()
+  }
 
   return(data)
 }
