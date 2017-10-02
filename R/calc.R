@@ -120,3 +120,41 @@ interp_lnln <- function(y, model) {
     )
   return(x)
 }
+
+#'
+#' @export
+#'
+calc_variability <- function(data, groups, ...) {
+  # make some handy operators available
+  `%>%` <- magrittr::`%>%`
+  `!!` <- rlang::`!!`
+  `:=` <- rlang::`:=`
+
+  stopifnot(tibble::is.tibble(data))
+
+  groups <- rlang::enquo(groups)
+  calc_for <- rlang::quos(...)
+
+  for (i in seq_along(calc_for)) {
+    message(i)
+    message(rlang::quo_name(calc_for[[i]]))
+    target <- calc_for[[i]]
+    target_base <- rlang::quo_name(target)
+    target_mean <- paste0(target_base, "_mean")
+    target_n <- paste0(target_base, "_n")
+    target_sd <- paste0(target_base, "_sd")
+    target_cv <- paste0(target_base, "_cv")
+
+    data <- data %>%
+      dplyr::group_by(!! groups) %>%
+      dplyr::mutate(
+        !! target_n := n(),
+        !! target_mean := mean(!! target),
+        !! target_sd := sd(!! target),
+        !! target_cv := sd(!! target) / mean(!! target)
+      ) %>%
+      dplyr::ungroup()
+  }
+
+  return(data)
+}
