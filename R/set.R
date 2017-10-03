@@ -385,12 +385,12 @@ set_calc_concentrations <- function(
 #'
 #' @export
 #' @param data A tibble containing the data.
-#' @param names The column holding the names used to group the values.
+#' @param sample_ids The column holding the names used to group the values.
 #' @param ... The name(s) of the columns used to calculate the variability.
 #' @return A tibble containing all original and additional columns
 #'   (NAMEA_mean, NAMEA_n, NAMEA_sd, NAMEA_cv, (NAMEB_mean)).
 #'
-set_calc_variability <- function(data, names, ...) {
+set_calc_variability <- function(data, ids, ...) {
   # make some handy operators available
   `%>%` <- magrittr::`%>%`
   `!!` <- rlang::`!!`
@@ -398,19 +398,25 @@ set_calc_variability <- function(data, names, ...) {
 
   stopifnot(tibble::is.tibble(data))
 
-  groups <- rlang::enquo(names)
+  ids <- rlang::enquo(ids)
+  ids_name <- rlang::quo_name(ids)
   calc_for <- rlang::quos(...)
 
   for (i in seq_along(calc_for)) {
     target <- calc_for[[i]]
     target_base <- rlang::quo_name(target)
+
+    if (target_base == ids_name) {
+      next()
+    }
+
     target_mean <- paste0(target_base, "_mean")
     target_n <- paste0(target_base, "_n")
     target_sd <- paste0(target_base, "_sd")
     target_cv <- paste0(target_base, "_cv")
 
     data <- data %>%
-      dplyr::group_by(!! groups) %>%
+      dplyr::group_by(!! ids) %>%
       dplyr::mutate(
         !! target_n := n(),
         !! target_mean := mean(!! target),
