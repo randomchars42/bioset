@@ -18,3 +18,7 @@ throw_error <- function(...) {
 throw_warning <- function(...) {
   warning(args_to_text(...))
 }
+
+throw_message <- function(...) {
+  message(args_to_text(...))
+}
