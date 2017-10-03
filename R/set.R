@@ -141,7 +141,8 @@ set_read <- function(
   data_raw <- tibble::as_tibble(utils::read.csv(
     file = file_name,
     header = FALSE,
-    sep = sep
+    sep = sep,
+    colClasses = "character"
   ))
 
   # check dimenions of input
