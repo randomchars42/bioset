@@ -22,3 +22,10 @@ throw_warning <- function(...) {
 throw_message <- function(...) {
   message(args_to_text(...))
 }
+
+release_questions <- function() {
+  c(
+    "devtools::revdep_check()?",
+    "Are you feeling good?"
+  )
+}
