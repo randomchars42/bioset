@@ -7,6 +7,7 @@ output: github_document
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  echo = FALSE,
   comment = "#>",
   fig.path = "README-"
 )
@@ -20,7 +21,7 @@ bioset is intended to save you from some dull tasks when dealing with raw data o
 
 You can install bioset from github with:
 
-```{r gh-installation, eval = FALSE}
+```{r gh-installation, echo = TRUE, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("randomchars42/bioset")
 ```

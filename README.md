@@ -34,19 +34,6 @@ If you have a data set of raw values (because your measuring device spat it out)
 
 Suppose you have an ods / xls(x) file with raw values obtained from a measurement like this:
 
-``` r
-data <-
-  utils::read.csv(
-    system.file("extdata", "values.csv", package = "bioset"),
-    header = FALSE)
-rownames(data) <- LETTERS[1:4]
-
-knitr::kable(
-  data,
-  row.names = TRUE,
-  col.names = as.character(1:6))
-```
-
 |     |    1|    2|    3|    4|    5|    6|
 |-----|----:|----:|----:|----:|----:|----:|
 | A   |  102|  107|  156|  145|  360|  342|
@@ -60,13 +47,6 @@ Then you can use `set_read()` to get all values with their position as name in a
 
 ``` r
 set_read()
-```
-
-``` r
-data <- bioset::set_read(
-  file_name = system.file("extdata", "values.csv", package = "bioset")
-)
-knitr::kable(data)
 ```
 
 |  set| position | sample\_id | name |  value|
@@ -102,19 +82,6 @@ knitr::kable(data)
 
 Before feeding your samples into your measuring device you most likely drafted some sort of plan which position corresponds to which sample (didn't you?).
 
-``` r
-data <-
-  utils::read.csv(
-    system.file("extdata", "names.csv", package = "bioset"),
-    header = FALSE)
-rownames(data) <- LETTERS[1:4]
-
-knitr::kable(
-  data,
-  row.names = TRUE,
-  col.names = as.character(1:6))
-```
-
 |     | 1    | 2    | 3   | 4   | 5   | 6   |
 |-----|:-----|:-----|:----|:----|:----|:----|
 | A   | CAL1 | CAL1 | A   | A   | B   | B   |
@@ -125,19 +92,6 @@ knitr::kable(
 So you had some calibrators (1-4) and samples A, B, C, D, E, F, G, H, each in duplicates.
 
 To easily set the names for your samples just copy the names into your `set_1.csv`:
-
-``` r
-data <-
-  utils::read.csv(
-    system.file("extdata", "values_names.csv", package = "bioset"),
-    header = FALSE)
-rownames(data) <- LETTERS[1:8]
-
-knitr::kable(
-  data,
-  row.names = TRUE,
-  col.names = as.character(1:6))
-```
 
 |     | 1    | 2    | 3   | 4   | 5   | 6   |
 |-----|:-----|:-----|:----|:----|:----|:----|
@@ -156,14 +110,6 @@ Tell `set_read()` your data contains the names and which column should hold thos
 set_read(
   additional_vars = c("name")
 )
-```
-
-``` r
-data <- bioset::set_read(
-  file_name = system.file("extdata", "values_names.csv", package = "bioset"),
-  additional_vars = c("name")
-)
-knitr::kable(data)
 ```
 
 |  set| position | sample\_id | name |  value|
@@ -199,19 +145,6 @@ Suppose samples A, B, C, D were taken at day 1 and E, F, G, H were taken from th
 
 It would be more elegant to encode that into the data:
 
-``` r
-data <-
-  utils::read.csv(
-    system.file("extdata", "values_names_properties.csv", package = "bioset"),
-    header = FALSE)
-rownames(data) <- LETTERS[1:8]
-
-knitr::kable(
-  data,
-  row.names = TRUE,
-  col.names = as.character(1:6))
-```
-
 |     | 1    | 2    | 3    | 4    | 5    | 6    |
 |-----|:-----|:-----|:-----|:-----|:-----|:-----|
 | A   | 102  | 107  | 156  | 145  | 360  | 342  |
@@ -229,15 +162,6 @@ Now, tell `set_read()` your data contains the names and day by setting `addition
 set_read(
   additional_vars = c("name", "day")
 )
-```
-
-``` r
-data <- bioset::set_read(
-  file_name = system.file("extdata", "values_names_properties.csv", package = "bioset"),
-  additional_vars = c("name", "day")
-)
-
-knitr::kable(data)
 ```
 
 |  set| position | sample\_id | name | day |  value|
@@ -279,16 +203,6 @@ set_calc_concentrations(
   cal_names = c("CAL1", "CAL2", "CAL3", "CAL4"),
   cal_values = c(1, 2, 3, 4) # ng / ml
 )
-```
-
-``` r
-data <- bioset::set_calc_concentrations(
-  data,
-  cal_names = c("CAL1", "CAL2", "CAL3", "CAL4"),
-  cal_values = c(1, 2, 3, 4) # ng / ml
-)
-
-knitr::kable(data)
 ```
 
 |  set| position | sample\_id | name | day |  value|  real|       conc|   recovery|
