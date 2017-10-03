@@ -35,8 +35,8 @@ set_read <- function(
   path = "",
   num = 1,
   sep = ",",
-  cols = NULL,
-  rows = NULL,
+  cols = 0,
+  rows = 0,
   additional_vars = vector(),
   additional_sep = "[^[:alnum:]]+"
 ) {
@@ -81,7 +81,7 @@ set_read <- function(
     additional_vars <- c("name")
   }
 
-  if (is.null(cols)) {
+  if (cols == 0) {
     # auto-detect
     cols <- actual_cols
   } else {
@@ -99,7 +99,7 @@ set_read <- function(
     }
   }
 
-  if (is.null(rows)) {
+  if (rows == 0) {
     if (actual_vars == 0) {
       # no names given
       rows <- actual_rows
