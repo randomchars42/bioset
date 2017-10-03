@@ -1,4 +1,4 @@
 library(testthat)
-library(eckplates)
+library(bioset)
 
-test_check("eckplates")
+test_check("bioset")

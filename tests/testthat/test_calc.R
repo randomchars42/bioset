@@ -2,6 +2,7 @@ library(bioset)
 context("Calculations")
 
 test_that("concentration types are detected correctly", {
+
   expect_equal(bioset:::get_conc_type("µl"), FALSE)
   expect_equal(bioset:::get_conc_type("µg / dl"), FALSE)
   # ".g / .l", ".g / .m^3", "% w / v" (= 0.1 g / l)
