@@ -1,12 +1,12 @@
-library(ecksets)
+library(bioset)
 context("Handling sets")
 
 test_that("sets are read correctly", {
-  set1 <- set_read(num = 1, additional_vars = c("id"))
+  set1 <- set_read(num = 1, additional_vars = c("name"))
 
   expect_equal(length(set1), 4)
   expect_equal(nrow(set1), 12)
-  expect_equal(set1$id[[5]], "B2")
+  expect_equal(set1$name[[5]], "B2")
   expect_equal(set1$position[[5]], "B2")
 })
 
@@ -39,7 +39,9 @@ test_that("concentrations are calculated correctly using ln-ln-transform", {
   data <- tibble::tibble(
     values = c(1, 2, 3, 4, 5, 6),
     name = c("a", "b", "c", "d", "e", "f")) %>%
-    set_calc_concentrations(c("a", "b", "c"), c(1, 2, 3), "", "", name, values, conc)
+    set_calc_concentrations(
+      cal_names = c("a", "b", "c"),
+      cal_values = c(1, 2, 3))
 
   expect_equal(data$real[[2]], 2)
   expect_equal(data$real[[5]], NA_real_)
