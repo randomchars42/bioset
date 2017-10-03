@@ -1,24 +1,97 @@
-#' Read a matrix from a data-sheet and turn it into a multi-column tibble.
+#'
+#' Read a data set from a data-sheet and turn it into a multi-column tibble.
 #'
 #' @description
-#' This function is intended to ease working with data coming in matrices, for
-#' example from a plate-reader measuring extinction-values or relative light
-#' units from bio-assays.
+#' Read a matrix of values from a csv sheet and sort them into a tibble. You
+#' can name the values and encode several additional properties into the name,
+#' which be split into several columns.
 #'
-#' This data tends to be presented in matrices in the shape of the measured
-#' plate. For a 96-well plate, something like this might be output:
+#' @details
+#' You might have a data sheet (csv) like:
+#'
+#' \tabular{rrrr}{
+#'   1 \tab 2 \tab 3 \tab ...\cr
+#'   4 \tab 5 \tab 6 \tab ...\cr
+#'   7 \tab 8 \tab 9 \tab ...\cr
+#'   ... \tab ... \tab ... \tab ...\cr
+#' }
+#'
+#' This will be read into a tibble:
+#'
+#' \tabular{rrrr}{
+#'   set \tab positon \tab name \tab value\cr
+#'   1 \tab A1 \tab A1 \tab 1\cr
+#'   1 \tab A2 \tab A2 \tab 2\cr
+#'   ... \tab ... \tab ... \tab ...\cr
+#'   1 \tab C3 \tab C3 \tab 9\cr
+#'   ... \tab ... \tab ... \tab ...\cr
+#' }
+#'
+#' Note: Unlike LibreOffice / Excel / ... columns are numbered and rows are
+#' named with letters.
+#'
+#' If you want to name the values append them to the csv sheet, like:
+#'
+#' \tabular{rrrr}{
+#'   1 \tab 2 \tab 3 \tab ...\cr
+#'   4 \tab 5 \tab 6 \tab ...\cr
+#'   7 \tab 8 \tab 9 \tab ...\cr
+#'   ... \tab ... \tab ... \tab ...\cr
+#'   Name1 \tab Name2 \tab Name3 \tab ...\cr
+#'   Name4 \tab Name5 \tab Name6 \tab ...\cr
+#'   Name7 \tab Name8 \tab Name9 \tab ...\cr
+#'   ... \tab ... \tab ... \tab ...\cr
+#' }
+#'
+#' Now you need to specify a name for the column holding the name with
+#' \code{additional_vars = c("name")}.
+#' This results in:
+#'
+#' \tabular{rrrr}{
+#'   set \tab position \tab name \tab value\cr
+#'   1 \tab A1 \tab Name1 \tab 1\cr
+#'   1 \tab A2 \tab Name2 \tab 2\cr
+#'   ... \tab ... \tab ... \tab ...\cr
+#'   1 \tab C3 \tab Name9 \tab 9\cr
+#'   ... \tab ... \tab ... \tab ...\cr
+#' }
+#'
+#' You can encode additional properties into the name, like:
+#'
+#' \tabular{rrrr}{
+#'   1 \tab 2 \tab 3 \tab ...\cr
+#'   4 \tab 5 \tab 6 \tab ...\cr
+#'   7 \tab 8 \tab 9 \tab ...\cr
+#'   ... \tab ... \tab ... \tab ...\cr
+#'   Name1.1 \tab Name2.1 \tab Name3.1 \tab ...\cr
+#'   Name4.1 \tab Name5.1 \tab Name6.1 \tab ...\cr
+#'   Name7.2 \tab Name8.2 \tab Name9.2 \tab ...\cr
+#'   ... \tab ... \tab ... \tab ...\cr
+#' }
+#'
+#' Specify the columns: \code{additional_vars = c("name", "time")}.
+#' This results in:
+#'
+#' \tabular{rrrrr}{
+#'   set \tab position \tab name \tab time \tab value\cr
+#'   1 \tab A1 \tab Name1 \tab 1 \tab 1\cr
+#'   1 \tab A2 \tab Name2 \tab 1 \tab 2\cr
+#'   ... \tab ... \tab ... \tab ... \tab ...\cr
+#'   1 \tab C3 \tab Name9 \tab 2 \tab 9\cr
+#'   ... \tab ... \tab ... \tab ... \tab ...\cr
+#' }
 #'
 #' @export
 #' @param file_name Name of the file from which to read the data. May contain
 #'   "#NUM#" as a placeholder if you have multiple files (see num).
-#' @param path The path to file (needs to end with "/").
-#' @param num Number of the plate to read, inserted for "#NUM#".
+#' @param path The path to the file (needs to end with "/").
+#' @param num Number of the set to read, inserted for "#NUM#".
 #' @param sep Separator used in the csv-file, either "," or ";" (see
 #'   \code{\link[utils]{read.csv}})
-#' @param cols Number of columns in the input matrix (\code{NULL} means
+#' @param cols Number of columns in the input matrix (\code{0} means
 #'   auto-detect).
 #' @param rows Number of rows containing values (not names / additional data)
-#'   in the input matrix (\code{NULL} means auto-detect).
+#'   in the input matrix (\code{0} means auto-detect).
 #' @param additional_vars Vector of strings containing the names for the
 #'   additional columns.
 #' @param additional_sep String / RegExp that separates additional vars, e.g.:
@@ -27,8 +100,8 @@
 #'   If the separated data would exceed the columns in \code{additional_vars}
 #'   the last column will contain a string with separator (e.g.: "blue_cold").
 #'   If data is missing \code{NA} is inserted.
-#' @return A tibble containing (at minimum) \code{plate}, \code{position} and
-#' \code{value}.
+#' @return A tibble containing (at minimum) \code{set}, \code{position},
+#'   \code{name} and \code{value}.
 #'
 set_read <- function(
   file_name = "set_#NUM#.csv",
@@ -78,6 +151,7 @@ set_read <- function(
   actual_vars <- length(additional_vars)
 
   if (actual_vars == 0) {
+    # no names are given, but reuqired for tidyr::separate to work
     additional_vars <- c("name")
   }
 
@@ -187,18 +261,25 @@ set_read <- function(
 }
 
 #'
-#' Bla.
+#' Calculate concentrations for the set using contained calibrators.
 #'
-#' Vla.
+#' @description
+#' If the data set is generated, for example by reading extinction rates or
+#' relative light units from a plate, these raw values can be converted to
+#' concentrations using data fields with known concentrations (calibrators).
+#'
+#' @details
+#' If the data set contains samples with known concentrations (calibrators)
+#' those can be used to interpolate the concentrations of the other samples.
 #'
 #' @export
-#'
 #' @param data A tibble containing the data.
 #' @param cal_names A vector of strings containing the names of the samples used
 #'   as calibrators,
 #' @param cal_values A numeric vector with the known concentrations of those
 #'   samples (must be in the same order).
-#' @param col_names The name of the column used to identify the calibrators.
+#' @param col_names The name of the column where the \code{cal_names} can be
+#'   found.
 #' @param col_values The name of the column holding the raw values.
 #' @param col_target The name of the column to created for the calculated
 #'   concentration.
@@ -206,19 +287,24 @@ set_read <- function(
 #'   concentrations.
 #' @param col_recov The name of the column to create for the recovery of the
 #'   calibrators.
+#' @param model_func A function generating a model to fit the calibrators,
+#'   e.g. \code{\link{fit_linear}}, \code{\link{fit_lnln}}
+#' @param interpolate_func A function used to interpolate the concentrations of
+#'   the other samples, based on the model, e.g.
+#'   \code{\link{interpolate_linear}}, \code{\link{interpolate_lnln}}
 #' @return A tibble containing all original and additional columns.
 #'
 set_calc_concentrations <- function(
   data,
   cal_names,
   cal_values,
-  col_names = name,
-  col_values = values,
-  col_target = conc,
-  col_real = real,
-  col_recov = recovery,
+  col_names = eval(parse(text = "name")),
+  col_values = eval(parse(text = "values")),
+  col_target = eval(parse(text = "conc")),
+  col_real = eval(parse(text = "real")),
+  col_recov = eval(parse(text = "recovery")),
   model_func = fit_lnln,
-  interp_func = interpolate_lnln
+  interpolate_func = interpolate_lnln
 ){
   # make some handy operators available
   `%>%` <- magrittr::`%>%`
@@ -230,7 +316,7 @@ set_calc_concentrations <- function(
     is.vector(cal_names),
     is.vector(cal_values),
     is.function(model_func),
-    is.function(interp_func)
+    is.function(interpolate_func)
   )
 
   # enquose the give column names
@@ -273,17 +359,36 @@ set_calc_concentrations <- function(
 
   data <- data %>%
     dplyr::mutate(
-      !! col_target_name := interp_func(y = !! col_values, model = !! model),
+      !! col_target_name :=
+        interpolate_func(y = !! col_values, model = !! model),
       !! col_recov_name := (!! col_target) / (!! col_real)
     )
 
   return(data)
 }
 
+
+#'
+#' Calculate paramters of variability for a given set of values.
+#'
+#' @description
+#' Calculate mean, standard deviation and coefficient of variation for groups of
+#' values.
+#'
+#' @details
+#' Dealing with measured values, the measurement of sample "A" is often done in
+#' duplicates / triplicates / ... . This function groups all samples with the
+#' same name and calculates mean, standard deviation and coefficient of
+#' variation (= sd / mean).
 #'
 #' @export
+#' @param data A tibble containing the data.
+#' @param names The column holding the names used to group the values.
+#' @param ... The name(s) of the columns used to calculate the variability.
+#' @return A tibble containing all original and additional columns
+#'   (NAMEA_mean, NAMEA_n, NAMEA_sd, NAMEA_cv, (NAMEB_mean)).
 #'
-set_calc_variability <- function(data, groups, ...) {
+set_calc_variability <- function(data, names, ...) {
   # make some handy operators available
   `%>%` <- magrittr::`%>%`
   `!!` <- rlang::`!!`
@@ -291,7 +396,7 @@ set_calc_variability <- function(data, groups, ...) {
 
   stopifnot(tibble::is.tibble(data))
 
-  groups <- rlang::enquo(groups)
+  groups <- rlang::enquo(names)
   calc_for <- rlang::quos(...)
 
   for (i in seq_along(calc_for)) {
@@ -309,8 +414,8 @@ set_calc_variability <- function(data, groups, ...) {
       dplyr::mutate(
         !! target_n := n(),
         !! target_mean := mean(!! target),
-        !! target_sd := sd(!! target),
-        !! target_cv := sd(!! target) / mean(!! target)
+        !! target_sd := stats::sd(!! target),
+        !! target_cv := stats::sd(!! target) / mean(!! target)
       ) %>%
       dplyr::ungroup()
   }

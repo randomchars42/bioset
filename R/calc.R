@@ -1,14 +1,14 @@
 exp_mass_si <- c(0, -1, -2, -3, -4, -5, -6)
-names(exp_mass_si) <- c("kg", "g", "mg", "µg", "ng", "pg", "fg")
+names(exp_mass_si) <- c("kg", "g", "mg", "\u00B5g", "ng", "pg", "fg")
 
 exp_vol <- c(0, -1, -1, -2, -2, -3, -3, -4, -5, -6)
-names(exp_vol) <- c("m^3", "l", "dm^3", "ml", "cm^3", "µl", "mm^3", "nl", "pl", "fl")
+names(exp_vol) <- c("m^3", "l", "dm^3", "ml", "cm^3", "\u00B5l", "mm^3", "nl", "pl", "fl")
 
 exp_molar_si <- c(0, -1, -2, -3, -4, -5)
-names(exp_molar_si) <- c("mol", "mmol", "µmol", "nmol", "pmol", "fmol")
+names(exp_molar_si) <- c("mol", "mmol", "\u00B5mol", "nmol", "pmol", "fmol")
 
 exp_molar_metric <- c(0, -1, -2, -3, -4, -5)
-names(exp_molar_metric) <- c("M", "mM", "µM", "nM", "pM", "fM")
+names(exp_molar_metric) <- c("M", "mM", "\u00B5M", "nM", "pM", "fM")
 
 numerator_base <- c("g", "mol", "l", "g")
 names(numerator_base) <- c("mass_vol", "molar_vol", "vol_vol", "mass_mass")
@@ -16,11 +16,45 @@ names(numerator_base) <- c("mass_vol", "molar_vol", "vol_vol", "mass_mass")
 denominator_base <- c("l", "l", "l", "g")
 names(denominator_base) <- c("mass_vol", "molar_vol", "vol_vol", "mass_mass")
 
-# molar mass in g/mol!
-# accepts and converts to ".g/.l", ".g/.m^3", ".M", "% w/v", "% v/v", "% w/w", ".l/.l". ".m^3/.m^3"
-
 #'
+#' Get a factor to convert concentrations.
+#'
+#' @description
+#' Calculate a factor to convert concentration "A" into concentration "B".
+#'
+#' @details
+#' The following concentrations can be converted:
+#'
+#' mass / volume:
+#' ".g / .l", ".g / .m^3", "\% w / v"
+#'
+#' molar / volume:
+#' ".M", ".mol / .l",  ".mol / .m^3"
+#'
+#' volume / volume:
+#' ".l/.l", ".l / m^3", ".m^3/.m^3", ".m^3 / .l", "\% v / v", "v / v"
+#'
+#' mass / mass:
+#' ".g / .g", "w / w", "\% w / w"
+#'
+#' Where "." symbolises a metric prefix (see \code{\link{calc_factor_prefix}}) :
+#'
+#' For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
+#'
+#' For g you might use k (kilo) as well.
+#'
+#' For m^3 (cubic metres): d (deci), c (centi) and m (milli)
+#'
+#' Note: \% w / v is (incorrectly) taken as a short hand for 0.1 g / l.
+#'
+#' @seealso \code{\link{calc_factor_prefix}}
 #' @export
+#' @param from A string containing the units of concentration A.
+#' @param to A string containing the units of concentration B.
+#' @param molar_mass The molar mass of the solute (g / mol).
+#' @param density_solute The density of the solute (g / l).
+#' @param density_solution The density of the solution (g / l), not the solvent!
+#' @return The factor to convert A into B.
 #'
 calc_factor_conc <- function(
   from,
@@ -137,21 +171,48 @@ calc_factor_conc <- function(
 }
 
 #'
-#' @export
+#' Get a factor to convert metric prefixes.
 #'
-calc_factor_unit <- function(from, to) {
+#' @description
+#' Get a factor to convert metric prefixes into one another.
+#'
+#' @details
+#' Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".M", "m^3"
+#' (cubic metres), where "." symbolises a metric prefix:
+#'
+#' For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
+#'
+#' For g you might use k (kilo) as well.
+#'
+#' For m^3 (cubic metres): d (deci), c (centi) and m (milli)
+#'
+#' "." symbolises a metric prefix (see \code{\link{calc_factor_prefix}}) :
+#'
+#' For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
+#'
+#' For g you might use k (kilo) as well.
+#'
+#' For m^3 (cubic metres): d (deci), c (centi) and m (milli)
+#'
+#' @export
+#' @param from A string containing the prefixed unit A.
+#' @param to A string containing the prefixed unit B.
+#' @return A factor for multiplication with the value.
+#'
+calc_factor_prefix <- function(from, to) {
   from <- enc2utf8(from)
   to <- enc2utf8(to)
 
   factor <- 1
 
-  if (from %in% names(exp_mass_si)) {
+  if (from %in% names(exp_mass_si) && to %in% names(exp_mass_si)) {
     factor <- 1000^(exp_mass_si[from]-exp_mass_si[to])
-  } else if (from %in% names(exp_vol)) {
+  } else if (from %in% names(exp_vol) && to %in% names(exp_vol)) {
     factor <- 1000^(exp_vol[from]-exp_vol[to])
-  } else if (from %in% namesexp_(molar_si)) {
+  } else if (from %in% names(exp_molar_si) && to %in% names(exp_molar_si)) {
     factor <- 1000^(exp_molar_si[from]-exp_molar_si[to])
-  } else if (from %in% names(exp_molar_metric)) {
+  } else if (
+    from %in% names(exp_molar_metric) && to %in% names(exp_molar_metric)) {
     factor <- 1000^(exp_molar_metric[from]-exp_molar_metric[to])
   } else {
     throw_error("Could not convert ", from, " to ", to)
@@ -163,9 +224,20 @@ calc_factor_unit <- function(from, to) {
 }
 
 #'
-#' @export
+#' Convert between metric prefixes.
 #'
-convert <- function(
+#' @description
+#' A convenience wrapper around \code{\link{calc_factor_prefix}}.
+#'
+#' @inherit calc_factor_conc details
+#'
+#' @export
+#' @seealso \code{\link{calc_factor_conc}}
+#' @param x The value to convert.
+#' @inheritParams calc_factor_conc
+#' @return The converted value.
+#'
+convert_conc <- function(
   x,
   from,
   to,
@@ -181,22 +253,46 @@ convert <- function(
   return(x)
 }
 
+#'
+#' Convert a value of the given concentration into another concentration.
+#'
+#' @description
+#' A convenience wrapper around \code{\link{calc_factor_prefix}}.
+#'
+#' @inherit calc_factor_prefix details
+#'
+#' @export
+#' @seealso \code{\link{calc_factor_prefix}}
+#' @param x The value to convert.
+#' @inheritParams calc_factor_prefix
+#' @return The converted value.
+#'
+convert_prefix <- function(
+  x,
+  from,
+  to) {
+  x <- x * calc_factor_prefix(
+    from = from,
+    to = to)
+  return(x)
+}
+
 get_conc_type <- function(unit) {
   stopifnot(is.character(unit))
   unit <- enc2utf8(unit)
 
   #throw_message('get_conc_type - unit: ', unit)
 
-  if (grepl("(([kmµnfp]?g / ([kmµnfp]?l|[dcm]?m.3))|(% w / v))", unit)) {
+  if (grepl("(([km\u00B5nfp]?g / ([km\u00B5nfp]?l|[dcm]?m.3))|(% w / v))", unit)) {
     # ".g / .l", ".g / .m^3", "% w / v" (= 0.1 g / l)
     type <- "mass_vol"
-  } else if (grepl("(([kmµnfp]?mol / ([kmµnfp]?l|[dcm]?m.3))|([kmµnfp]?M))", unit)) {
+  } else if (grepl("(([km\u00B5nfp]?mol / ([km\u00B5nfp]?l|[dcm]?m.3))|([km\u00B5nfp]?M))", unit)) {
     # ".M", ".mol / .l",  ".mol / .m^3"
     type <- "molar_vol"
-  } else if (grepl("((([kmµnfp]?l|[dcm]?m.3) / ([kmµnfp]?l|[dcm]?m.3))|((% )?v / v))", unit)) {
+  } else if (grepl("((([km\u00B5nfp]?l|[dcm]?m.3) / ([km\u00B5nfp]?l|[dcm]?m.3))|((% )?v / v))", unit)) {
     # ".l/.l", ".l / m^3", ".m^3/.m^3", ".m^3 / .l", "% v / v", "v / v"
     type <- "vol_vol"
-  } else if (grepl("(([kmµnfp]?g / [kmµnfp]?g)|((% )?w / w))", unit)) {
+  } else if (grepl("(([km\u00B5nfp]?g / [km\u00B5nfp]?g)|((% )?w / w))", unit)) {
     # ".g / .g", "w / w", "% w / w"
     type <- "mass_mass"
   } else {
@@ -243,10 +339,10 @@ bring_to_base <- function(unit, type) {
   }
   numerator <- trimws(parts[1])
   denominator <- trimws(parts[2])
-  #throw_message(type, " ", numerator, "->", numerator_base[type], ": ", calc_factor_unit(numerator, numerator_base[type]))
-  factor <- factor * calc_factor_unit(numerator, numerator_base[type])
-  #throw_message(type, " ", denominator, "->", denominator_base[type], ": ", calc_factor_unit(denominator, denominator_base[type]))
-  factor <- factor / calc_factor_unit(denominator, denominator_base[type])
+  #throw_message(type, " ", numerator, "->", numerator_base[type], ": ", calc_factor_prefix(numerator, numerator_base[type]))
+  factor <- factor * calc_factor_prefix(numerator, numerator_base[type])
+  #throw_message(type, " ", denominator, "->", denominator_base[type], ": ", calc_factor_prefix(denominator, denominator_base[type]))
+  factor <- factor / calc_factor_prefix(denominator, denominator_base[type])
 
   return(factor)
 }
