@@ -44,10 +44,10 @@ set_read <- function(
   stopifnot(
     is.character(file_name),
     is.character(path),
-    is.numeric(as.numeric(num)),
+    is_number(num),
     is.character(sep),
-    is.numeric(as.numeric(cols)),
-    is.numeric(as.numeric(rows)),
+    is_number(cols),
+    is_number(rows),
     is.vector(additional_vars),
     is.character(additional_sep)
     )
@@ -61,8 +61,8 @@ set_read <- function(
   file_name <- paste0(path, file_name)
 
   if (!file.exists(file_name)) {
-    stop(paste0("Cannot find the file. Please check path (must end with \"/\") ",
-      "and name_scheme (must contain \"#NUM#\")"))
+    throw_error("Cannot find the file. Please check path (must end with \"/\") ",
+      "and name_scheme (must contain \"#NUM#\")")
   }
 
   data_raw <- tibble::as_tibble(utils::read.csv(
@@ -86,16 +86,16 @@ set_read <- function(
     cols <- actual_cols
   } else {
     if (actual_cols < cols) {
-      stop(paste0(
+      throw_error(
         "Column count in sheet (", actual_cols,
         ") lower than expected (", cols,
-        "). Reducing cols to actual column count."))
+        "). Reducing cols to actual column count.")
       cols <- actual_cols
     } else if (actual_cols > cols) {
-      stop(paste0(
+      throw_error(
         "Column count in sheet (", actual_cols,
         ") larger than expected (", cols,
-        "). Ignoring residual columns."))
+        "). Ignoring residual columns.")
     }
   }
 
@@ -113,15 +113,15 @@ set_read <- function(
     required_rows <- rows * ifelse(actual_vars > 0, 2, 1)
 
     if (actual_rows < required_rows) {
-      stop(paste0(
+      throw_error(
         "Row count in sheet (", actual_rows,
         ") lower than required (", required_rows,
-        ")."))
+        ").")
     } else if (actual_rows > required_rows) {
-      stop(paste0(
+      throw_error(
         "Row count in sheet (", actual_rows,
         ") larger than expected (", required_rows,
-        ")."))
+        ").")
     }
   }
 
