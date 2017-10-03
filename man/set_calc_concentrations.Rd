@@ -4,10 +4,10 @@
 \alias{set_calc_concentrations}
 \title{Calculate concentrations for the set using contained calibrators.}
 \usage{
-set_calc_concentrations(data, cal_names, cal_values,
-  col_names = eval(parse(text = "name")), col_values = values,
-  col_target = conc, col_real = real, col_recov = recovery,
-  model_func = fit_lnln, interpolate_func = interpolate_lnln)
+set_calc_concentrations(data, cal_names, cal_values, col_names = name,
+  col_values = value, col_target = conc, col_real = real,
+  col_recov = recovery, model_func = fit_linear,
+  interpolate_func = interpolate_linear)
 }
 \arguments{
 \item{data}{A tibble containing the data.}
