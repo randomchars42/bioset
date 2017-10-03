@@ -37,7 +37,7 @@ test_that("concentrations are calculated correctly using ln-ln-transform", {
   `%>%` <- magrittr::`%>%`
 
   data <- tibble::tibble(
-    values = c(1, 2, 3, 4, 5, 6),
+    value = c(1, 2, 3, 4, 5, 6),
     name = c("a", "b", "c", "d", "e", "f")) %>%
     set_calc_concentrations(
       cal_names = c("a", "b", "c"),
