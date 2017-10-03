@@ -1,4 +1,4 @@
-Package: eckplates
+Package: bioset
 Type: Package
 Title: Handle data read from plates gracefully
 Version: 0.1.0
@@ -19,6 +19,7 @@ Depends:
     R (>= 3.4.2)
 Imports:
     utils (>= 3.4.2),
+    stats (>= 3.4.2),
     tidyr (>= 0.7.1),
     dplyr (>= 0.7.4),
     tibble (>= 1.3.4),
