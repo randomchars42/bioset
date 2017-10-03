@@ -198,9 +198,6 @@ set_read <- function(
 #'   as calibrators,
 #' @param cal_values A numeric vector with the known concentrations of those
 #'   samples (must be in the same order).
-#' @param cal_unit A string indicating the unit, see \code{\link{calc_factor}}.
-#' @param target_unit A string indicating the unit, see
-#'   \code{\link{calc_factor}}.
 #' @param col_names The name of the column used to identify the calibrators.
 #' @param col_values The name of the column holding the raw values.
 #' @param col_target The name of the column to created for the calculated
@@ -215,8 +212,6 @@ set_calc_concentrations <- function(
   data,
   cal_names,
   cal_values,
-  cal_unit,
-  target_unit,
   col_names = name,
   col_values = values,
   col_target = conc,
@@ -234,8 +229,6 @@ set_calc_concentrations <- function(
     tibble::is.tibble(data),
     is.vector(cal_names),
     is.vector(cal_values),
-    is.character(cal_unit),
-    is.character(target_unit),
     is.function(model_func),
     is.function(interp_func)
   )
