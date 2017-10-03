@@ -35,8 +35,8 @@ set_read <- function(
   path = "",
   num = 1,
   sep = ",",
-  cols = 12,
-  rows = 8,
+  cols = NULL,
+  rows = NULL,
   additional_vars = vector(),
   additional_sep = "[^[:alnum:]]+"
 ) {
