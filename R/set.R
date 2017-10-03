@@ -19,12 +19,12 @@
 #' This will be read into a tibble:
 #'
 #' \tabular{rrrr}{
-#'   set \tab positon \tab name \tab value\cr
-#'   1 \tab A1 \tab A1 \tab 1\cr
-#'   1 \tab A2 \tab A2 \tab 2\cr
-#'   ... \tab ... \tab ... \tab ...\cr
-#'   1 \tab C3 \tab C3 \tab 9\cr
-#'   ... \tab ... \tab ... \tab ...\cr
+#'   set \tab positon \tab sample_id \tab name \tab value\cr
+#'   1 \tab A1 \tab A1 \tab A1 \tab 1\cr
+#'   1 \tab A2 \tab A2 \tab A2 \tab 2\cr
+#'   ... \tab ... \tab ... \tab .. \tab ...\cr
+#'   1 \tab C3 \tab C3 \tab C3 \tab 9\cr
+#'   ... \tab ... \tab ... \tab ...\tab ...\cr
 #' }
 #'
 #' Note: Unlike LibreOffice / Excel / ... columns are numbered and rows are
@@ -48,12 +48,12 @@
 #' This results in:
 #'
 #' \tabular{rrrr}{
-#'   set \tab position \tab name \tab value\cr
-#'   1 \tab A1 \tab Name1 \tab 1\cr
-#'   1 \tab A2 \tab Name2 \tab 2\cr
-#'   ... \tab ... \tab ... \tab ...\cr
-#'   1 \tab C3 \tab Name9 \tab 9\cr
-#'   ... \tab ... \tab ... \tab ...\cr
+#'   set \tab position \tab name \tab sample_id \tab value\cr
+#'   1 \tab A1 \tab Name1 \tab Name1 \tab 1\cr
+#'   1 \tab A2 \tab Name2 \tab Name2 \tab 2\cr
+#'   ... \tab ... \tab ... \tab ... \tab ...\cr
+#'   1 \tab C3 \tab Name9 \tab Name9 \tab 9\cr
+#'   ... \tab ... \tab ... \tab ... \tab ...\cr
 #' }
 #'
 #' You can encode additional properties into the name, like:
@@ -73,12 +73,12 @@
 #' This results in:
 #'
 #' \tabular{rrrrr}{
-#'   set \tab position \tab name \tab time \tab value\cr
-#'   1 \tab A1 \tab Name1 \tab 1 \tab 1\cr
-#'   1 \tab A2 \tab Name2 \tab 1 \tab 2\cr
-#'   ... \tab ... \tab ... \tab ... \tab ...\cr
-#'   1 \tab C3 \tab Name9 \tab 2 \tab 9\cr
-#'   ... \tab ... \tab ... \tab ... \tab ...\cr
+#'   set \tab position \tab sample_id \tab name \tab time \tab value\cr
+#'   1 \tab A1 \tab Name1.1 \tab Name1 \tab 1 \tab 1\cr
+#'   1 \tab A2 \tab Name2.1 \tab Name2 \tab 1 \tab 2\cr
+#'   ... \tab ... \tab ... \tab ... \tab ... \tab ...\cr
+#'   1 \tab C3 \tab Name9.2 \tab Name9 \tab 2 \tab 9\cr
+#'   ... \tab ... \tab ... \tab ... \tab ... \tab ...\cr
 #' }
 #'
 #' @export
@@ -246,6 +246,7 @@ set_read <- function(
     tibble::tibble(
       set = num,
       position = positions_vec,
+      sample_id = names_vec,
       tmp = names_vec,
       value = data_vec
     ) %>%

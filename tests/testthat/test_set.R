@@ -57,7 +57,7 @@ test_that("variability is calculated correctly", {
     name = c("a", "b", "c", "d", "e", "f", "a", "b", "c", "d", "e", "f", "a"),
     raw = c(100, 200, 300, 400, 500, 600, 120, 205, 294, 426, 489, 560, 89),
     conc = c(2, 4, 6, 8, 10, 12, 1.9, 3.7, 6.3, 7.45, 10.4, 12.1, 2.1)) %>%
-    set_calc_variability(name, raw, conc)
+    set_calc_variability(name, conc, raw)
 
   expect_equal(data$raw_n[[1]], 3)
   expect_equal(data$raw_n[[2]], 2)
@@ -65,5 +65,4 @@ test_that("variability is calculated correctly", {
   expect_equal(data$raw_mean[[2]], mean(c(200, 205)))
   expect_equal(data$raw_sd[[1]], sd(c(100, 120, 89)))
   expect_equal(data$raw_cv[[1]], sd(c(100, 120, 89)) / mean(c(100, 120, 89)))
-  expect_equal(data$conc_mean[[1]], 2)
 })
