@@ -4,14 +4,14 @@
 \alias{set_calc_variability}
 \title{Calculate paramters of variability for a given set of values.}
 \usage{
-set_calc_variability(data, names, ...)
+set_calc_variability(data, ids, ...)
 }
 \arguments{
 \item{data}{A tibble containing the data.}
 
-\item{names}{The column holding the names used to group the values.}
-
 \item{...}{The name(s) of the columns used to calculate the variability.}
+
+\item{sample_ids}{The column holding the names used to group the values.}
 }
 \value{
 A tibble containing all original and additional columns

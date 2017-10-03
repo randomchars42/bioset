@@ -10,7 +10,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta name="author" content="Vignette Author" />
+<meta name="author" content="Eike C. Kühn" />
 
 <meta name="date" content="2017-10-03" />
 
@@ -18,6 +18,44 @@
 
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
 
 
 
@@ -31,12 +69,1195 @@
 
 
 <h1 class="title toc-ignore">Introduction</h1>
-<h4 class="author"><em>Vignette Author</em></h4>
+<h4 class="author"><em>Eike C. Kühn</em></h4>
 <h4 class="date"><em>2017-10-03</em></h4>
 
 
 
+<p>If you have a data set of raw values (because your measuring device spat it out) and need to somehow organise the data this package might help you.</p>
+<div id="data-import" class="section level2">
+<h2>Data import</h2>
+<p>Suppose you have an ods / xls(x) file with raw values obtained from a measurement like this:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">1</th>
+<th align="right">2</th>
+<th align="right">3</th>
+<th align="right">4</th>
+<th align="right">5</th>
+<th align="right">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td align="right">102</td>
+<td align="right">107</td>
+<td align="right">156</td>
+<td align="right">145</td>
+<td align="right">360</td>
+<td align="right">342</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td align="right">198</td>
+<td align="right">203</td>
+<td align="right">101</td>
+<td align="right">121</td>
+<td align="right">231</td>
+<td align="right">226</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td align="right">296</td>
+<td align="right">291</td>
+<td align="right">276</td>
+<td align="right">283</td>
+<td align="right">430</td>
+<td align="right">413</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td align="right">430</td>
+<td align="right">386</td>
+<td align="right">325</td>
+<td align="right">298</td>
+<td align="right">110</td>
+<td align="right">119</td>
+</tr>
+</tbody>
+</table>
+<p>Save them as <code>set_1.csv</code> (like an ods / xls(x) file but much more basic).</p>
+<p>Then you can use <code>set_read()</code> to get all values with their position as name in a nice tibble:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_read</span>()</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">set</th>
+<th align="left">position</th>
+<th align="left">sample_id</th>
+<th align="left">name</th>
+<th align="right">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A1</td>
+<td align="left">A1</td>
+<td align="left">A1</td>
+<td align="right">102</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B1</td>
+<td align="left">B1</td>
+<td align="left">B1</td>
+<td align="right">198</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C1</td>
+<td align="left">C1</td>
+<td align="left">C1</td>
+<td align="right">296</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D1</td>
+<td align="left">D1</td>
+<td align="left">D1</td>
+<td align="right">430</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A2</td>
+<td align="left">A2</td>
+<td align="left">A2</td>
+<td align="right">107</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B2</td>
+<td align="left">B2</td>
+<td align="left">B2</td>
+<td align="right">203</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C2</td>
+<td align="left">C2</td>
+<td align="left">C2</td>
+<td align="right">291</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D2</td>
+<td align="left">D2</td>
+<td align="left">D2</td>
+<td align="right">386</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A3</td>
+<td align="left">A3</td>
+<td align="left">A3</td>
+<td align="right">156</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B3</td>
+<td align="left">B3</td>
+<td align="left">B3</td>
+<td align="right">101</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C3</td>
+<td align="left">C3</td>
+<td align="left">C3</td>
+<td align="right">276</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D3</td>
+<td align="left">D3</td>
+<td align="left">D3</td>
+<td align="right">325</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A4</td>
+<td align="left">A4</td>
+<td align="left">A4</td>
+<td align="right">145</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B4</td>
+<td align="left">B4</td>
+<td align="left">B4</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C4</td>
+<td align="left">C4</td>
+<td align="left">C4</td>
+<td align="right">283</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D4</td>
+<td align="left">D4</td>
+<td align="left">D4</td>
+<td align="right">298</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A5</td>
+<td align="left">A5</td>
+<td align="left">A5</td>
+<td align="right">360</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B5</td>
+<td align="left">B5</td>
+<td align="left">B5</td>
+<td align="right">231</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C5</td>
+<td align="left">C5</td>
+<td align="left">C5</td>
+<td align="right">430</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D5</td>
+<td align="left">D5</td>
+<td align="left">D5</td>
+<td align="right">110</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A6</td>
+<td align="left">A6</td>
+<td align="left">A6</td>
+<td align="right">342</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B6</td>
+<td align="left">B6</td>
+<td align="left">B6</td>
+<td align="right">226</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C6</td>
+<td align="left">C6</td>
+<td align="left">C6</td>
+<td align="right">413</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D6</td>
+<td align="left">D6</td>
+<td align="left">D6</td>
+<td align="right">119</td>
+</tr>
+</tbody>
+</table>
+<p><code>set_read()</code> automagically reads <code>set_1.csv</code> in your current directory. If you have more than one set use <code>set_read(num = 2)</code> to read set 2, etc. If your files are called <code>plate_1.csv</code>, <code>plate_2.csv</code>, …, (<code>run_1.csv</code>, <code>run_1.csv</code>) you can set <code>file_name = &quot;plate_#NUM#.csv&quot;</code> (<code>run_#NUM#.csv</code>, …). If your files are stored in <code>./files/</code> tell <code>set_read()</code> where to look via <code>path = &quot;./files/&quot;</code>.</p>
+</div>
+<div id="naming-the-values" class="section level2">
+<h2>Naming the values</h2>
+<p>Before feeding your samples into your measuring device you most likely drafted some sort of plan which position corresponds to which sample (didn’t you?).</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">1</th>
+<th align="left">2</th>
+<th align="left">3</th>
+<th align="left">4</th>
+<th align="left">5</th>
+<th align="left">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="left">A</td>
+<td align="left">A</td>
+<td align="left">B</td>
+<td align="left">B</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left">D</td>
+<td align="left">D</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="left">E</td>
+<td align="left">E</td>
+<td align="left">F</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="left">G</td>
+<td align="left">G</td>
+<td align="left">H</td>
+<td align="left">H</td>
+</tr>
+</tbody>
+</table>
+<p>So you had some calibrators (1-4) and samples A, B, C, D, E, F, G, H, each in duplicates.</p>
+<p>To easily set the names for your samples just copy the names into your <code>set_1.csv</code>:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">1</th>
+<th align="left">2</th>
+<th align="left">3</th>
+<th align="left">4</th>
+<th align="left">5</th>
+<th align="left">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td align="left">102</td>
+<td align="left">107</td>
+<td align="left">156</td>
+<td align="left">145</td>
+<td align="left">360</td>
+<td align="left">342</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td align="left">198</td>
+<td align="left">203</td>
+<td align="left">101</td>
+<td align="left">121</td>
+<td align="left">231</td>
+<td align="left">226</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td align="left">296</td>
+<td align="left">291</td>
+<td align="left">276</td>
+<td align="left">283</td>
+<td align="left">430</td>
+<td align="left">413</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td align="left">430</td>
+<td align="left">386</td>
+<td align="left">325</td>
+<td align="left">298</td>
+<td align="left">110</td>
+<td align="left">119</td>
+</tr>
+<tr class="odd">
+<td>E</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="left">A</td>
+<td align="left">A</td>
+<td align="left">B</td>
+<td align="left">B</td>
+</tr>
+<tr class="even">
+<td>F</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="left">D</td>
+<td align="left">D</td>
+</tr>
+<tr class="odd">
+<td>G</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="left">E</td>
+<td align="left">E</td>
+<td align="left">F</td>
+<td align="left">F</td>
+</tr>
+<tr class="even">
+<td>H</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="left">G</td>
+<td align="left">G</td>
+<td align="left">H</td>
+<td align="left">H</td>
+</tr>
+</tbody>
+</table>
+<p>Tell <code>set_read()</code> your data contains the names and which column should hold those names by setting <code>additional_vars = c(&quot;name&quot;)</code>. This will get you:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_read</span>(
+  <span class="dt">additional_vars =</span> <span class="kw">c</span>(<span class="st">&quot;name&quot;</span>)
+)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">set</th>
+<th align="left">position</th>
+<th align="left">sample_id</th>
+<th align="left">name</th>
+<th align="right">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A1</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="right">102</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B1</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="right">198</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C1</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="right">296</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D1</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="right">430</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A2</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="right">107</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B2</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="right">203</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C2</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="right">291</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D2</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="right">386</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A3</td>
+<td align="left">A</td>
+<td align="left">A</td>
+<td align="right">156</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B3</td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="right">101</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C3</td>
+<td align="left">E</td>
+<td align="left">E</td>
+<td align="right">276</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D3</td>
+<td align="left">G</td>
+<td align="left">G</td>
+<td align="right">325</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A4</td>
+<td align="left">A</td>
+<td align="left">A</td>
+<td align="right">145</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B4</td>
+<td align="left">C</td>
+<td align="left">C</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C4</td>
+<td align="left">E</td>
+<td align="left">E</td>
+<td align="right">283</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D4</td>
+<td align="left">G</td>
+<td align="left">G</td>
+<td align="right">298</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A5</td>
+<td align="left">B</td>
+<td align="left">B</td>
+<td align="right">360</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B5</td>
+<td align="left">D</td>
+<td align="left">D</td>
+<td align="right">231</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C5</td>
+<td align="left">F</td>
+<td align="left">F</td>
+<td align="right">430</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D5</td>
+<td align="left">H</td>
+<td align="left">H</td>
+<td align="right">110</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A6</td>
+<td align="left">B</td>
+<td align="left">B</td>
+<td align="right">342</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B6</td>
+<td align="left">D</td>
+<td align="left">D</td>
+<td align="right">226</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C6</td>
+<td align="left">F</td>
+<td align="left">F</td>
+<td align="right">413</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D6</td>
+<td align="left">H</td>
+<td align="left">H</td>
+<td align="right">119</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="encoding-additional-properties" class="section level2">
+<h2>Encoding additional properties</h2>
+<p>Suppose samples A, B, C, D were taken at day 1 and E, F, G, H were taken from the same rats / individuals / patients / students on day 2.</p>
+<p>It would be more elegant to encode that into the data:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">1</th>
+<th align="left">2</th>
+<th align="left">3</th>
+<th align="left">4</th>
+<th align="left">5</th>
+<th align="left">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td align="left">102</td>
+<td align="left">107</td>
+<td align="left">156</td>
+<td align="left">145</td>
+<td align="left">360</td>
+<td align="left">342</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td align="left">198</td>
+<td align="left">203</td>
+<td align="left">101</td>
+<td align="left">121</td>
+<td align="left">231</td>
+<td align="left">226</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td align="left">296</td>
+<td align="left">291</td>
+<td align="left">276</td>
+<td align="left">283</td>
+<td align="left">430</td>
+<td align="left">413</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td align="left">430</td>
+<td align="left">386</td>
+<td align="left">325</td>
+<td align="left">298</td>
+<td align="left">110</td>
+<td align="left">119</td>
+</tr>
+<tr class="odd">
+<td>E</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="left">A_1</td>
+<td align="left">A_1</td>
+<td align="left">B_1</td>
+<td align="left">B_1</td>
+</tr>
+<tr class="even">
+<td>F</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="left">C_1</td>
+<td align="left">C_1</td>
+<td align="left">D_1</td>
+<td align="left">D_1</td>
+</tr>
+<tr class="odd">
+<td>G</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="left">A_2</td>
+<td align="left">A_2</td>
+<td align="left">B_2</td>
+<td align="left">B_2</td>
+</tr>
+<tr class="even">
+<td>H</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="left">C_2</td>
+<td align="left">C_2</td>
+<td align="left">D_2</td>
+<td align="left">D_2</td>
+</tr>
+</tbody>
+</table>
+<p>Now, tell <code>set_read()</code> your data contains the names and day by setting <code>additional_vars = c(&quot;name&quot;, &quot;day&quot;)</code>. This will get you:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_read</span>(
+  <span class="dt">additional_vars =</span> <span class="kw">c</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;day&quot;</span>)
+)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">set</th>
+<th align="left">position</th>
+<th align="left">sample_id</th>
+<th align="left">name</th>
+<th align="left">day</th>
+<th align="right">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A1</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="left">NA</td>
+<td align="right">102</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B1</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="left">NA</td>
+<td align="right">198</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C1</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="left">NA</td>
+<td align="right">296</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D1</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="left">NA</td>
+<td align="right">430</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A2</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="left">NA</td>
+<td align="right">107</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B2</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="left">NA</td>
+<td align="right">203</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C2</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="left">NA</td>
+<td align="right">291</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D2</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="left">NA</td>
+<td align="right">386</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A3</td>
+<td align="left">A_1</td>
+<td align="left">A</td>
+<td align="left">1</td>
+<td align="right">156</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B3</td>
+<td align="left">C_1</td>
+<td align="left">C</td>
+<td align="left">1</td>
+<td align="right">101</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C3</td>
+<td align="left">A_2</td>
+<td align="left">A</td>
+<td align="left">2</td>
+<td align="right">276</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D3</td>
+<td align="left">C_2</td>
+<td align="left">C</td>
+<td align="left">2</td>
+<td align="right">325</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A4</td>
+<td align="left">A_1</td>
+<td align="left">A</td>
+<td align="left">1</td>
+<td align="right">145</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B4</td>
+<td align="left">C_1</td>
+<td align="left">C</td>
+<td align="left">1</td>
+<td align="right">121</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C4</td>
+<td align="left">A_2</td>
+<td align="left">A</td>
+<td align="left">2</td>
+<td align="right">283</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D4</td>
+<td align="left">C_2</td>
+<td align="left">C</td>
+<td align="left">2</td>
+<td align="right">298</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A5</td>
+<td align="left">B_1</td>
+<td align="left">B</td>
+<td align="left">1</td>
+<td align="right">360</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B5</td>
+<td align="left">D_1</td>
+<td align="left">D</td>
+<td align="left">1</td>
+<td align="right">231</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C5</td>
+<td align="left">B_2</td>
+<td align="left">B</td>
+<td align="left">2</td>
+<td align="right">430</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D5</td>
+<td align="left">D_2</td>
+<td align="left">D</td>
+<td align="left">2</td>
+<td align="right">110</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A6</td>
+<td align="left">B_1</td>
+<td align="left">B</td>
+<td align="left">1</td>
+<td align="right">342</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B6</td>
+<td align="left">D_1</td>
+<td align="left">D</td>
+<td align="left">1</td>
+<td align="right">226</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C6</td>
+<td align="left">B_2</td>
+<td align="left">B</td>
+<td align="left">2</td>
+<td align="right">413</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D6</td>
+<td align="left">D_2</td>
+<td align="left">D</td>
+<td align="left">2</td>
+<td align="right">119</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="calculating-concentrations" class="section level2">
+<h2>Calculating concentrations</h2>
+<p>Your measuring device only gave you raw values (extinction rates / relative light units / …). You know the concentrations of CAL1, CAL2, CAL3 and CAL4. Conveniently, the concentrations follow a linear relationship. To get the concentrations for the rest of the samples you need to interpolate between those calibrators.</p>
+<p><code>set_calc_concentrations()</code> does exactly this for you:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_calc_concentrations</span>(
+  data,
+  <span class="dt">cal_names =</span> <span class="kw">c</span>(<span class="st">&quot;CAL1&quot;</span>, <span class="st">&quot;CAL2&quot;</span>, <span class="st">&quot;CAL3&quot;</span>, <span class="st">&quot;CAL4&quot;</span>),
+  <span class="dt">cal_values =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>) <span class="co"># ng / ml</span>
+)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">set</th>
+<th align="left">position</th>
+<th align="left">sample_id</th>
+<th align="left">name</th>
+<th align="left">day</th>
+<th align="right">value</th>
+<th align="right">real</th>
+<th align="right">conc</th>
+<th align="right">recovery</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A1</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="left">NA</td>
+<td align="right">102</td>
+<td align="right">1</td>
+<td align="right">1.0089686</td>
+<td align="right">1.0089686</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B1</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="left">NA</td>
+<td align="right">198</td>
+<td align="right">2</td>
+<td align="right">1.9656203</td>
+<td align="right">0.9828102</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C1</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="left">NA</td>
+<td align="right">296</td>
+<td align="right">3</td>
+<td align="right">2.9422023</td>
+<td align="right">0.9807341</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D1</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="left">NA</td>
+<td align="right">430</td>
+<td align="right">4</td>
+<td align="right">4.2775286</td>
+<td align="right">1.0693822</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A2</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="left">NA</td>
+<td align="right">107</td>
+<td align="right">1</td>
+<td align="right">1.0587942</td>
+<td align="right">1.0587942</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B2</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="left">NA</td>
+<td align="right">203</td>
+<td align="right">2</td>
+<td align="right">2.0154459</td>
+<td align="right">1.0077230</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C2</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="left">NA</td>
+<td align="right">291</td>
+<td align="right">3</td>
+<td align="right">2.8923767</td>
+<td align="right">0.9641256</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D2</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="left">NA</td>
+<td align="right">386</td>
+<td align="right">4</td>
+<td align="right">3.8390633</td>
+<td align="right">0.9597658</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A3</td>
+<td align="left">A_1</td>
+<td align="left">A</td>
+<td align="left">1</td>
+<td align="right">156</td>
+<td align="right">NA</td>
+<td align="right">1.5470852</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B3</td>
+<td align="left">C_1</td>
+<td align="left">C</td>
+<td align="left">1</td>
+<td align="right">101</td>
+<td align="right">NA</td>
+<td align="right">0.9990035</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C3</td>
+<td align="left">A_2</td>
+<td align="left">A</td>
+<td align="left">2</td>
+<td align="right">276</td>
+<td align="right">NA</td>
+<td align="right">2.7428999</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D3</td>
+<td align="left">C_2</td>
+<td align="left">C</td>
+<td align="left">2</td>
+<td align="right">325</td>
+<td align="right">NA</td>
+<td align="right">3.2311908</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A4</td>
+<td align="left">A_1</td>
+<td align="left">A</td>
+<td align="left">1</td>
+<td align="right">145</td>
+<td align="right">NA</td>
+<td align="right">1.4374689</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B4</td>
+<td align="left">C_1</td>
+<td align="left">C</td>
+<td align="left">1</td>
+<td align="right">121</td>
+<td align="right">NA</td>
+<td align="right">1.1983059</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C4</td>
+<td align="left">A_2</td>
+<td align="left">A</td>
+<td align="left">2</td>
+<td align="right">283</td>
+<td align="right">NA</td>
+<td align="right">2.8126557</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D4</td>
+<td align="left">C_2</td>
+<td align="left">C</td>
+<td align="left">2</td>
+<td align="right">298</td>
+<td align="right">NA</td>
+<td align="right">2.9621325</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A5</td>
+<td align="left">B_1</td>
+<td align="left">B</td>
+<td align="left">1</td>
+<td align="right">360</td>
+<td align="right">NA</td>
+<td align="right">3.5799701</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B5</td>
+<td align="left">D_1</td>
+<td align="left">D</td>
+<td align="left">1</td>
+<td align="right">231</td>
+<td align="right">NA</td>
+<td align="right">2.2944694</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C5</td>
+<td align="left">B_2</td>
+<td align="left">B</td>
+<td align="left">2</td>
+<td align="right">430</td>
+<td align="right">NA</td>
+<td align="right">4.2775286</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D5</td>
+<td align="left">D_2</td>
+<td align="left">D</td>
+<td align="left">2</td>
+<td align="right">110</td>
+<td align="right">NA</td>
+<td align="right">1.0886896</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">A6</td>
+<td align="left">B_1</td>
+<td align="left">B</td>
+<td align="left">1</td>
+<td align="right">342</td>
+<td align="right">NA</td>
+<td align="right">3.4005979</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">B6</td>
+<td align="left">D_1</td>
+<td align="left">D</td>
+<td align="left">1</td>
+<td align="right">226</td>
+<td align="right">NA</td>
+<td align="right">2.2446437</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">C6</td>
+<td align="left">B_2</td>
+<td align="left">B</td>
+<td align="left">2</td>
+<td align="right">413</td>
+<td align="right">NA</td>
+<td align="right">4.1081216</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">D6</td>
+<td align="left">D_2</td>
+<td align="left">D</td>
+<td align="left">2</td>
+<td align="right">119</td>
+<td align="right">NA</td>
+<td align="right">1.1783757</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<p>Your calibrators are not so linear? Perhaps after a ln-ln transformation? You can use: <code>model_func = fit_lnln</code> and <code>interpolate_func = interpolate_lnln</code>. Basicallly, you can use any function as <code>model_function</code> that returns a model which is understood by your <code>interpolate-func</code>.</p>
+</div>
+<div id="duplicates-triplicates" class="section level2">
+<h2>Duplicates / Triplicates / …</h2>
+<p>So samples were measured in duplicates. For our further research we might want to use the mean and perhaps exclude samples with too much spread in their values.</p>
+<p><code>set_calc_variability()</code> to the rescue.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">set_calc_variability</span>(
+  <span class="dt">data =</span> data,
+  <span class="dt">ids =</span> sample_id,
+  value,
+  conc
+)</code></pre></div>
+<p>This will give you the mean and coefficient of variation (as well as n of the samples and the standard deviation) for the columns <code>value</code> and <code>conc</code>. It will use <code>sample_id</code> to determine which rows belong to the same sample.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span>bioset::<span class="kw">set_calc_variability</span>(
+  <span class="dt">data =</span> data,
+  <span class="dt">ids =</span> sample_id,
+  value,
+  conc
+)
 
+knitr::<span class="kw">kable</span>(data)</code></pre></div>
+</div>
 
 
 
