@@ -29,14 +29,22 @@ calc_factor_conc <- function(
   density_solute = 0,
   density_solution = 0) {
 
+  from <- enc2utf8(from)
+  to <- enc2utf8(to)
+
   from_type <- get_conc_type(from)
   to_type <- get_conc_type(to)
 
   stopifnot(
     is_number(molar_mass),
     is_number(density_solute),
-    is_number(to_density)
+    is_number(density_solution),
+    is.character(from_type),
+    is.character(to_type)
   )
+
+  #throw_message('calc_factor_conc - from: ', from)
+  #throw_message('calc_factor_conc - to: ', to)
 
   if (needs_density_solute(from, to) && density_solute == 0) {
     throw_error(
@@ -54,7 +62,6 @@ calc_factor_conc <- function(
       "The molar mass is required to convert ", from, " to ", to)
   }
 
-
   factor <- 1
 
   # convert from "from" to the base unit of its type
@@ -64,6 +71,7 @@ calc_factor_conc <- function(
 
   # converting between different types requires densities / molar mass
   if (from_type != to_type) {
+    message("O")
     # all units are now on of "g / l", "mol / l", "l / l", "g / g", according
     # to their type
     # see above
@@ -132,11 +140,13 @@ calc_factor_conc <- function(
 #' @export
 #'
 calc_factor_unit <- function(from, to) {
+  from <- enc2utf8(from)
+  to <- enc2utf8(to)
 
   factor <- 1
 
   if (from %in% names(exp_mass_si)) {
-    factor <- 1000^(exp_mass_si[from]-exp_mass_si[from])
+    factor <- 1000^(exp_mass_si[from]-exp_mass_si[to])
   } else if (from %in% names(exp_vol)) {
     factor <- 1000^(exp_vol[from]-exp_vol[to])
   } else if (from %in% namesexp_(molar_si)) {
@@ -144,7 +154,7 @@ calc_factor_unit <- function(from, to) {
   } else if (from %in% names(exp_molar_metric)) {
     factor <- 1000^(exp_molar_metric[from]-exp_molar_metric[to])
   } else {
-    stop(paste0("Could not convert ", from, " to ", to))
+    throw_error("Could not convert ", from, " to ", to)
   }
 
   names(factor) <- NULL
@@ -175,14 +185,16 @@ get_conc_type <- function(unit) {
   stopifnot(is.character(unit))
   unit <- enc2utf8(unit)
 
-  if (grepl("(([kmµnfp]?g / [kmµnfp]?(l|m.3))|(% w / v))", unit)) {
+  #throw_message('get_conc_type - unit: ', unit)
+
+  if (grepl("(([kmµnfp]?g / ([kmµnfp]?l|[dcm]?m.3))|(% w / v))", unit)) {
     # ".g / .l", ".g / .m^3", "% w / v" (= 0.1 g / l)
     type <- "mass_vol"
-  } else if (grepl("(([kmµnfp]?mol / [kmµnfp]?(l|m.3))|([kmµnfp]?M))", unit)) {
+  } else if (grepl("(([kmµnfp]?mol / ([kmµnfp]?l|[dcm]?m.3))|([kmµnfp]?M))", unit)) {
     # ".M", ".mol / .l",  ".mol / .m^3"
     type <- "molar_vol"
-  } else if (grepl("(([kmµnfp]?(l|m.3) / [kmµnfp]?(l|m.3))|((% )?v / v))", unit)) {
-    # ".l/.l". ".m^3/.m^3", "% v / v", "v / v"
+  } else if (grepl("((([kmµnfp]?l|[dcm]?m.3) / ([kmµnfp]?l|[dcm]?m.3))|((% )?v / v))", unit)) {
+    # ".l/.l", ".l / m^3", ".m^3/.m^3", ".m^3 / .l", "% v / v", "v / v"
     type <- "vol_vol"
   } else if (grepl("(([kmµnfp]?g / [kmµnfp]?g)|((% )?w / w))", unit)) {
     # ".g / .g", "w / w", "% w / w"
@@ -191,10 +203,13 @@ get_conc_type <- function(unit) {
     type <- FALSE
   }
 
+  #throw_message('get_conc_type - type: ', type)
+
   return(type)
 }
 
 bring_to_base <- function(unit, type) {
+  unit <- enc2utf8(unit)
   factor <- 1
 
   if (unit == "% w / v") {
@@ -228,10 +243,11 @@ bring_to_base <- function(unit, type) {
   }
   numerator <- trimws(parts[1])
   denominator <- trimws(parts[2])
+  #throw_message(type, " ", numerator, "->", numerator_base[type], ": ", calc_factor_unit(numerator, numerator_base[type]))
   factor <- factor * calc_factor_unit(numerator, numerator_base[type])
+  #throw_message(type, " ", denominator, "->", denominator_base[type], ": ", calc_factor_unit(denominator, denominator_base[type]))
   factor <- factor / calc_factor_unit(denominator, denominator_base[type])
 
-  factor <- factor * bring_to_base_frac(unit = unit, type = type)
   return(factor)
 }
 
