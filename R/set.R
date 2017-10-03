@@ -298,13 +298,13 @@ set_calc_concentrations <- function(
   data,
   cal_names,
   cal_values,
-  col_names = eval(parse(text = "name")),
-  col_values = eval(parse(text = "values")),
-  col_target = eval(parse(text = "conc")),
-  col_real = eval(parse(text = "real")),
-  col_recov = eval(parse(text = "recovery")),
-  model_func = fit_lnln,
-  interpolate_func = interpolate_lnln
+  col_names = name,
+  col_values = value,
+  col_target = conc,
+  col_real = real,
+  col_recov = recovery,
+  model_func = fit_linear,
+  interpolate_func = interpolate_linear
 ){
   # make some handy operators available
   `%>%` <- magrittr::`%>%`
@@ -400,8 +400,6 @@ set_calc_variability <- function(data, names, ...) {
   calc_for <- rlang::quos(...)
 
   for (i in seq_along(calc_for)) {
-    message(i)
-    message(rlang::quo_name(calc_for[[i]]))
     target <- calc_for[[i]]
     target_base <- rlang::quo_name(target)
     target_mean <- paste0(target_base, "_mean")
@@ -422,3 +420,11 @@ set_calc_variability <- function(data, names, ...) {
 
   return(data)
 }
+
+# define as "global" to get rid of warnigns in R CMD check
+name <- NULL
+value <- NULL
+conc <- NULL
+recovery <- NULL
+real <- NULL
+n <- function() {}
