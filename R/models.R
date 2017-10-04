@@ -35,7 +35,20 @@ fit_linear <- function(x, y) {
 #' @return Plot.
 #'
 plot_linear <- function(x, y) {
-  return(stats::lm(formula = y~x))
+  if (package_available("ggplot2")) {
+    data <- tibble::tibble(x = x, y = y)
+    plot <- ggplot(aes(x = x, y = y), data = data) +
+      geom_point() +
+      labs(x = "x", y = "y") +
+      stat_smooth(method = "lm", se = FALSE)
+  } else {
+    plot(x, y, pch = 20)
+    abline(lm(y ~ x), lwd = 2)
+    plot <- recordPlot()
+    dev.off()
+  }
+
+  return(plot)
 }
 
 #'
@@ -104,6 +117,20 @@ plot_lnln <- function(x, y) {
   x <- log(x)
   y <- log(y)
 
+  if (package_available("ggplot2")) {
+    data <- tibble::tibble(x = x, y = y)
+    plot <- ggplot(aes(x = x, y = y), data = data) +
+      geom_point() +
+      labs(x = "ln(x)", y = "ln(y)") +
+      stat_smooth(method = "lm", se = FALSE)
+  } else {
+    plot(x, y, pch = 20)
+    abline(lm(y ~ x), lwd = 2)
+    plot <- recordPlot()
+    dev.off()
+  }
+
+  return(plot)
 }
 
 #'
