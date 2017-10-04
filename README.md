@@ -28,9 +28,12 @@ bioset lets you:
 Example
 -------
 
+Taken from the vignette "Introduction":
+
 If you have a data set of raw values (because your measuring device spat it out) and need to somehow organise the data this package might help you.
 
-### Data import
+Data import
+-----------
 
 Suppose you have an ods / xls(x) file with raw values obtained from a measurement like this:
 
@@ -78,7 +81,8 @@ set_read()
 
 `set_read()` automagically reads `set_1.csv` in your current directory. If you have more than one set use `set_read(num = 2)` to read set 2, etc. If your files are called `plate_1.csv`, `plate_2.csv`, ..., (`run_1.csv`, `run_1.csv`) you can set `file_name = "plate_#NUM#.csv"` (`run_#NUM#.csv`, ...). If your files are stored in `./files/` tell `set_read()` where to look via `path = "./files/"`.
 
-### Naming the values
+Naming the values
+-----------------
 
 Before feeding your samples into your measuring device you most likely drafted some sort of plan which position corresponds to which sample (didn't you?).
 
@@ -139,7 +143,8 @@ set_read(
 |    1| C6       | F          | F    |    413|
 |    1| D6       | H          | H    |    119|
 
-### Encoding additional properties
+Encoding additional properties
+------------------------------
 
 Suppose samples A, B, C, D were taken at day 1 and E, F, G, H were taken from the same rats / individuals / patients / students on day 2.
 
@@ -191,7 +196,8 @@ set_read(
 |    1| C6       | B\_2       | B    | 2   |    413|
 |    1| D6       | D\_2       | D    | 2   |    119|
 
-### Calculating concentrations
+Calculating concentrations
+--------------------------
 
 Your measuring device only gave you raw values (extinction rates / relative light units / ...). You know the concentrations of CAL1, CAL2, CAL3 and CAL4. Conveniently, the concentrations follow a linear relationship. To get the concentrations for the rest of the samples you need to interpolate between those calibrators.
 
@@ -234,7 +240,8 @@ set_calc_concentrations(
 
 Your calibrators are not so linear? Perhaps after a ln-ln transformation? You can use: `model_func = fit_lnln` and `interpolate_func = interpolate_lnln`. Basicallly, you can use any function as `model_function` that returns a model which is understood by your `interpolate-func`.
 
-### Duplicates / Triplicates / ...
+Duplicates / Triplicates / ...
+------------------------------
 
 So samples were measured in duplicates. For our further research we might want to use the mean and perhaps exclude samples with too much spread in their values.
 
