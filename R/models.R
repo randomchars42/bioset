@@ -37,15 +37,15 @@ fit_linear <- function(x, y) {
 plot_linear <- function(x, y) {
   if (package_available("ggplot2")) {
     data <- tibble::tibble(x = x, y = y)
-    plot <- ggplot(aes(x = x, y = y), data = data) +
-      geom_point() +
-      labs(x = "x", y = "y") +
-      stat_smooth(method = "lm", se = FALSE)
+    plot <- ggplot2::ggplot(ggplot2::aes(x = x, y = y), data = data) +
+      ggplot2::geom_point() +
+      ggplot2::labs(x = "x", y = "y") +
+      ggplot2::stat_smooth(method = "lm", se = FALSE)
   } else {
-    plot(x, y, pch = 20)
-    abline(lm(y ~ x), lwd = 2)
-    plot <- recordPlot()
-    dev.off()
+    graphics::plot(x, y, pch = 20)
+    graphics::abline(stats::lm(y ~ x), lwd = 2)
+    plot <- grDevices::recordPlot()
+    grDevices::dev.off()
   }
 
   return(plot)
@@ -119,15 +119,15 @@ plot_lnln <- function(x, y) {
 
   if (package_available("ggplot2")) {
     data <- tibble::tibble(x = x, y = y)
-    plot <- ggplot(aes(x = x, y = y), data = data) +
-      geom_point() +
-      labs(x = "ln(x)", y = "ln(y)") +
-      stat_smooth(method = "lm", se = FALSE)
+    plot <- ggplot2::ggplot(ggplot2::aes(x = x, y = y), data = data) +
+      ggplot2::geom_point() +
+      ggplot2::labs(x = "ln(x)", y = "ln(y)") +
+      ggplot2::stat_smooth(method = "lm", se = FALSE)
   } else {
-    plot(x, y, pch = 20)
-    abline(lm(y ~ x), lwd = 2)
-    plot <- recordPlot()
-    dev.off()
+    graphics::plot(x, y, pch = 20)
+    graphics::abline(stats::lm(y ~ x), lwd = 2)
+    plot <- grDevices::recordPlot()
+    grDevices::dev.off()
   }
 
   return(plot)

@@ -16,6 +16,8 @@ Depends:
 Imports:
     utils (>= 3.4.2),
     stats (>= 3.4.2),
+    graphics (>= 3.4.2),
+    grDevices (>= 3.4.2),
     tidyr (>= 0.7.1),
     dplyr (>= 0.7.4),
     rlang (>= 0.1.2),
@@ -23,6 +25,7 @@ Imports:
     magrittr (>= 1.5)
 Suggests:
     tidyverse (>= 1.1.1),
+    ggplot2 (>= 2.2.1),
     testthat (>= 1.0.2),
     knitr (>= 1.17),
     rmarkdown (>= 1.6)
