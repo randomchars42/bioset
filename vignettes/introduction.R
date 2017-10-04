@@ -111,13 +111,13 @@ knitr::kable(data)
 #    conc
 #  )
 
-## ---- echo = TRUE, eval = FALSE------------------------------------------
-#  data <- bioset::set_calc_variability(
-#    data = data,
-#    ids = sample_id,
-#    value,
-#    conc
-#  )
-#  
-#  knitr::kable(data)
+## ------------------------------------------------------------------------
+data <- bioset::set_calc_variability(
+  data = data,
+  ids = sample_id,
+  value,
+  conc
+)
+
+knitr::kable(data)
 

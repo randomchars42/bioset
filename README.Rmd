@@ -202,8 +202,7 @@ data <- set_calc_variability(
 
 This will give you the mean and coefficient of variation (as well as n of the samples and the standard deviation) for the columns `value` and `conc`. It will use `sample_id` to determine which rows belong to the same sample.
 
-
-```{r, echo = TRUE, eval = FALSE}
+```{r}
 data <- bioset::set_calc_variability(
   data = data,
   ids = sample_id,
