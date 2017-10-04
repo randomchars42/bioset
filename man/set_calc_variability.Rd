@@ -9,9 +9,9 @@ set_calc_variability(data, ids, ...)
 \arguments{
 \item{data}{A tibble containing the data.}
 
-\item{...}{The name(s) of the columns used to calculate the variability.}
+\item{ids}{The column holding the names used to group the values.}
 
-\item{sample_ids}{The column holding the names used to group the values.}
+\item{...}{The name(s) of the columns used to calculate the variability.}
 }
 \value{
 A tibble containing all original and additional columns

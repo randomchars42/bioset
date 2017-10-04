@@ -56,7 +56,7 @@ You might have a data sheet (csv) like:
 
 This will be read into a tibble:
 
-\tabular{rrrr}{
+\tabular{rrrrr}{
   set \tab positon \tab sample_id \tab name \tab value\cr
   1 \tab A1 \tab A1 \tab A1 \tab 1\cr
   1 \tab A2 \tab A2 \tab A2 \tab 2\cr
@@ -85,7 +85,7 @@ Now you need to specify a name for the column holding the name with
 \code{additional_vars = c("name")}.
 This results in:
 
-\tabular{rrrr}{
+\tabular{rrrrr}{
   set \tab position \tab name \tab sample_id \tab value\cr
   1 \tab A1 \tab Name1 \tab Name1 \tab 1\cr
   1 \tab A2 \tab Name2 \tab Name2 \tab 2\cr
@@ -110,7 +110,7 @@ You can encode additional properties into the name, like:
 Specify the columns: \code{additional_vars = c("name", "time")}.
 This results in:
 
-\tabular{rrrrr}{
+\tabular{rrrrrr}{
   set \tab position \tab sample_id \tab name \tab time \tab value\cr
   1 \tab A1 \tab Name1.1 \tab Name1 \tab 1 \tab 1\cr
   1 \tab A2 \tab Name2.1 \tab Name2 \tab 1 \tab 2\cr

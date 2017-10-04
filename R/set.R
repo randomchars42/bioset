@@ -18,7 +18,7 @@
 #'
 #' This will be read into a tibble:
 #'
-#' \tabular{rrrr}{
+#' \tabular{rrrrr}{
 #'   set \tab positon \tab sample_id \tab name \tab value\cr
 #'   1 \tab A1 \tab A1 \tab A1 \tab 1\cr
 #'   1 \tab A2 \tab A2 \tab A2 \tab 2\cr
@@ -47,7 +47,7 @@
 #' \code{additional_vars = c("name")}.
 #' This results in:
 #'
-#' \tabular{rrrr}{
+#' \tabular{rrrrr}{
 #'   set \tab position \tab name \tab sample_id \tab value\cr
 #'   1 \tab A1 \tab Name1 \tab Name1 \tab 1\cr
 #'   1 \tab A2 \tab Name2 \tab Name2 \tab 2\cr
@@ -72,7 +72,7 @@
 #' Specify the columns: \code{additional_vars = c("name", "time")}.
 #' This results in:
 #'
-#' \tabular{rrrrr}{
+#' \tabular{rrrrrr}{
 #'   set \tab position \tab sample_id \tab name \tab time \tab value\cr
 #'   1 \tab A1 \tab Name1.1 \tab Name1 \tab 1 \tab 1\cr
 #'   1 \tab A2 \tab Name2.1 \tab Name2 \tab 1 \tab 2\cr
@@ -385,7 +385,7 @@ set_calc_concentrations <- function(
 #'
 #' @export
 #' @param data A tibble containing the data.
-#' @param sample_ids The column holding the names used to group the values.
+#' @param ids The column holding the names used to group the values.
 #' @param ... The name(s) of the columns used to calculate the variability.
 #' @return A tibble containing all original and additional columns
 #'   (NAMEA_mean, NAMEA_n, NAMEA_sd, NAMEA_cv, (NAMEB_mean)).
