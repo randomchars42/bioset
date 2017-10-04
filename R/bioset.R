@@ -1,6 +1,6 @@
 #' Convert a matrix of raw values into nice and tidy data.
 #'
-#' \bioset{bioset} is intended to save you from commons tasks when dealing with
+#' \pkg{bioset} is intended to save you from commons tasks when dealing with
 #' raw data obtained e.g. from a measuring device.
 #'
 #' When importing values with \pkg{bioset} start with \code{\link{set_read}}. To
