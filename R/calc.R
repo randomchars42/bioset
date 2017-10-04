@@ -47,7 +47,7 @@ names(denominator_base) <- c("mass_vol", "molar_vol", "vol_vol", "mass_mass")
 #'
 #' Note: \% w / v is (incorrectly) taken as a short hand for 0.1 g / l.
 #'
-#' @seealso \code{\link{calc_factor_prefix}}
+#' @family calc
 #' @export
 #' @param from A string containing the units of concentration A.
 #' @param to A string containing the units of concentration B.
@@ -195,6 +195,7 @@ calc_factor_conc <- function(
 #' For m^3 (cubic metres): d (deci), c (centi) and m (milli)
 #'
 #' @export
+#' @family calc
 #' @param from A string containing the prefixed unit A.
 #' @param to A string containing the prefixed unit B.
 #' @return A factor for multiplication with the value.
@@ -232,7 +233,7 @@ calc_factor_prefix <- function(from, to) {
 #' @inherit calc_factor_conc details
 #'
 #' @export
-#' @seealso \code{\link{calc_factor_conc}}
+#' @family calc
 #' @param x The value to convert.
 #' @inheritParams calc_factor_conc
 #' @return The converted value.
@@ -262,7 +263,7 @@ convert_conc <- function(
 #' @inherit calc_factor_prefix details
 #'
 #' @export
-#' @seealso \code{\link{calc_factor_prefix}}
+#' @family calc
 #' @param x The value to convert.
 #' @inheritParams calc_factor_prefix
 #' @return The converted value.

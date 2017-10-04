@@ -82,6 +82,7 @@
 #' }
 #'
 #' @export
+#' @family set
 #' @param file_name Name of the file from which to read the data. May contain
 #'   "#NUM#" as a placeholder if you have multiple files (see num).
 #' @param path The path to the file (needs to end with "/").
@@ -275,6 +276,7 @@ set_read <- function(
 #' those can be used to interpolate the concentrations of the other samples.
 #'
 #' @export
+#' @family set
 #' @param data A tibble containing the data.
 #' @param cal_names A vector of strings containing the names of the samples used
 #'   as calibrators,
@@ -384,6 +386,7 @@ set_calc_concentrations <- function(
 #' variation (= sd / mean).
 #'
 #' @export
+#' @family set
 #' @param data A tibble containing the data.
 #' @param ids The column holding the names used to group the values.
 #' @param ... The name(s) of the columns used to calculate the variability.

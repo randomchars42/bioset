@@ -9,4 +9,4 @@ There were no ERRORs / WARNINGs / NOTEs.
 
 ## Downstream dependencies
 
-There are no downstream dependencies
+There are no downstream dependencies as this is a new package.
