@@ -23,9 +23,15 @@ throw_message <- function(...) {
   message(args_to_text(...))
 }
 
+package_available <- function(package) {
+  # find.package returns a string of length 0 if the package is not installed
+  return(length(find.package(package = package, quiet = TRUE)) != 0)
+}
+
 release_questions <- function() {
   c(
     "devtools::revdep_check()?",
+    "devtools::build_win()?",
     "Are you feeling good?"
   )
 }
