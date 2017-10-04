@@ -27,3 +27,7 @@ duplicates / triplicates / ... . This function groups all samples with the
 same name and calculates mean, standard deviation and coefficient of
 variation (= sd / mean).
 }
+\seealso{
+Other set: \code{\link{set_calc_concentrations}},
+  \code{\link{set_read}}
+}

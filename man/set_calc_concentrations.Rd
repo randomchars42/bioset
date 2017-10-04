@@ -51,3 +51,7 @@ concentrations using data fields with known concentrations (calibrators).
 If the data set contains samples with known concentrations (calibrators)
 those can be used to interpolate the concentrations of the other samples.
 }
+\seealso{
+Other set: \code{\link{set_calc_variability}},
+  \code{\link{set_read}}
+}

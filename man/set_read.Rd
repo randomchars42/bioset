@@ -119,3 +119,7 @@ This results in:
   ... \tab ... \tab ... \tab ... \tab ... \tab ...\cr
 }
 }
+\seealso{
+Other set: \code{\link{set_calc_concentrations}},
+  \code{\link{set_calc_variability}}
+}

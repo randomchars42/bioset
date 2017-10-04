@@ -17,4 +17,16 @@ Line model.
 \description{
 Fit a linear function to the points with the given x and y coordinates after
 transforming both coordinates using ln.
+
+
+Can be used in \code{\link{set_calc_concentrations}} to fit a model to the
+calibrators.
+}
+\seealso{
+\code{\link{set_calc_concentrations}}
+
+Other model: \code{\link{fit_linear}},
+  \code{\link{interpolate_linear}},
+  \code{\link{interpolate_lnln}},
+  \code{\link{plot_linear}}, \code{\link{plot_lnln}}
 }

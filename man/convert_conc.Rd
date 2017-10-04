@@ -52,5 +52,7 @@ For m^3 (cubic metres): d (deci), c (centi) and m (milli)
 Note: \% w / v is (incorrectly) taken as a short hand for 0.1 g / l.
 }
 \seealso{
-\code{\link{calc_factor_conc}}
+Other calc: \code{\link{calc_factor_conc}},
+  \code{\link{calc_factor_prefix}},
+  \code{\link{convert_prefix}}
 }

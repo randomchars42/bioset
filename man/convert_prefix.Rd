@@ -38,5 +38,7 @@ For g you might use k (kilo) as well.
 For m^3 (cubic metres): d (deci), c (centi) and m (milli)
 }
 \seealso{
-\code{\link{calc_factor_prefix}}
+Other calc: \code{\link{calc_factor_conc}},
+  \code{\link{calc_factor_prefix}},
+  \code{\link{convert_conc}}
 }

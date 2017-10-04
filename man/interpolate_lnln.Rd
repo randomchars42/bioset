@@ -17,4 +17,14 @@ Vector of x values.
 \description{
 Interpolate values using a linear function and the coefficients
 of the given line model after transforming both coordinates using ln.
+
+Can be used in \code{\link{set_calc_concentrations}} to interpolate
+concentrations.
+}
+\seealso{
+\code{\link{set_calc_concentrations}}
+
+Other model: \code{\link{fit_linear}},
+  \code{\link{fit_lnln}}, \code{\link{interpolate_linear}},
+  \code{\link{plot_linear}}, \code{\link{plot_lnln}}
 }
