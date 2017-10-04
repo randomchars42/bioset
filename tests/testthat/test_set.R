@@ -4,7 +4,7 @@ context("Handling sets")
 test_that("sets are read correctly", {
   set1 <- set_read(num = 1, additional_vars = c("name"))
 
-  expect_equal(length(set1), 4)
+  expect_equal(length(set1), 5)
   expect_equal(nrow(set1), 12)
   expect_equal(set1$name[[5]], "B2")
   expect_equal(set1$position[[5]], "B2")
