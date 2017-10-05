@@ -15,29 +15,28 @@ knitr::opts_chunk$set(
 
 # bioset
 
-bioset is intended to save you from some dull tasks when dealing with raw data obtained e.g. from a measuring device.
+`bioset` is intended to save you from some dull tasks when dealing with raw data obtained e.g. from a measuring device.
 
 ## Installation
 
-You can install bioset from github with:
+You can install `bioset` from github with:
 
 ```{r gh-installation, echo = TRUE, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("randomchars42/bioset")
 ```
 
+<!--`bioset` is available on CRAN (<https://CRAN.R-project.org/package=bioset>)-->
+
 ## Why? What bioset can do for you
 
-bioset lets you:
+`bioset` lets you:
 
 * import raw data organised in matrices, e.g. measured values of a 9 x 12 bio-assay plate
 * calculate concentrations using samples with known concentrations (calibrators) in your dataset
 * calculate means and variability for duplicates / triplicates / ...
 * convert your concentrations to (more or less) arbitrary units of concentration
 
-## Example
-
-Taken from the vignette "Introduction":
 
 ```{r, child = "vignettes/introduction.Rmd"}
 ```

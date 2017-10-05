@@ -49,6 +49,11 @@ For m^3 (cubic metres): d (deci), c (centi) and m (milli)
 
 Note: \% w / v is (incorrectly) taken as a short hand for 0.1 g / l.
 }
+\examples{
+calc_factor_conc(from = "ng / ml", to = "g / l")
+calc_factor_conc(from = "ng / ml", to = "mmol / l", molar_mass = 150000)
+
+}
 \seealso{
 Other calc: \code{\link{calc_factor_prefix}},
   \code{\link{convert_conc}}, \code{\link{convert_prefix}}

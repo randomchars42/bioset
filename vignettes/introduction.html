@@ -12,7 +12,7 @@
 
 <meta name="author" content="Eike C. Kühn" />
 
-<meta name="date" content="2017-10-04" />
+<meta name="date" content="2017-10-05" />
 
 <title>Introduction</title>
 
@@ -70,14 +70,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction</h1>
 <h4 class="author"><em>Eike C. Kühn</em></h4>
-<h4 class="date"><em>2017-10-04</em></h4>
+<h4 class="date"><em>2017-10-05</em></h4>
 
 
 
-<p>If you have a data set of raw values (because your measuring device spat it out) and need to somehow organise the data this package might help you.</p>
+<p><code>bioset</code> is intended to help you working with sets of raw data.</p>
+<p>Working in a lab it is not uncommon to have a data set of raw values (because your measuring device spat it out) and you now need to somehow organise the data so that you can work with it.</p>
 <div id="data-import" class="section level2">
 <h2>Data import</h2>
-<p>Suppose you have an ods / xls(x) file with raw values obtained from a measurement like this:</p>
+<p>Suppose you have an <code>ods</code> / <code>xls(x)</code> file with raw values obtained from a measurement like this:</p>
 <table>
 <thead>
 <tr class="header">
@@ -129,7 +130,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p>Save them as <code>set_1.csv</code> (like an ods / xls(x) file but much more basic).</p>
+<p>Save them as <code>set_1.csv</code>- thats like an <code>ods</code> / <code>xls(x)</code> file but its basically a text file with the values separated by commas. In the current versions of LibreOffice / OpenOffice / Microsoft office theres an option “Save as” &gt; “csv”.</p>
 <p>Then you can use <code>set_read()</code> to get all values with their position as name in a nice tibble:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_read</span>()</code></pre></div>
 <table>
@@ -313,7 +314,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p><code>set_read()</code> automagically reads <code>set_1.csv</code> in your current directory. If you have more than one set use <code>set_read(num = 2)</code> to read set 2, etc. If your files are called <code>plate_1.csv</code>, <code>plate_2.csv</code>, …, (<code>run_1.csv</code>, <code>run_1.csv</code>) you can set <code>file_name = &quot;plate_#NUM#.csv&quot;</code> (<code>run_#NUM#.csv</code>, …). If your files are stored in <code>./files/</code> tell <code>set_read()</code> where to look via <code>path = &quot;./files/&quot;</code>.</p>
+<p><code>set_read()</code> automagically reads <code>set_1.csv</code> in your current directory. If you have more than one set use <code>set_read(num = 2)</code> to read set 2, etc.</p>
+<p>If your files are called <code>plate_1.csv</code>, <code>plate_2.csv</code>, …, (<code>run_1.csv</code>, <code>run_1.csv</code>) you can set <code>file_name = &quot;plate_#NUM#.csv&quot;</code> (<code>run_#NUM#.csv</code>, …).</p>
+<p>If your files are stored in <code>./files/</code> tell <code>set_read()</code> where to look via <code>path = &quot;./files/&quot;</code>.</p>
 </div>
 <div id="naming-the-values" class="section level2">
 <h2>Naming the values</h2>
@@ -458,10 +461,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p>Tell <code>set_read()</code> your data contains the names and which column should hold those names by setting <code>additional_vars = c(&quot;name&quot;)</code>. This will get you:</p>
+<p>Tell <code>set_read()</code> your data contains the names and which column should hold those names by setting <code>additional_vars = c(&quot;name&quot;)</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_read</span>(
   <span class="dt">additional_vars =</span> <span class="kw">c</span>(<span class="st">&quot;name&quot;</span>)
 )</code></pre></div>
+<p>This will get you:</p>
 <table>
 <thead>
 <tr class="header">
@@ -646,7 +650,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="encoding-additional-properties" class="section level2">
 <h2>Encoding additional properties</h2>
-<p>Suppose samples A, B, C, D were taken at day 1 and E, F, G, H were taken from the same rats / individuals / patients / students on day 2.</p>
+<p>Suppose samples A, B, C, D were taken at day 1 and E, F, G, H were taken from the same rats / individuals / patients on day 2.</p>
 <p>It would be more elegant to encode that into the data:</p>
 <table>
 <thead>
@@ -948,7 +952,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="calculating-concentrations" class="section level2">
 <h2>Calculating concentrations</h2>
-<p>Your measuring device only gave you raw values (extinction rates / relative light units / …). You know the concentrations of CAL1, CAL2, CAL3 and CAL4. Conveniently, the concentrations follow a linear relationship. To get the concentrations for the rest of the samples you need to interpolate between those calibrators.</p>
+<p>Propably, your measuring device only gave you raw values (extinction rates / relative light units / …). You know the concentrations of CAL1, CAL2, CAL3 and CAL4. Conveniently, the concentrations follow a linear relationship. To get the concentrations for the rest of the samples you need to interpolate between those calibrators.</p>
 <p><code>set_calc_concentrations()</code> does exactly this for you:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_calc_concentrations</span>(
   data,
@@ -1240,7 +1244,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="duplicates-triplicates" class="section level2">
 <h2>Duplicates / Triplicates / …</h2>
-<p>So samples were measured in duplicates. For our further research we might want to use the mean and perhaps exclude samples with too much spread in their values.</p>
+<p>So samples were measured in duplicates. For our further research you might want to use the mean and perhaps exclude samples with too much spread in their values.</p>
 <p><code>set_calc_variability()</code> to the rescue.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">set_calc_variability</span>(
   <span class="dt">data =</span> data,

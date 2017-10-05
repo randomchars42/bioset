@@ -37,7 +37,7 @@ If data is missing \code{NA} is inserted.}
 }
 \value{
 A tibble containing (at minimum) \code{set}, \code{position},
-  \code{name} and \code{value}.
+  \code{sample_id}, \code{name} and \code{value}.
 }
 \description{
 Read a matrix of values from a csv sheet and sort them into a tibble. You
@@ -118,6 +118,72 @@ This results in:
   1 \tab C3 \tab Name9.2 \tab Name9 \tab 2 \tab 9\cr
   ... \tab ... \tab ... \tab ... \tab ... \tab ...\cr
 }
+}
+\examples{
+# a file containing only values
+read.csv(
+  file = system.file("extdata", "values.csv", package = "bioset"),
+  header = FALSE,
+  colClasses = "character"
+)
+
+# read into tibble
+set_read(
+  file_name = system.file("extdata", "values.csv", package = "bioset")
+)
+
+# file containing names
+read.csv(
+  file = system.file("extdata", "values_names.csv", package = "bioset"),
+  header = FALSE,
+  colClasses = "character"
+)
+
+# read a file containing labels and store those in column "name"
+set_read(
+  file_name = system.file("extdata", "values.csv", package = "bioset"),
+  additional_vars = c("name")
+)
+
+# file with names and properties
+read.csv(
+  file = system.file(
+    "extdata", "values_names_properties.csv", package = "bioset"),
+  header = FALSE,
+  colClasses = "character"
+)
+
+# read a file containing labels and properties and store those in columns
+# "name" and "time"
+# splits names by every character that's not A-Z, a-z, 0-9
+# to change that behaviour use additional_sep
+set_read(
+  file_name = system.file("extdata", "values.csv", package = "bioset"),
+  additional_vars = c("name", "time")
+)
+
+# read file "set_1.csv" containing labels
+set_read(
+  num = 1,
+  path = system.file("extdata", "", package = "bioset"),
+  additional_vars = c("name", "time")
+)
+
+# read file "set_2.csv" containing labels
+set_read(
+  num = 2,
+  path = system.file("extdata", "", package = "bioset"),
+  additional_vars = c("name", "time")
+)
+
+# read file "plate_2.csv" containing labels
+set_read(
+  num = 2,
+  file_name = "plate_#NUM#.csv",
+  path = system.file("extdata", "", package = "bioset"),
+  additional_vars = c("name", "time")
+)
+
 }
 \seealso{
 Other set: \code{\link{set_calc_concentrations}},

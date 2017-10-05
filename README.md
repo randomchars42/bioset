@@ -3,39 +3,37 @@
 bioset
 ======
 
-bioset is intended to save you from some dull tasks when dealing with raw data obtained e.g. from a measuring device.
+`bioset` is intended to save you from some dull tasks when dealing with raw data obtained e.g. from a measuring device.
 
 Installation
 ------------
 
-You can install bioset from github with:
+You can install `bioset` from github with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("randomchars42/bioset")
 ```
 
+<!--`bioset` is available on CRAN (<https://CRAN.R-project.org/package=bioset>)-->
 Why? What bioset can do for you
 -------------------------------
 
-bioset lets you:
+`bioset` lets you:
 
 -   import raw data organised in matrices, e.g. measured values of a 9 x 12 bio-assay plate
 -   calculate concentrations using samples with known concentrations (calibrators) in your dataset
 -   calculate means and variability for duplicates / triplicates / ...
 -   convert your concentrations to (more or less) arbitrary units of concentration
 
-Example
--------
+`bioset` is intended to help you working with sets of raw data.
 
-Taken from the vignette "Introduction":
-
-If you have a data set of raw values (because your measuring device spat it out) and need to somehow organise the data this package might help you.
+Working in a lab it is not uncommon to have a data set of raw values (because your measuring device spat it out) and you now need to somehow organise the data so that you can work with it.
 
 Data import
 -----------
 
-Suppose you have an ods / xls(x) file with raw values obtained from a measurement like this:
+Suppose you have an `ods` / `xls(x)` file with raw values obtained from a measurement like this:
 
 |     |    1|    2|    3|    4|    5|    6|
 |-----|----:|----:|----:|----:|----:|----:|
@@ -44,7 +42,7 @@ Suppose you have an ods / xls(x) file with raw values obtained from a measuremen
 | C   |  296|  291|  276|  283|  430|  413|
 | D   |  430|  386|  325|  298|  110|  119|
 
-Save them as `set_1.csv` (like an ods / xls(x) file but much more basic).
+Save them as `set_1.csv`- thats like an `ods` / `xls(x)` file but its basically a text file with the values separated by commas. In the current versions of LibreOffice / OpenOffice / Microsoft office theres an option "Save as" &gt; "csv".
 
 Then you can use `set_read()` to get all values with their position as name in a nice tibble:
 
@@ -79,7 +77,11 @@ set_read()
 |    1| C6       | C6         | C6   |    413|
 |    1| D6       | D6         | D6   |    119|
 
-`set_read()` automagically reads `set_1.csv` in your current directory. If you have more than one set use `set_read(num = 2)` to read set 2, etc. If your files are called `plate_1.csv`, `plate_2.csv`, ..., (`run_1.csv`, `run_1.csv`) you can set `file_name = "plate_#NUM#.csv"` (`run_#NUM#.csv`, ...). If your files are stored in `./files/` tell `set_read()` where to look via `path = "./files/"`.
+`set_read()` automagically reads `set_1.csv` in your current directory. If you have more than one set use `set_read(num = 2)` to read set 2, etc.
+
+If your files are called `plate_1.csv`, `plate_2.csv`, ..., (`run_1.csv`, `run_1.csv`) you can set `file_name = "plate_#NUM#.csv"` (`run_#NUM#.csv`, ...).
+
+If your files are stored in `./files/` tell `set_read()` where to look via `path = "./files/"`.
 
 Naming the values
 -----------------
@@ -108,13 +110,15 @@ To easily set the names for your samples just copy the names into your `set_1.cs
 | G   | CAL3 | CAL3 | E   | E   | F   | F   |
 | H   | CAL4 | CAL4 | G   | G   | H   | H   |
 
-Tell `set_read()` your data contains the names and which column should hold those names by setting `additional_vars = c("name")`. This will get you:
+Tell `set_read()` your data contains the names and which column should hold those names by setting `additional_vars = c("name")`.
 
 ``` r
 set_read(
   additional_vars = c("name")
 )
 ```
+
+This will get you:
 
 |  set| position | sample\_id | name |  value|
 |----:|:---------|:-----------|:-----|------:|
@@ -146,7 +150,7 @@ set_read(
 Encoding additional properties
 ------------------------------
 
-Suppose samples A, B, C, D were taken at day 1 and E, F, G, H were taken from the same rats / individuals / patients / students on day 2.
+Suppose samples A, B, C, D were taken at day 1 and E, F, G, H were taken from the same rats / individuals / patients on day 2.
 
 It would be more elegant to encode that into the data:
 
@@ -199,7 +203,7 @@ set_read(
 Calculating concentrations
 --------------------------
 
-Your measuring device only gave you raw values (extinction rates / relative light units / ...). You know the concentrations of CAL1, CAL2, CAL3 and CAL4. Conveniently, the concentrations follow a linear relationship. To get the concentrations for the rest of the samples you need to interpolate between those calibrators.
+Propably, your measuring device only gave you raw values (extinction rates / relative light units / ...). You know the concentrations of CAL1, CAL2, CAL3 and CAL4. Conveniently, the concentrations follow a linear relationship. To get the concentrations for the rest of the samples you need to interpolate between those calibrators.
 
 `set_calc_concentrations()` does exactly this for you:
 
@@ -243,7 +247,7 @@ Your calibrators are not so linear? Perhaps after a ln-ln transformation? You ca
 Duplicates / Triplicates / ...
 ------------------------------
 
-So samples were measured in duplicates. For our further research we might want to use the mean and perhaps exclude samples with too much spread in their values.
+So samples were measured in duplicates. For our further research you might want to use the mean and perhaps exclude samples with too much spread in their values.
 
 `set_calc_variability()` to the rescue.
 

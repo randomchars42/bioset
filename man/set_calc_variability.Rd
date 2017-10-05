@@ -2,7 +2,7 @@
 % Please edit documentation in R/set.R
 \name{set_calc_variability}
 \alias{set_calc_variability}
-\title{Calculate paramters of variability for a given set of values.}
+\title{Calculate parameters of variability for a given set of values.}
 \usage{
 set_calc_variability(data, ids, ...)
 }
@@ -26,6 +26,39 @@ Dealing with measured values, the measurement of sample "A" is often done in
 duplicates / triplicates / ... . This function groups all samples with the
 same name and calculates mean, standard deviation and coefficient of
 variation (= sd / mean).
+}
+\examples{
+# generate data
+library("tibble")
+
+data <- tibble(
+  names = c("A", "B", "C", "A", "B", "C"),
+  value = c(19, 59, 22, 18, 63, 28),
+  conc = c(1.9, 5.9, 2.2, 1.8, 6.3, 2.8)
+)
+
+data
+
+set_calc_variability(
+  data = data,
+  ids = names,
+  value,
+  conc
+)
+
+# to set column names use notation like in dplyr / tidyverse
+\dontrun{
+# notice how strings are given as column names
+set_calc_variability(
+  data = data,
+  ids = "names",
+  "value",
+  "conc"
+)
+}
+
+rm(cals)
+
 }
 \seealso{
 Other set: \code{\link{set_calc_concentrations}},

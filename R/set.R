@@ -102,7 +102,71 @@
 #'   the last column will contain a string with separator (e.g.: "blue_cold").
 #'   If data is missing \code{NA} is inserted.
 #' @return A tibble containing (at minimum) \code{set}, \code{position},
-#'   \code{name} and \code{value}.
+#'   \code{sample_id}, \code{name} and \code{value}.
+#' @examples
+#' # a file containing only values
+#' read.csv(
+#'   file = system.file("extdata", "values.csv", package = "bioset"),
+#'   header = FALSE,
+#'   colClasses = "character"
+#' )
+#'
+#' # read into tibble
+#' set_read(
+#'   file_name = system.file("extdata", "values.csv", package = "bioset")
+#' )
+#'
+#' # file containing names
+#' read.csv(
+#'   file = system.file("extdata", "values_names.csv", package = "bioset"),
+#'   header = FALSE,
+#'   colClasses = "character"
+#' )
+#'
+#' # read a file containing labels and store those in column "name"
+#' set_read(
+#'   file_name = system.file("extdata", "values.csv", package = "bioset"),
+#'   additional_vars = c("name")
+#' )
+#'
+#' # file with names and properties
+#' read.csv(
+#'   file = system.file(
+#'     "extdata", "values_names_properties.csv", package = "bioset"),
+#'   header = FALSE,
+#'   colClasses = "character"
+#' )
+#'
+#' # read a file containing labels and properties and store those in columns
+#' # "name" and "time"
+#' # splits names by every character that's not A-Z, a-z, 0-9
+#' # to change that behaviour use additional_sep
+#' set_read(
+#'   file_name = system.file("extdata", "values.csv", package = "bioset"),
+#'   additional_vars = c("name", "time")
+#' )
+#'
+#' # read file "set_1.csv" containing labels
+#' set_read(
+#'   num = 1,
+#'   path = system.file("extdata", "", package = "bioset"),
+#'   additional_vars = c("name", "time")
+#' )
+#'
+#' # read file "set_2.csv" containing labels
+#' set_read(
+#'   num = 2,
+#'   path = system.file("extdata", "", package = "bioset"),
+#'   additional_vars = c("name", "time")
+#' )
+#'
+#' # read file "plate_2.csv" containing labels
+#' set_read(
+#'   num = 2,
+#'   file_name = "plate_#NUM#.csv",
+#'   path = system.file("extdata", "", package = "bioset"),
+#'   additional_vars = c("name", "time")
+#' )
 #'
 set_read <- function(
   file_name = "set_#NUM#.csv",
@@ -297,7 +361,67 @@ set_read <- function(
 #'   the other samples, based on the model, e.g.
 #'   \code{\link{interpolate_linear}}, \code{\link{interpolate_lnln}}
 #' @return A tibble containing all original and additional columns.
+#' @examples
+#' # generate data
+#' library("tibble")
 #'
+#' data <- tibble(
+#'   name = c("CAL1", "CAL2", "CAL3", "A", "B", "C"),
+#'   value = c(1, 5, 10, 2, 4, 6)
+#' )
+#'
+#' data
+#'
+#' # the known concentration of the calibrators
+#' cals <- c(1, 5, 10)
+#' names(cals) <- c("CAL1", "CAL2", "CAL3")
+#'
+#' set_calc_concentrations(
+#'   data = data,
+#'   cal_names = names(cals),
+#'   cal_values = cals
+#' )
+#'
+#' # to set column names use notation like in dplyr / tidyverse
+#' # set the name of the column holding the final concentration to "my_protein"
+#' set_calc_concentrations(
+#'   data = data,
+#'   cal_names = names(cals),
+#'   cal_values = cals,
+#'   col_target = my_protein
+#' )
+#'
+#' \dontrun{
+#' # notice that col_target is given a string
+#' set_calc_concentrations(
+#'   data = data,
+#'   cal_names = names(cals),
+#'   cal_values =  cals,
+#'   col_target = "my_protein"
+#' )
+#' }
+#'
+#' # simulate data which has to be transformed to get a good fit
+#' cals <- exp(cals)
+#' data$value <- exp(data$value)
+#'
+#' # use ln-transformation on values and known concentrations prior to
+#' # fitting a model
+#'
+#' data <- set_calc_concentrations(
+#'   data = data,
+#'   cal_names = names(cals),
+#'   cal_values = cals,
+#'   model_func = fit_lnln,
+#'   interpolate_func = interpolate_lnln
+#' )
+#'
+#' data
+#'
+#' # inspect goodnes of fit
+#' plot_lnln(data$real, data$value)
+#'
+#' rm(cals, data)
 set_calc_concentrations <- function(
   data,
   cal_names,
@@ -373,7 +497,7 @@ set_calc_concentrations <- function(
 
 
 #'
-#' Calculate paramters of variability for a given set of values.
+#' Calculate parameters of variability for a given set of values.
 #'
 #' @description
 #' Calculate mean, standard deviation and coefficient of variation for groups of
@@ -392,6 +516,37 @@ set_calc_concentrations <- function(
 #' @param ... The name(s) of the columns used to calculate the variability.
 #' @return A tibble containing all original and additional columns
 #'   (NAMEA_mean, NAMEA_n, NAMEA_sd, NAMEA_cv, (NAMEB_mean)).
+#' @examples
+#' # generate data
+#' library("tibble")
+#'
+#' data <- tibble(
+#'   names = c("A", "B", "C", "A", "B", "C"),
+#'   value = c(19, 59, 22, 18, 63, 28),
+#'   conc = c(1.9, 5.9, 2.2, 1.8, 6.3, 2.8)
+#' )
+#'
+#' data
+#'
+#' set_calc_variability(
+#'   data = data,
+#'   ids = names,
+#'   value,
+#'   conc
+#' )
+#'
+#' # to set column names use notation like in dplyr / tidyverse
+#' \dontrun{
+#' # notice how strings are given as column names
+#' set_calc_variability(
+#'   data = data,
+#'   ids = "names",
+#'   "value",
+#'   "conc"
+#' )
+#' }
+#'
+#' rm(cals)
 #'
 set_calc_variability <- function(data, ids, ...) {
   # make some handy operators available

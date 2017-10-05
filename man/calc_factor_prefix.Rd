@@ -35,6 +35,14 @@ For g you might use k (kilo) as well.
 
 For m^3 (cubic metres): d (deci), c (centi) and m (milli)
 }
+\examples{
+calc_factor_prefix(from = "ng", to = "kg")
+calc_factor_prefix(from = "dm^3", to = "cm^3")
+calc_factor_prefix(from = "fl", to = "pl")
+calc_factor_prefix(from = "pmol", to = "nmol")
+calc_factor_prefix(from = "pM", to = "nM")
+
+}
 \seealso{
 Other calc: \code{\link{calc_factor_conc}},
   \code{\link{convert_conc}}, \code{\link{convert_prefix}}

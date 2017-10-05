@@ -55,6 +55,9 @@ names(denominator_base) <- c("mass_vol", "molar_vol", "vol_vol", "mass_mass")
 #' @param density_solute The density of the solute (g / l).
 #' @param density_solution The density of the solution (g / l), not the solvent!
 #' @return The factor to convert A into B.
+#' @examples
+#' calc_factor_conc(from = "ng / ml", to = "g / l")
+#' calc_factor_conc(from = "ng / ml", to = "mmol / l", molar_mass = 150000)
 #'
 calc_factor_conc <- function(
   from,
@@ -199,6 +202,12 @@ calc_factor_conc <- function(
 #' @param from A string containing the prefixed unit A.
 #' @param to A string containing the prefixed unit B.
 #' @return A factor for multiplication with the value.
+#' @examples
+#' calc_factor_prefix(from = "ng", to = "kg")
+#' calc_factor_prefix(from = "dm^3", to = "cm^3")
+#' calc_factor_prefix(from = "fl", to = "pl")
+#' calc_factor_prefix(from = "pmol", to = "nmol")
+#' calc_factor_prefix(from = "pM", to = "nM")
 #'
 calc_factor_prefix <- function(from, to) {
   from <- enc2utf8(from)
@@ -237,6 +246,9 @@ calc_factor_prefix <- function(from, to) {
 #' @param x The value to convert.
 #' @inheritParams calc_factor_conc
 #' @return The converted value.
+#' @examples
+#' convert_conc(x = 2, from = "ng / ml", to = "g / l")
+#' convert_conc(x = 2, from = "ng / ml", to = "mmol / l", molar_mass = 150000)
 #'
 convert_conc <- function(
   x,
@@ -267,6 +279,12 @@ convert_conc <- function(
 #' @param x The value to convert.
 #' @inheritParams calc_factor_prefix
 #' @return The converted value.
+#' @examples
+#' convert_prefix(x = 2, from = "ng", to = "kg")
+#' convert_prefix(x = 2, from = "dm^3", to = "cm^3")
+#' convert_prefix(x = 2, from = "fl", to = "pl")
+#' convert_prefix(x = 2, from = "pmol", to = "nmol")
+#' convert_prefix(x = 2, from = "pM", to = "nM")
 #'
 convert_prefix <- function(
   x,
