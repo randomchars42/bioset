@@ -114,6 +114,6 @@ plot_lnln(data$real, data$value)
 rm(cals, data)
 }
 \seealso{
-Other set: \code{\link{set_calc_variability}},
+Other set functions: \code{\link{set_calc_variability}},
   \code{\link{set_read}}
 }

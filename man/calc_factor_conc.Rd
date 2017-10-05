@@ -55,6 +55,6 @@ calc_factor_conc(from = "ng / ml", to = "mmol / l", molar_mass = 150000)
 
 }
 \seealso{
-Other calc: \code{\link{calc_factor_prefix}},
+Other conversion functions: \code{\link{calc_factor_prefix}},
   \code{\link{convert_conc}}, \code{\link{convert_prefix}}
 }

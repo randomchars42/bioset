@@ -25,8 +25,6 @@ calibrators.
 \seealso{
 \code{\link{set_calc_concentrations}}
 
-Other model: \code{\link{fit_linear}},
-  \code{\link{interpolate_linear}},
-  \code{\link{interpolate_lnln}},
-  \code{\link{plot_linear}}, \code{\link{plot_lnln}}
+Other ln-ln transformation model functions: \code{\link{interpolate_lnln}},
+  \code{\link{plot_lnln}}
 }

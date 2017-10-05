@@ -15,7 +15,7 @@ set_calc_variability(data, ids, ...)
 }
 \value{
 A tibble containing all original and additional columns
-  (NAMEA_mean, NAMEA_n, NAMEA_sd, NAMEA_cv, (NAMEB_mean)).
+  (NAMEA_mean, NAMEA_n, NAMEA_sd, NAMEA_cv, (NAMEB_mean, ...)).
 }
 \description{
 Calculate mean, standard deviation and coefficient of variation for groups of
@@ -61,6 +61,6 @@ rm(cals)
 
 }
 \seealso{
-Other set: \code{\link{set_calc_concentrations}},
+Other set functions: \code{\link{set_calc_concentrations}},
   \code{\link{set_read}}
 }

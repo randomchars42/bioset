@@ -24,7 +24,6 @@ concentrations.
 \seealso{
 \code{\link{set_calc_concentrations}}
 
-Other model: \code{\link{fit_linear}},
-  \code{\link{fit_lnln}}, \code{\link{interpolate_lnln}},
-  \code{\link{plot_linear}}, \code{\link{plot_lnln}}
+Other linear model functions: \code{\link{fit_linear}},
+  \code{\link{plot_linear}}
 }

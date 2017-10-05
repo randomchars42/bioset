@@ -18,7 +18,7 @@ A factor for multiplication with the value.
 Get a factor to convert metric prefixes into one another.
 }
 \details{
-Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".M", "m^3"
+Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".M", ".m^3"
 (cubic metres), where "." symbolises a metric prefix:
 
 For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
@@ -44,6 +44,6 @@ calc_factor_prefix(from = "pM", to = "nM")
 
 }
 \seealso{
-Other calc: \code{\link{calc_factor_conc}},
+Other conversion functions: \code{\link{calc_factor_conc}},
   \code{\link{convert_conc}}, \code{\link{convert_prefix}}
 }

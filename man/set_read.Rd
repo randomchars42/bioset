@@ -186,6 +186,6 @@ set_read(
 
 }
 \seealso{
-Other set: \code{\link{set_calc_concentrations}},
+Other set functions: \code{\link{set_calc_concentrations}},
   \code{\link{set_calc_variability}}
 }
