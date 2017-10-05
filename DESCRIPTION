@@ -1,6 +1,6 @@
 Package: bioset
 Type: Package
-Title: Convert A Matrix Of Raw Values Into Nice And Tidy Data
+Title: Convert a Matrix of Raw Values into Nice and Tidy Data
 Version: 0.1.0.9000
 Authors@R: person("Eike Christian", "Kühn",
   email = "eike.kuehn@pixelwoelkchen.de",
