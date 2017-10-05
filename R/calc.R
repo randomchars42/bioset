@@ -47,7 +47,7 @@ names(denominator_base) <- c("mass_vol", "molar_vol", "vol_vol", "mass_mass")
 #'
 #' Note: \% w / v is (incorrectly) taken as a short hand for 0.1 g / l.
 #'
-#' @family calc
+#' @family conversion functions
 #' @export
 #' @param from A string containing the units of concentration A.
 #' @param to A string containing the units of concentration B.
@@ -180,7 +180,7 @@ calc_factor_conc <- function(
 #' Get a factor to convert metric prefixes into one another.
 #'
 #' @details
-#' Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".M", "m^3"
+#' Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".M", ".m^3"
 #' (cubic metres), where "." symbolises a metric prefix:
 #'
 #' For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
@@ -198,7 +198,7 @@ calc_factor_conc <- function(
 #' For m^3 (cubic metres): d (deci), c (centi) and m (milli)
 #'
 #' @export
-#' @family calc
+#' @family conversion functions
 #' @param from A string containing the prefixed unit A.
 #' @param to A string containing the prefixed unit B.
 #' @return A factor for multiplication with the value.
@@ -242,7 +242,7 @@ calc_factor_prefix <- function(from, to) {
 #' @inherit calc_factor_conc details
 #'
 #' @export
-#' @family calc
+#' @family conversion functions
 #' @param x The value to convert.
 #' @inheritParams calc_factor_conc
 #' @return The converted value.
@@ -275,7 +275,7 @@ convert_conc <- function(
 #' @inherit calc_factor_prefix details
 #'
 #' @export
-#' @family calc
+#' @family conversion functions
 #' @param x The value to convert.
 #' @inheritParams calc_factor_prefix
 #' @return The converted value.

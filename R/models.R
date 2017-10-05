@@ -9,7 +9,7 @@
 #'
 #' @export
 #' @seealso \code{\link{set_calc_concentrations}}
-#' @family model
+#' @family linear model functions
 #' @param x The x coordinates of the points.
 #' @param y The y coordinates of the points.
 #' @return Line model.
@@ -30,7 +30,7 @@ fit_linear <- function(x, y) {
 #'
 #' @export
 #' @seealso \code{\link{set_calc_concentrations}}
-#' @family model
+#' @family linear model functions
 #' @inheritParams fit_linear
 #' @return Plot.
 #'
@@ -63,7 +63,7 @@ plot_linear <- function(x, y) {
 #'
 #' @export
 #' @seealso \code{\link{set_calc_concentrations}}
-#' @family model
+#' @family linear model functions
 #' @param y The y coordinates of the points.
 #' @param model The line model.
 #' @return Vector of x values.
@@ -86,7 +86,7 @@ interpolate_linear <- function(y, model) {
 #'
 #' @export
 #' @seealso \code{\link{set_calc_concentrations}}
-#' @family model
+#' @family ln-ln transformation model functions
 #' @inheritParams fit_linear
 #' @return Line model.
 #'
@@ -109,7 +109,7 @@ fit_lnln <- function(x, y) {
 #'
 #' @export
 #' @seealso \code{\link{set_calc_concentrations}}
-#' @family model
+#' @family ln-ln transformation model functions
 #' @inheritParams fit_linear
 #' @return Plot.
 #'
@@ -145,7 +145,7 @@ plot_lnln <- function(x, y) {
 #'
 #' @export
 #' @seealso \code{\link{set_calc_concentrations}}
-#' @family model
+#' @family ln-ln transformation model functions
 #' @inheritParams interpolate_linear
 #' @return Vector of x values.
 #'
