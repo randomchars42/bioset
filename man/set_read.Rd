@@ -4,7 +4,7 @@
 \alias{set_read}
 \title{Read a data set from a data-sheet and turn it into a multi-column tibble.}
 \usage{
-set_read(file_name = "set_#NUM#.csv", path = "", num = 1, sep = ",",
+set_read(file_name = "set_#NUM#.csv", path = ".", num = 1, sep = ",",
   cols = 0, rows = 0, additional_vars = vector(),
   additional_sep = "[^[:alnum:]]+")
 }
@@ -12,7 +12,7 @@ set_read(file_name = "set_#NUM#.csv", path = "", num = 1, sep = ",",
 \item{file_name}{Name of the file from which to read the data. May contain
 "#NUM#" as a placeholder if you have multiple files (see num).}
 
-\item{path}{The path to the file (needs to end with "/").}
+\item{path}{The path to the file (no trailing "/" or "\/"!).}
 
 \item{num}{Number of the set to read, inserted for "#NUM#".}
 
@@ -129,7 +129,8 @@ read.csv(
 
 # read into tibble
 set_read(
-  file_name = system.file("extdata", "values.csv", package = "bioset")
+  file_name = "values_names.csv",
+  path = system.file("extdata", package = "bioset"),
 )
 
 # file containing names
@@ -141,7 +142,8 @@ read.csv(
 
 # read a file containing labels and store those in column "name"
 set_read(
-  file_name = system.file("extdata", "values.csv", package = "bioset"),
+  file_name = "values_names.csv",
+  path = system.file("extdata", package = "bioset"),
   additional_vars = c("name")
 )
 
@@ -158,21 +160,22 @@ read.csv(
 # splits names by every character that's not A-Z, a-z, 0-9
 # to change that behaviour use additional_sep
 set_read(
-  file_name = system.file("extdata", "values.csv", package = "bioset"),
+  file_name = "values_names_properties.csv",
+  path = system.file("extdata", package = "bioset"),
   additional_vars = c("name", "time")
 )
 
 # read file "set_1.csv" containing labels
 set_read(
   num = 1,
-  path = system.file("extdata", "", package = "bioset"),
+  path = system.file("extdata", package = "bioset"),
   additional_vars = c("name", "time")
 )
 
 # read file "set_2.csv" containing labels
 set_read(
   num = 2,
-  path = system.file("extdata", "", package = "bioset"),
+  path = system.file("extdata", package = "bioset"),
   additional_vars = c("name", "time")
 )
 
@@ -180,7 +183,7 @@ set_read(
 set_read(
   num = 2,
   file_name = "plate_#NUM#.csv",
-  path = system.file("extdata", "", package = "bioset"),
+  path = system.file("extdata", package = "bioset"),
   additional_vars = c("name", "time")
 )
 

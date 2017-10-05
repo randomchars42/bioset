@@ -85,7 +85,7 @@
 #' @family set functions
 #' @param file_name Name of the file from which to read the data. May contain
 #'   "#NUM#" as a placeholder if you have multiple files (see num).
-#' @param path The path to the file (needs to end with "/").
+#' @param path The path to the file (no trailing "/" or "\/"!).
 #' @param num Number of the set to read, inserted for "#NUM#".
 #' @param sep Separator used in the csv-file, either "," or ";" (see
 #'   \code{\link[utils]{read.csv}})
@@ -113,7 +113,8 @@
 #'
 #' # read into tibble
 #' set_read(
-#'   file_name = system.file("extdata", "values.csv", package = "bioset")
+#'   file_name = "values_names.csv",
+#'   path = system.file("extdata", package = "bioset"),
 #' )
 #'
 #' # file containing names
@@ -125,7 +126,8 @@
 #'
 #' # read a file containing labels and store those in column "name"
 #' set_read(
-#'   file_name = system.file("extdata", "values.csv", package = "bioset"),
+#'   file_name = "values_names.csv",
+#'   path = system.file("extdata", package = "bioset"),
 #'   additional_vars = c("name")
 #' )
 #'
@@ -142,21 +144,22 @@
 #' # splits names by every character that's not A-Z, a-z, 0-9
 #' # to change that behaviour use additional_sep
 #' set_read(
-#'   file_name = system.file("extdata", "values.csv", package = "bioset"),
+#'   file_name = "values_names_properties.csv",
+#'   path = system.file("extdata", package = "bioset"),
 #'   additional_vars = c("name", "time")
 #' )
 #'
 #' # read file "set_1.csv" containing labels
 #' set_read(
 #'   num = 1,
-#'   path = system.file("extdata", "", package = "bioset"),
+#'   path = system.file("extdata", package = "bioset"),
 #'   additional_vars = c("name", "time")
 #' )
 #'
 #' # read file "set_2.csv" containing labels
 #' set_read(
 #'   num = 2,
-#'   path = system.file("extdata", "", package = "bioset"),
+#'   path = system.file("extdata", package = "bioset"),
 #'   additional_vars = c("name", "time")
 #' )
 #'
@@ -164,13 +167,13 @@
 #' set_read(
 #'   num = 2,
 #'   file_name = "plate_#NUM#.csv",
-#'   path = system.file("extdata", "", package = "bioset"),
+#'   path = system.file("extdata", package = "bioset"),
 #'   additional_vars = c("name", "time")
 #' )
 #'
 set_read <- function(
   file_name = "set_#NUM#.csv",
-  path = "",
+  path = ".",
   num = 1,
   sep = ",",
   cols = 0,
@@ -196,10 +199,12 @@ set_read <- function(
   # load file
 
   file_name <- gsub(pattern = "#NUM#", replacement = num, x = file_name)
-  file_name <- paste0(path, file_name)
+  file_name <- normalizePath(file.path(path, file_name))
 
   if (!file.exists(file_name)) {
-    throw_error("Cannot find the file. Please check path (must end with \"/\") ",
+    throw_error(
+      "Cannot find file \"", file_name,
+      "\". Please check path (must not end with \"/\") ",
       "and name_scheme (must contain \"#NUM#\")")
   }
 
