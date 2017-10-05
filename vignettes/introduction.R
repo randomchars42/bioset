@@ -22,7 +22,8 @@ knitr::kable(
 
 ## ------------------------------------------------------------------------
 data <- bioset::set_read(
-  file_name = system.file("extdata", "values.csv", package = "bioset")
+  file_name = "values.csv",
+  path = system.file("extdata", package = "bioset"),
 )
 knitr::kable(data)
 
@@ -57,7 +58,8 @@ knitr::kable(
 
 ## ------------------------------------------------------------------------
 data <- bioset::set_read(
-  file_name = system.file("extdata", "values_names.csv", package = "bioset"),
+  file_name = "values_names.csv",
+  path = system.file("extdata", package = "bioset"),
   additional_vars = c("name")
 )
 knitr::kable(data)
@@ -81,7 +83,8 @@ knitr::kable(
 
 ## ------------------------------------------------------------------------
 data <- bioset::set_read(
-  file_name = system.file("extdata", "values_names_properties.csv", package = "bioset"),
+  file_name = "values_names_properties.csv",
+  path = system.file("extdata", package = "bioset"),
   additional_vars = c("name", "day")
 )
 

@@ -6,8 +6,8 @@ Authors@R: person("Eike Christian", "Kühn",
   email = "eike.kuehn@pixelwoelkchen.de",
   role = c("aut", "cre"))
 Description: Measuring devices sometimes output a matrix of raw values. This
-  package aims at easing the task of labeling the values and dealing with
-  duplicates / triplicates / ... and calculating concentrations.
+    package aims at easing the task of labeling the values and dealing with
+    duplicates / triplicates / ... and calculating concentrations.
 URL: https://github.com/randomchars42/bioset
 BugReports: https://github.com/randomchars42/bioset/issues
 License: MIT + file LICENSE
