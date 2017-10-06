@@ -4,8 +4,9 @@
 #' @description
 #' Read a matrix of values from a csv sheet and sort them into a tibble. You
 #' can name the values and encode several additional properties into the name,
-#' which be split into several columns. Please refer to the vignette and
-#' examples for in-depth explanation and the whys and hows.
+#' which be split into several columns. Please refer to the vignette
+#' (`browseVignettes("roxygen2")`) and examples below for in-depth explanation
+#' and the whys and hows.
 #'
 #' @export
 #' @family set functions
