@@ -108,7 +108,6 @@ calc_factor_conc <- function(
 
   # converting between different types requires densities / molar mass
   if (from_type != to_type) {
-    message("O")
     # all units are now on of "g / l", "mol / l", "l / l", "g / g", according
     # to their type
     # see above
