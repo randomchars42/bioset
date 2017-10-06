@@ -18,11 +18,11 @@ Vector of x values.
 Interpolate values using a linear function and the coefficients
 of the given line model.
 
-Can be used in \code{\link{set_calc_concentrations}} to interpolate
+Can be used in \code{\link[=set_calc_concentrations]{set_calc_concentrations()}} to interpolate
 concentrations.
 }
 \seealso{
-\code{\link{set_calc_concentrations}}
+\code{\link[=set_calc_concentrations]{set_calc_concentrations()}}
 
 Other linear model functions: \code{\link{fit_linear}},
   \code{\link{plot_linear}}

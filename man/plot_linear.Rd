@@ -18,11 +18,11 @@ Plot.
 Fit a linear function to the points with the given x and y coordinates and
 plot it.
 
-Can be used after \code{\link{set_calc_concentrations}} to visualise the fit
+Can be used after \code{\link[=set_calc_concentrations]{set_calc_concentrations()}} to visualise the fit
 of the function.
 }
 \seealso{
-\code{\link{set_calc_concentrations}}
+\code{\link[=set_calc_concentrations]{set_calc_concentrations()}}
 
 Other linear model functions: \code{\link{fit_linear}},
   \code{\link{interpolate_linear}}

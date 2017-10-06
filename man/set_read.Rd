@@ -12,15 +12,14 @@ set_read(file_name = "set_#NUM#.csv", path = ".", num = 1, sep = ",",
 \item{file_name}{Name of the file from which to read the data. May contain
 "#NUM#" as a placeholder if you have multiple files (see num).}
 
-\item{path}{The path to the file (no trailing "/" or "\/"!).}
+\item{path}{The path to the file (no trailing "/" or "\"!).}
 
 \item{num}{Number of the set to read, inserted for "#NUM#".}
 
 \item{sep}{Separator used in the csv-file, either "," or ";" (see
-\code{\link[utils]{read.csv}})}
+\code{\link[utils:read.csv]{utils::read.csv()}})}
 
-\item{cols}{Number of columns in the input matrix (\code{0} means
-auto-detect).}
+\item{cols}{Number of columns in the input matrix (\code{0} means auto-detect).}
 
 \item{rows}{Number of rows containing values (not names / additional data)
 in the input matrix (\code{0} means auto-detect).}
@@ -32,92 +31,18 @@ additional columns.}
 \code{"ID_blue_cold"} with \code{additional_sep = "_"} will be separated
 into three columns containg \code{"ID"}, \code{"blue"} and \code{"cold"}.
 If the separated data would exceed the columns in \code{additional_vars}
-the last column will contain a string with separator (e.g.: "blue_cold").
-If data is missing \code{NA} is inserted.}
+the last column will contain a string with separator (e.g.: \code{"blue_cold"}).
+If data is missing `NA`` is inserted.}
 }
 \value{
-A tibble containing (at minimum) \code{set}, \code{position},
-  \code{sample_id}, \code{name} and \code{value}.
+A tibble containing (at minimum) \code{set}, \code{position}, \code{sample_id},
+\code{name} and \code{value}.
 }
 \description{
 Read a matrix of values from a csv sheet and sort them into a tibble. You
 can name the values and encode several additional properties into the name,
-which be split into several columns.
-}
-\details{
-You might have a data sheet (csv) like:
-
-\tabular{rrrr}{
-  1 \tab 2 \tab 3 \tab ...\cr
-  4 \tab 5 \tab 6 \tab ...\cr
-  7 \tab 8 \tab 9 \tab ...\cr
-  ... \tab ... \tab ... \tab ...\cr
-}
-
-This will be read into a tibble:
-
-\tabular{rrrrr}{
-  set \tab positon \tab sample_id \tab name \tab value\cr
-  1 \tab A1 \tab A1 \tab A1 \tab 1\cr
-  1 \tab A2 \tab A2 \tab A2 \tab 2\cr
-  ... \tab ... \tab ... \tab .. \tab ...\cr
-  1 \tab C3 \tab C3 \tab C3 \tab 9\cr
-  ... \tab ... \tab ... \tab ...\tab ...\cr
-}
-
-Note: Unlike LibreOffice / Excel / ... columns are numbered and rows are
-named with letters.
-
-If you want to name the values append them to the csv sheet, like:
-
-\tabular{rrrr}{
-  1 \tab 2 \tab 3 \tab ...\cr
-  4 \tab 5 \tab 6 \tab ...\cr
-  7 \tab 8 \tab 9 \tab ...\cr
-  ... \tab ... \tab ... \tab ...\cr
-  Name1 \tab Name2 \tab Name3 \tab ...\cr
-  Name4 \tab Name5 \tab Name6 \tab ...\cr
-  Name7 \tab Name8 \tab Name9 \tab ...\cr
-  ... \tab ... \tab ... \tab ...\cr
-}
-
-Now you need to specify a name for the column holding the name with
-\code{additional_vars = c("name")}.
-This results in:
-
-\tabular{rrrrr}{
-  set \tab position \tab name \tab sample_id \tab value\cr
-  1 \tab A1 \tab Name1 \tab Name1 \tab 1\cr
-  1 \tab A2 \tab Name2 \tab Name2 \tab 2\cr
-  ... \tab ... \tab ... \tab ... \tab ...\cr
-  1 \tab C3 \tab Name9 \tab Name9 \tab 9\cr
-  ... \tab ... \tab ... \tab ... \tab ...\cr
-}
-
-You can encode additional properties into the name, like:
-
-\tabular{rrrr}{
-  1 \tab 2 \tab 3 \tab ...\cr
-  4 \tab 5 \tab 6 \tab ...\cr
-  7 \tab 8 \tab 9 \tab ...\cr
-  ... \tab ... \tab ... \tab ...\cr
-  Name1.1 \tab Name2.1 \tab Name3.1 \tab ...\cr
-  Name4.1 \tab Name5.1 \tab Name6.1 \tab ...\cr
-  Name7.2 \tab Name8.2 \tab Name9.2 \tab ...\cr
-  ... \tab ... \tab ... \tab ...\cr
-}
-
-Specify the columns: \code{additional_vars = c("name", "time")}.
-This results in:
-
-\tabular{rrrrrr}{
-  set \tab position \tab sample_id \tab name \tab time \tab value\cr
-  1 \tab A1 \tab Name1.1 \tab Name1 \tab 1 \tab 1\cr
-  1 \tab A2 \tab Name2.1 \tab Name2 \tab 1 \tab 2\cr
-  ... \tab ... \tab ... \tab ... \tab ... \tab ...\cr
-  1 \tab C3 \tab Name9.2 \tab Name9 \tab 2 \tab 9\cr
-  ... \tab ... \tab ... \tab ... \tab ... \tab ...\cr
-}
+which be split into several columns. Please refer to the vignette and
+examples for in-depth explanation and the whys and hows.
 }
 \examples{
 # a file containing only values

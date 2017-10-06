@@ -18,12 +18,11 @@ Line model.
 Fit a linear function to the points with the given x and y coordinates after
 transforming both coordinates using ln.
 
-
-Can be used in \code{\link{set_calc_concentrations}} to fit a model to the
+Can be used in \code{\link[=set_calc_concentrations]{set_calc_concentrations()}} to fit a model to the
 calibrators.
 }
 \seealso{
-\code{\link{set_calc_concentrations}}
+\code{\link[=set_calc_concentrations]{set_calc_concentrations()}}
 
 Other ln-ln transformation model functions: \code{\link{interpolate_lnln}},
   \code{\link{plot_lnln}}

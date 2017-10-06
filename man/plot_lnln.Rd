@@ -18,11 +18,11 @@ Plot.
 Fit a linear function to the points with the given x and y coordinates after
 transforming both coordinates using ln and plot them.
 
-Can be used after \code{\link{set_calc_concentrations}} to visualise the fit
+Can be used after \code{\link[=set_calc_concentrations]{set_calc_concentrations()}} to visualise the fit
 of the function.
 }
 \seealso{
-\code{\link{set_calc_concentrations}}
+\code{\link[=set_calc_concentrations]{set_calc_concentrations()}}
 
 Other ln-ln transformation model functions: \code{\link{fit_lnln}},
   \code{\link{interpolate_lnln}}

@@ -24,7 +24,7 @@ convert_conc(x, from, to, molar_mass = 0, density_solute = 0,
 The converted value.
 }
 \description{
-A convenience wrapper around \code{\link{calc_factor_prefix}}.
+A convenience wrapper around \code{\link[=calc_factor_conc]{calc_factor_conc()}}.
 }
 \details{
 The following concentrations can be converted:
@@ -41,7 +41,7 @@ volume / volume:
 mass / mass:
 ".g / .g", "w / w", "\% w / w"
 
-Where "." symbolises a metric prefix (see \code{\link{calc_factor_prefix}}) :
+Where "." symbolises a metric prefix (see \code{\link[=calc_factor_prefix]{calc_factor_prefix()}}) :
 
 For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
 

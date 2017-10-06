@@ -33,11 +33,11 @@ concentrations.}
 calibrators.}
 
 \item{model_func}{A function generating a model to fit the calibrators,
-e.g. \code{\link{fit_linear}}, \code{\link{fit_lnln}}}
+e.g. \code{\link[=fit_linear]{fit_linear()}}, \code{\link[=fit_lnln]{fit_lnln()}}.}
 
 \item{interpolate_func}{A function used to interpolate the concentrations of
 the other samples, based on the model, e.g.
-\code{\link{interpolate_linear}}, \code{\link{interpolate_lnln}}}
+\code{\link[=interpolate_linear]{interpolate_linear()}}, \code{\link[=interpolate_lnln]{interpolate_lnln()}}.}
 }
 \value{
 A tibble containing all original and additional columns.
