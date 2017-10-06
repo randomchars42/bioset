@@ -37,7 +37,7 @@ names(denominator_base) <- c("mass_vol", "molar_vol", "vol_vol", "mass_mass")
 #' mass / mass:
 #' ".g / .g", "w / w", "\% w / w"
 #'
-#' Where "." symbolises a metric prefix (see \code{\link{calc_factor_prefix}}) :
+#' Where "." symbolises a metric prefix (see [calc_factor_prefix()]) :
 #'
 #' For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
 #'
@@ -188,7 +188,7 @@ calc_factor_conc <- function(
 #'
 #' For m^3 (cubic metres): d (deci), c (centi) and m (milli)
 #'
-#' "." symbolises a metric prefix (see \code{\link{calc_factor_prefix}}) :
+#' "." symbolises a metric prefix:
 #'
 #' For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
 #'
@@ -236,7 +236,7 @@ calc_factor_prefix <- function(from, to) {
 #' Convert between metric prefixes.
 #'
 #' @description
-#' A convenience wrapper around \code{\link{calc_factor_prefix}}.
+#' A convenience wrapper around [calc_factor_conc()].
 #'
 #' @inherit calc_factor_conc details
 #'
@@ -269,7 +269,7 @@ convert_conc <- function(
 #' Convert a value of the given concentration into another concentration.
 #'
 #' @description
-#' A convenience wrapper around \code{\link{calc_factor_prefix}}.
+#' A convenience wrapper around [calc_factor_prefix()].
 #'
 #' @inherit calc_factor_prefix details
 #'

@@ -4,105 +4,30 @@
 #' @description
 #' Read a matrix of values from a csv sheet and sort them into a tibble. You
 #' can name the values and encode several additional properties into the name,
-#' which be split into several columns.
-#'
-#' @details
-#' You might have a data sheet (csv) like:
-#'
-#' \tabular{rrrr}{
-#'   1 \tab 2 \tab 3 \tab ...\cr
-#'   4 \tab 5 \tab 6 \tab ...\cr
-#'   7 \tab 8 \tab 9 \tab ...\cr
-#'   ... \tab ... \tab ... \tab ...\cr
-#' }
-#'
-#' This will be read into a tibble:
-#'
-#' \tabular{rrrrr}{
-#'   set \tab positon \tab sample_id \tab name \tab value\cr
-#'   1 \tab A1 \tab A1 \tab A1 \tab 1\cr
-#'   1 \tab A2 \tab A2 \tab A2 \tab 2\cr
-#'   ... \tab ... \tab ... \tab .. \tab ...\cr
-#'   1 \tab C3 \tab C3 \tab C3 \tab 9\cr
-#'   ... \tab ... \tab ... \tab ...\tab ...\cr
-#' }
-#'
-#' Note: Unlike LibreOffice / Excel / ... columns are numbered and rows are
-#' named with letters.
-#'
-#' If you want to name the values append them to the csv sheet, like:
-#'
-#' \tabular{rrrr}{
-#'   1 \tab 2 \tab 3 \tab ...\cr
-#'   4 \tab 5 \tab 6 \tab ...\cr
-#'   7 \tab 8 \tab 9 \tab ...\cr
-#'   ... \tab ... \tab ... \tab ...\cr
-#'   Name1 \tab Name2 \tab Name3 \tab ...\cr
-#'   Name4 \tab Name5 \tab Name6 \tab ...\cr
-#'   Name7 \tab Name8 \tab Name9 \tab ...\cr
-#'   ... \tab ... \tab ... \tab ...\cr
-#' }
-#'
-#' Now you need to specify a name for the column holding the name with
-#' \code{additional_vars = c("name")}.
-#' This results in:
-#'
-#' \tabular{rrrrr}{
-#'   set \tab position \tab name \tab sample_id \tab value\cr
-#'   1 \tab A1 \tab Name1 \tab Name1 \tab 1\cr
-#'   1 \tab A2 \tab Name2 \tab Name2 \tab 2\cr
-#'   ... \tab ... \tab ... \tab ... \tab ...\cr
-#'   1 \tab C3 \tab Name9 \tab Name9 \tab 9\cr
-#'   ... \tab ... \tab ... \tab ... \tab ...\cr
-#' }
-#'
-#' You can encode additional properties into the name, like:
-#'
-#' \tabular{rrrr}{
-#'   1 \tab 2 \tab 3 \tab ...\cr
-#'   4 \tab 5 \tab 6 \tab ...\cr
-#'   7 \tab 8 \tab 9 \tab ...\cr
-#'   ... \tab ... \tab ... \tab ...\cr
-#'   Name1.1 \tab Name2.1 \tab Name3.1 \tab ...\cr
-#'   Name4.1 \tab Name5.1 \tab Name6.1 \tab ...\cr
-#'   Name7.2 \tab Name8.2 \tab Name9.2 \tab ...\cr
-#'   ... \tab ... \tab ... \tab ...\cr
-#' }
-#'
-#' Specify the columns: \code{additional_vars = c("name", "time")}.
-#' This results in:
-#'
-#' \tabular{rrrrrr}{
-#'   set \tab position \tab sample_id \tab name \tab time \tab value\cr
-#'   1 \tab A1 \tab Name1.1 \tab Name1 \tab 1 \tab 1\cr
-#'   1 \tab A2 \tab Name2.1 \tab Name2 \tab 1 \tab 2\cr
-#'   ... \tab ... \tab ... \tab ... \tab ... \tab ...\cr
-#'   1 \tab C3 \tab Name9.2 \tab Name9 \tab 2 \tab 9\cr
-#'   ... \tab ... \tab ... \tab ... \tab ... \tab ...\cr
-#' }
+#' which be split into several columns. Please refer to the vignette and
+#' examples for in-depth explanation and the whys and hows.
 #'
 #' @export
 #' @family set functions
 #' @param file_name Name of the file from which to read the data. May contain
 #'   "#NUM#" as a placeholder if you have multiple files (see num).
-#' @param path The path to the file (no trailing "/" or "\/"!).
+#' @param path The path to the file (no trailing "/" or "\\"!).
 #' @param num Number of the set to read, inserted for "#NUM#".
 #' @param sep Separator used in the csv-file, either "," or ";" (see
-#'   \code{\link[utils]{read.csv}})
-#' @param cols Number of columns in the input matrix (\code{0} means
-#'   auto-detect).
+#'   [utils::read.csv()])
+#' @param cols Number of columns in the input matrix (`0` means auto-detect).
 #' @param rows Number of rows containing values (not names / additional data)
-#'   in the input matrix (\code{0} means auto-detect).
+#'   in the input matrix (`0` means auto-detect).
 #' @param additional_vars Vector of strings containing the names for the
 #'   additional columns.
 #' @param additional_sep String / RegExp that separates additional vars, e.g.:
-#'   \code{"ID_blue_cold"} with \code{additional_sep = "_"} will be separated
-#'   into three columns containg \code{"ID"}, \code{"blue"} and \code{"cold"}.
-#'   If the separated data would exceed the columns in \code{additional_vars}
-#'   the last column will contain a string with separator (e.g.: "blue_cold").
-#'   If data is missing \code{NA} is inserted.
-#' @return A tibble containing (at minimum) \code{set}, \code{position},
-#'   \code{sample_id}, \code{name} and \code{value}.
+#'   `"ID_blue_cold"` with `additional_sep = "_"` will be separated
+#'   into three columns containg `"ID"`, `"blue"` and `"cold"`.
+#'   If the separated data would exceed the columns in `additional_vars`
+#'   the last column will contain a string with separator (e.g.: `"blue_cold"`).
+#'   If data is missing `NA`` is inserted.
+#' @return A tibble containing (at minimum) `set`, `position`, `sample_id`,
+#'   `name` and `value`.
 #' @examples
 #' # a file containing only values
 #' read.csv(
@@ -351,7 +276,7 @@ set_read <- function(
 #'   as calibrators,
 #' @param cal_values A numeric vector with the known concentrations of those
 #'   samples (must be in the same order).
-#' @param col_names The name of the column where the \code{cal_names} can be
+#' @param col_names The name of the column where the `cal_names` can be
 #'   found.
 #' @param col_values The name of the column holding the raw values.
 #' @param col_target The name of the column to created for the calculated
@@ -361,10 +286,10 @@ set_read <- function(
 #' @param col_recov The name of the column to create for the recovery of the
 #'   calibrators.
 #' @param model_func A function generating a model to fit the calibrators,
-#'   e.g. \code{\link{fit_linear}}, \code{\link{fit_lnln}}
+#'   e.g. [fit_linear()], [fit_lnln()].
 #' @param interpolate_func A function used to interpolate the concentrations of
 #'   the other samples, based on the model, e.g.
-#'   \code{\link{interpolate_linear}}, \code{\link{interpolate_lnln}}
+#'   [interpolate_linear()], [interpolate_lnln()].
 #' @return A tibble containing all original and additional columns.
 #' @examples
 #' # generate data
