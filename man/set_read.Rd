@@ -41,8 +41,9 @@ A tibble containing (at minimum) \code{set}, \code{position}, \code{sample_id},
 \description{
 Read a matrix of values from a csv sheet and sort them into a tibble. You
 can name the values and encode several additional properties into the name,
-which be split into several columns. Please refer to the vignette and
-examples for in-depth explanation and the whys and hows.
+which be split into several columns. Please refer to the vignette
+(\code{browseVignettes("roxygen2")}) and examples below for in-depth explanation
+and the whys and hows.
 }
 \examples{
 # a file containing only values

@@ -6,12 +6,13 @@
 \alias{bioset-package}
 \title{Convert a matrix of raw values into nice and tidy data.}
 \description{
-\code{\link[=as.package]{as.package()}} is intended to save you from commons tasks when dealing with
+\link{bioset} is intended to save you from commons tasks when dealing with
 raw data obtained e.g. from a measuring device.
 }
 \details{
-When importing values with \code{\link[=as.package]{as.package()}} start with \code{\link[=set_read]{set_read()}}. To
-get an example for a workflow refer to the vignettes.
+When importing values with \link{bioset} start with \code{\link[=set_read]{set_read()}}. To
+get an example for a workflow refer to the vignettes
+(\code{browseVignettes("bioset")}).
 }
 \seealso{
 Useful links:
