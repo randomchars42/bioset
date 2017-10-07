@@ -4,6 +4,6 @@
 #' raw data obtained e.g. from a measuring device.
 #'
 #' When importing values with [bioset] start with [set_read()]. To
-#' get an example for a workflow refer to the vignettes
-#' (`browseVignettes("bioset")`).
+#' get an example for a workflow refer to the introductory vignette
+#' (`vignette("introduction", "bioset")`).
 "_PACKAGE"

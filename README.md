@@ -3,7 +3,9 @@
 bioset
 ======
 
-`bioset` is intended to save you from some dull tasks when dealing with raw data obtained e.g. from a measuring device.
+`bioset` is intended to help you working with sets of raw data.
+
+Working in a lab it is not uncommon to have a data set of raw values (because your measuring device spat it out) and you now need to somehow transform and organise the data so that you can work with it.
 
 Installation
 ------------
@@ -21,14 +23,10 @@ Why? What bioset can do for you
 
 `bioset` lets you:
 
--   import raw data organised in matrices, e.g. measured values of a 9 x 12 bio-assay plate
+-   import raw data organised in matrices, e.g. measured values of a 8 x 12 (96-well) bio-assay plate
 -   calculate concentrations using samples with known concentrations (calibrators) in your dataset
 -   calculate means and variability for duplicates / triplicates / ...
 -   convert your concentrations to (more or less) arbitrary units of concentration
-
-`bioset` is intended to help you working with sets of raw data.
-
-Working in a lab it is not uncommon to have a data set of raw values (because your measuring device spat it out) and you now need to somehow organise the data so that you can work with it.
 
 Data import
 -----------

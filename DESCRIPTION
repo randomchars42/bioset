@@ -3,11 +3,13 @@ Type: Package
 Title: Convert a Matrix of Raw Values into Nice and Tidy Data
 Version: 0.1.0
 Authors@R: person("Eike Christian", "Kühn",
-  email = "eike.kuehn@pixelwoelkchen.de",
-  role = c("aut", "cre"))
-Description: Measuring devices sometimes output a matrix of raw values. This
-    package aims at easing the task of labeling the values and dealing with
-    duplicates / triplicates / ... and calculating concentrations.
+    email = "eike.kuehn@pixelwoelkchen.de",
+    role = c("aut", "cre"))
+Description: Functions to help dealing with raw data from measurements, like
+    reading and transforming raw values organised in matrices, calculating and
+    converting concentrations and calculating precision of duplicates /
+    triplicates / ... . It is compatible with and building on top of
+    'tidyverse'-packages.
 URL: https://github.com/randomchars42/bioset
 BugReports: https://github.com/randomchars42/bioset/issues
 License: MIT + file LICENSE

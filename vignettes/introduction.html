@@ -12,7 +12,7 @@
 
 <meta name="author" content="Eike C. Kühn" />
 
-<meta name="date" content="2017-10-05" />
+<meta name="date" content="2017-10-07" />
 
 <title>Introduction</title>
 
@@ -70,12 +70,29 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction</h1>
 <h4 class="author"><em>Eike C. Kühn</em></h4>
-<h4 class="date"><em>2017-10-05</em></h4>
+<h4 class="date"><em>2017-10-07</em></h4>
 
 
 
 <p><code>bioset</code> is intended to help you working with sets of raw data.</p>
-<p>Working in a lab it is not uncommon to have a data set of raw values (because your measuring device spat it out) and you now need to somehow organise the data so that you can work with it.</p>
+<p>Working in a lab it is not uncommon to have a data set of raw values (because your measuring device spat it out) and you now need to somehow transform and organise the data so that you can work with it.</p>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>You can install <code>bioset</code> from github with:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;)</span>
+devtools::<span class="kw">install_github</span>(<span class="st">&quot;randomchars42/bioset&quot;</span>)</code></pre></div>
+<!--`bioset` is available on CRAN (<https://CRAN.R-project.org/package=bioset>)-->
+</div>
+<div id="why-what-bioset-can-do-for-you" class="section level2">
+<h2>Why? What bioset can do for you</h2>
+<p><code>bioset</code> lets you:</p>
+<ul>
+<li>import raw data organised in matrices, e.g. measured values of a 8 x 12 (96-well) bio-assay plate</li>
+<li>calculate concentrations using samples with known concentrations (calibrators) in your dataset</li>
+<li>calculate means and variability for duplicates / triplicates / …</li>
+<li>convert your concentrations to (more or less) arbitrary units of concentration</li>
+</ul>
+</div>
 <div id="data-import" class="section level2">
 <h2>Data import</h2>
 <p>Suppose you have an <code>ods</code> / <code>xls(x)</code> file with raw values obtained from a measurement like this:</p>

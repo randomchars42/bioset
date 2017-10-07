@@ -5,6 +5,10 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+## ----gh-installation, echo = TRUE, eval = FALSE--------------------------
+#  # install.packages("devtools")
+#  devtools::install_github("randomchars42/bioset")
+
 ## ------------------------------------------------------------------------
 data <-
   utils::read.csv(
@@ -23,7 +27,7 @@ knitr::kable(
 ## ------------------------------------------------------------------------
 data <- bioset::set_read(
   file_name = "values.csv",
-  path = system.file("extdata", package = "bioset"),
+  path = system.file("extdata", package = "bioset")
 )
 knitr::kable(data)
 

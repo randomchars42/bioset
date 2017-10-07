@@ -11,8 +11,8 @@ raw data obtained e.g. from a measuring device.
 }
 \details{
 When importing values with \link{bioset} start with \code{\link[=set_read]{set_read()}}. To
-get an example for a workflow refer to the vignettes
-(\code{browseVignettes("bioset")}).
+get an example for a workflow refer to the introductory vignette
+(\code{vignette("introduction", "bioset")}).
 }
 \seealso{
 Useful links:

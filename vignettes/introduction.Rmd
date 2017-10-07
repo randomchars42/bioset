@@ -20,7 +20,27 @@ knitr::opts_chunk$set(
 
 `bioset` is intended to help you working with sets of raw data.
 
-Working in a lab it is not uncommon to have a data set of raw values (because your measuring device spat it out) and you now need to somehow organise the data so that you can work with it.
+Working in a lab it is not uncommon to have a data set of raw values (because your measuring device spat it out) and you now need to somehow transform and organise the data so that you can work with it.
+
+## Installation
+
+You can install `bioset` from github with:
+
+```{r gh-installation, echo = TRUE, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("randomchars42/bioset")
+```
+
+<!--`bioset` is available on CRAN (<https://CRAN.R-project.org/package=bioset>)-->
+
+## Why? What bioset can do for you
+
+`bioset` lets you:
+
+* import raw data organised in matrices, e.g. measured values of a 8 x 12 (96-well) bio-assay plate
+* calculate concentrations using samples with known concentrations (calibrators) in your dataset
+* calculate means and variability for duplicates / triplicates / ...
+* convert your concentrations to (more or less) arbitrary units of concentration
 
 ## Data import
 
@@ -50,7 +70,7 @@ set_read()
 ```{r}
 data <- bioset::set_read(
   file_name = "values.csv",
-  path = system.file("extdata", package = "bioset"),
+  path = system.file("extdata", package = "bioset")
 )
 knitr::kable(data)
 ```
