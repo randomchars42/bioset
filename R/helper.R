@@ -41,7 +41,7 @@ check_file <- function(file, report = "none") {
     } else if (report == "warning") {
       warning(message)
     } else if (report == "message") {
-      warning(message)
+      message(message)
     }
     return(FALSE)
   }
