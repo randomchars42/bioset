@@ -15,6 +15,9 @@ knitr::opts_chunk$set(
 
 # bioset
 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/bioset)](https://cran.r-project.org/package=bioset)
+
+
 ```{r, child = "vignettes/introduction.Rmd"}
 ```
 

@@ -3,6 +3,8 @@
 bioset
 ======
 
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/bioset)](https://cran.r-project.org/package=bioset)
+
 `bioset` is intended to help you working with sets of raw data.
 
 Working in a lab it is not uncommon to have a data set of raw values (because your measuring device spat it out) and you now need to somehow transform and organise the data so that you can work with it.
