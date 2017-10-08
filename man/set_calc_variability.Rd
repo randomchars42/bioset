@@ -62,5 +62,5 @@ rm(cals)
 }
 \seealso{
 Other set functions: \code{\link{set_calc_concentrations}},
-  \code{\link{set_read}}
+  \code{\link{set_read}}, \code{\link{sets_read}}
 }

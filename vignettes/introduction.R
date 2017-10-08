@@ -21,6 +21,9 @@ knitr::kable(
   row.names = TRUE,
   col.names = as.character(1:6))
 
+## ---- echo = TRUE--------------------------------------------------------
+library("bioset")
+
 ## ---- echo = TRUE, eval = FALSE------------------------------------------
 #  set_read()
 
@@ -127,4 +130,40 @@ data <- bioset::set_calc_variability(
 )
 
 knitr::kable(data)
+
+## ---- eval = FALSE-------------------------------------------------------
+#  # now you may run it :)
+#  result_list <- sets_read(
+#    sets = 1,
+#    sep = ",",
+#    additional_vars = c("name", "day"),
+#    cal_names = c("CAL1", "CAL2", "CAL3", "CAL4"),
+#    cal_values = c(1, 2, 3, 4) # ng / ml
+#  )
+
+## ---- echo = FALSE-------------------------------------------------------
+result_list <- bioset::sets_read(
+  sets = 1,
+  sep = ",",
+  path = system.file("extdata", package = "bioset"),
+  additional_vars = c("name", "day"),
+  cal_names = c("CAL1", "CAL2", "CAL3", "CAL4"),
+  cal_values = c(1, 2, 3, 4), # ng / ml
+  write_data = FALSE
+)
+
+## ---- eval = FALSE-------------------------------------------------------
+#  result_list$all
+
+## ---- echo = FALSE-------------------------------------------------------
+knitr::kable(result_list$all)
+
+## ---- eval = FALSE-------------------------------------------------------
+#  result_list$samples
+
+## ---- echo = FALSE-------------------------------------------------------
+knitr::kable(result_list$samples)
+
+## ---- warnings = FALSE---------------------------------------------------
+result_list$set1$plot
 

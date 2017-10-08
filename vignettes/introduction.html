@@ -12,7 +12,7 @@
 
 <meta name="author" content="Eike C. Kühn" />
 
-<meta name="date" content="2017-10-07" />
+<meta name="date" content="2017-10-08" />
 
 <title>Introduction</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction</h1>
 <h4 class="author"><em>Eike C. Kühn</em></h4>
-<h4 class="date"><em>2017-10-07</em></h4>
+<h4 class="date"><em>2017-10-08</em></h4>
 
 
 
@@ -148,6 +148,8 @@ devtools::<span class="kw">install_github</span>(<span class="st">&quot;randomch
 </tbody>
 </table>
 <p>Save them as <code>set_1.csv</code>- thats like an <code>ods</code> / <code>xls(x)</code> file but its basically a text file with the values separated by commas. In the current versions of LibreOffice / OpenOffice / Microsoft office theres an option “Save as” &gt; “csv”.</p>
+<p>Load the package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;bioset&quot;</span>)</code></pre></div>
 <p>Then you can use <code>set_read()</code> to get all values with their position as name in a nice tibble:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set_read</span>()</code></pre></div>
 <table>
@@ -1751,6 +1753,591 @@ devtools::<span class="kw">install_github</span>(<span class="st">&quot;randomch
 </tr>
 </tbody>
 </table>
+</div>
+<div id="the-short-way" class="section level2">
+<h2>The short way</h2>
+<p>If you need to read and transform multiple sets <code>sets_read</code> can do that for you.</p>
+<p>It takes basically the same arguments as <code>set_read</code>, <code>set_calc_concentrations</code> and <code>set_calc_variability</code> combined and combines their functionality. The principal difference is, that <code>sets_read</code> takes <code>sets</code> - the number of sets to process.</p>
+<p>It returns a list and may (<code>write_data == TRUE</code>) create two files in your current directory: <code>data_all.csv</code> and <code>data_samples.csv</code> with the processed data.</p>
+<p><code>sets_read()</code>’s list holds the following items:</p>
+<ul>
+<li><code>$all</code>: here you will find all the data , including calibrators, duplicates, … (saved in <code>data_all.csv</code>)</li>
+<li><code>$samples</code>: only samples here - no calibrators, no duplicates -&gt; most often you will work with this data (saved in <code>data_samples.csv</code>)</li>
+<li><code>$set1</code>: another list ;)
+<ul>
+<li><code>$plot</code>: a plot showing you the linear function used to calculate the concentrations for this plate.</li>
+</ul>
+The points are the calibrators. They should more or less lie close to the line.
+<ul>
+<li><code>$model</code>: the model - you won’t need this too often ;)</li>
+</ul></li>
+<li>(<code>$set2</code>): the same information for every plate you have</li>
+</ul>
+<p>Take a look at the data</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">position</th>
+<th align="left">sample_id</th>
+<th align="left">name</th>
+<th align="left">day</th>
+<th align="right">real</th>
+<th align="right">recovery</th>
+<th align="right">plate</th>
+<th align="right">n</th>
+<th align="right">raw</th>
+<th align="right">raw_mean</th>
+<th align="right">raw_sd</th>
+<th align="right">raw_cv</th>
+<th align="right">concentration</th>
+<th align="right">concentration_sd</th>
+<th align="right">concentration_cv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">A1</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="right">1.0089686</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">102</td>
+<td align="right">104.5</td>
+<td align="right">3.535534</td>
+<td align="right">0.0338329</td>
+<td align="right">1.033881</td>
+<td align="right">0.0352320</td>
+<td align="right">0.0340774</td>
+</tr>
+<tr class="even">
+<td align="left">B1</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="left">NA</td>
+<td align="right">2</td>
+<td align="right">0.9828102</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">198</td>
+<td align="right">200.5</td>
+<td align="right">3.535534</td>
+<td align="right">0.0176336</td>
+<td align="right">1.990533</td>
+<td align="right">0.0352320</td>
+<td align="right">0.0176998</td>
+</tr>
+<tr class="odd">
+<td align="left">C1</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="left">NA</td>
+<td align="right">3</td>
+<td align="right">0.9807341</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">296</td>
+<td align="right">293.5</td>
+<td align="right">3.535534</td>
+<td align="right">0.0120461</td>
+<td align="right">2.917289</td>
+<td align="right">0.0352320</td>
+<td align="right">0.0120770</td>
+</tr>
+<tr class="even">
+<td align="left">D1</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="left">NA</td>
+<td align="right">4</td>
+<td align="right">1.0693822</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">430</td>
+<td align="right">408.0</td>
+<td align="right">31.112698</td>
+<td align="right">0.0762566</td>
+<td align="right">4.058296</td>
+<td align="right">0.3100418</td>
+<td align="right">0.0763970</td>
+</tr>
+<tr class="odd">
+<td align="left">A2</td>
+<td align="left">CAL1</td>
+<td align="left">CAL1</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="right">1.0587942</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">107</td>
+<td align="right">104.5</td>
+<td align="right">3.535534</td>
+<td align="right">0.0338329</td>
+<td align="right">1.033881</td>
+<td align="right">0.0352320</td>
+<td align="right">0.0340774</td>
+</tr>
+<tr class="even">
+<td align="left">B2</td>
+<td align="left">CAL2</td>
+<td align="left">CAL2</td>
+<td align="left">NA</td>
+<td align="right">2</td>
+<td align="right">1.0077230</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">203</td>
+<td align="right">200.5</td>
+<td align="right">3.535534</td>
+<td align="right">0.0176336</td>
+<td align="right">1.990533</td>
+<td align="right">0.0352320</td>
+<td align="right">0.0176998</td>
+</tr>
+<tr class="odd">
+<td align="left">C2</td>
+<td align="left">CAL3</td>
+<td align="left">CAL3</td>
+<td align="left">NA</td>
+<td align="right">3</td>
+<td align="right">0.9641256</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">291</td>
+<td align="right">293.5</td>
+<td align="right">3.535534</td>
+<td align="right">0.0120461</td>
+<td align="right">2.917289</td>
+<td align="right">0.0352320</td>
+<td align="right">0.0120770</td>
+</tr>
+<tr class="even">
+<td align="left">D2</td>
+<td align="left">CAL4</td>
+<td align="left">CAL4</td>
+<td align="left">NA</td>
+<td align="right">4</td>
+<td align="right">0.9597658</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">386</td>
+<td align="right">408.0</td>
+<td align="right">31.112698</td>
+<td align="right">0.0762566</td>
+<td align="right">4.058296</td>
+<td align="right">0.3100418</td>
+<td align="right">0.0763970</td>
+</tr>
+<tr class="odd">
+<td align="left">A3</td>
+<td align="left">A_1</td>
+<td align="left">A</td>
+<td align="left">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">156</td>
+<td align="right">150.5</td>
+<td align="right">7.778175</td>
+<td align="right">0.0516822</td>
+<td align="right">1.492277</td>
+<td align="right">0.0775105</td>
+<td align="right">0.0519411</td>
+</tr>
+<tr class="even">
+<td align="left">B3</td>
+<td align="left">C_1</td>
+<td align="left">C</td>
+<td align="left">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">101</td>
+<td align="right">111.0</td>
+<td align="right">14.142136</td>
+<td align="right">0.1274066</td>
+<td align="right">1.098655</td>
+<td align="right">0.1409281</td>
+<td align="right">0.1282733</td>
+</tr>
+<tr class="odd">
+<td align="left">C3</td>
+<td align="left">A_2</td>
+<td align="left">A</td>
+<td align="left">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">276</td>
+<td align="right">279.5</td>
+<td align="right">4.949747</td>
+<td align="right">0.0177093</td>
+<td align="right">2.777778</td>
+<td align="right">0.0493248</td>
+<td align="right">0.0177569</td>
+</tr>
+<tr class="even">
+<td align="left">D3</td>
+<td align="left">C_2</td>
+<td align="left">C</td>
+<td align="left">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">325</td>
+<td align="right">311.5</td>
+<td align="right">19.091883</td>
+<td align="right">0.0612902</td>
+<td align="right">3.096662</td>
+<td align="right">0.1902529</td>
+<td align="right">0.0614381</td>
+</tr>
+<tr class="odd">
+<td align="left">A4</td>
+<td align="left">A_1</td>
+<td align="left">A</td>
+<td align="left">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">145</td>
+<td align="right">150.5</td>
+<td align="right">7.778175</td>
+<td align="right">0.0516822</td>
+<td align="right">1.492277</td>
+<td align="right">0.0775105</td>
+<td align="right">0.0519411</td>
+</tr>
+<tr class="even">
+<td align="left">B4</td>
+<td align="left">C_1</td>
+<td align="left">C</td>
+<td align="left">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">121</td>
+<td align="right">111.0</td>
+<td align="right">14.142136</td>
+<td align="right">0.1274066</td>
+<td align="right">1.098655</td>
+<td align="right">0.1409281</td>
+<td align="right">0.1282733</td>
+</tr>
+<tr class="odd">
+<td align="left">C4</td>
+<td align="left">A_2</td>
+<td align="left">A</td>
+<td align="left">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">283</td>
+<td align="right">279.5</td>
+<td align="right">4.949747</td>
+<td align="right">0.0177093</td>
+<td align="right">2.777778</td>
+<td align="right">0.0493248</td>
+<td align="right">0.0177569</td>
+</tr>
+<tr class="even">
+<td align="left">D4</td>
+<td align="left">C_2</td>
+<td align="left">C</td>
+<td align="left">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">298</td>
+<td align="right">311.5</td>
+<td align="right">19.091883</td>
+<td align="right">0.0612902</td>
+<td align="right">3.096662</td>
+<td align="right">0.1902529</td>
+<td align="right">0.0614381</td>
+</tr>
+<tr class="odd">
+<td align="left">A5</td>
+<td align="left">B_1</td>
+<td align="left">B</td>
+<td align="left">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">360</td>
+<td align="right">351.0</td>
+<td align="right">12.727922</td>
+<td align="right">0.0362619</td>
+<td align="right">3.490284</td>
+<td align="right">0.1268353</td>
+<td align="right">0.0363395</td>
+</tr>
+<tr class="even">
+<td align="left">B5</td>
+<td align="left">D_1</td>
+<td align="left">D</td>
+<td align="left">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">231</td>
+<td align="right">228.5</td>
+<td align="right">3.535534</td>
+<td align="right">0.0154728</td>
+<td align="right">2.269557</td>
+<td align="right">0.0352320</td>
+<td align="right">0.0155237</td>
+</tr>
+<tr class="odd">
+<td align="left">C5</td>
+<td align="left">B_2</td>
+<td align="left">B</td>
+<td align="left">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">430</td>
+<td align="right">421.5</td>
+<td align="right">12.020815</td>
+<td align="right">0.0285191</td>
+<td align="right">4.192825</td>
+<td align="right">0.1197889</td>
+<td align="right">0.0285700</td>
+</tr>
+<tr class="even">
+<td align="left">D5</td>
+<td align="left">D_2</td>
+<td align="left">D</td>
+<td align="left">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">110</td>
+<td align="right">114.5</td>
+<td align="right">6.363961</td>
+<td align="right">0.0555804</td>
+<td align="right">1.133533</td>
+<td align="right">0.0634176</td>
+<td align="right">0.0559469</td>
+</tr>
+<tr class="odd">
+<td align="left">A6</td>
+<td align="left">B_1</td>
+<td align="left">B</td>
+<td align="left">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">342</td>
+<td align="right">351.0</td>
+<td align="right">12.727922</td>
+<td align="right">0.0362619</td>
+<td align="right">3.490284</td>
+<td align="right">0.1268353</td>
+<td align="right">0.0363395</td>
+</tr>
+<tr class="even">
+<td align="left">B6</td>
+<td align="left">D_1</td>
+<td align="left">D</td>
+<td align="left">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">226</td>
+<td align="right">228.5</td>
+<td align="right">3.535534</td>
+<td align="right">0.0154728</td>
+<td align="right">2.269557</td>
+<td align="right">0.0352320</td>
+<td align="right">0.0155237</td>
+</tr>
+<tr class="odd">
+<td align="left">C6</td>
+<td align="left">B_2</td>
+<td align="left">B</td>
+<td align="left">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">413</td>
+<td align="right">421.5</td>
+<td align="right">12.020815</td>
+<td align="right">0.0285191</td>
+<td align="right">4.192825</td>
+<td align="right">0.1197889</td>
+<td align="right">0.0285700</td>
+</tr>
+<tr class="even">
+<td align="left">D6</td>
+<td align="left">D_2</td>
+<td align="left">D</td>
+<td align="left">2</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">119</td>
+<td align="right">114.5</td>
+<td align="right">6.363961</td>
+<td align="right">0.0555804</td>
+<td align="right">1.133533</td>
+<td align="right">0.0634176</td>
+<td align="right">0.0559469</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th align="left">position</th>
+<th align="left">sample_id</th>
+<th align="left">name</th>
+<th align="left">day</th>
+<th align="right">plate</th>
+<th align="right">n</th>
+<th align="right">raw</th>
+<th align="right">raw_sd</th>
+<th align="right">raw_cv</th>
+<th align="right">concentration</th>
+<th align="right">concentration_sd</th>
+<th align="right">concentration_cv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">A3</td>
+<td align="left">A_1</td>
+<td align="left">A</td>
+<td align="left">1</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">150.5</td>
+<td align="right">7.778175</td>
+<td align="right">0.0516822</td>
+<td align="right">1.492277</td>
+<td align="right">0.0775105</td>
+<td align="right">0.0519411</td>
+</tr>
+<tr class="even">
+<td align="left">B3</td>
+<td align="left">C_1</td>
+<td align="left">C</td>
+<td align="left">1</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">111.0</td>
+<td align="right">14.142136</td>
+<td align="right">0.1274066</td>
+<td align="right">1.098655</td>
+<td align="right">0.1409281</td>
+<td align="right">0.1282733</td>
+</tr>
+<tr class="odd">
+<td align="left">C3</td>
+<td align="left">A_2</td>
+<td align="left">A</td>
+<td align="left">2</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">279.5</td>
+<td align="right">4.949747</td>
+<td align="right">0.0177093</td>
+<td align="right">2.777778</td>
+<td align="right">0.0493248</td>
+<td align="right">0.0177569</td>
+</tr>
+<tr class="even">
+<td align="left">D3</td>
+<td align="left">C_2</td>
+<td align="left">C</td>
+<td align="left">2</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">311.5</td>
+<td align="right">19.091883</td>
+<td align="right">0.0612902</td>
+<td align="right">3.096662</td>
+<td align="right">0.1902529</td>
+<td align="right">0.0614381</td>
+</tr>
+<tr class="odd">
+<td align="left">A5</td>
+<td align="left">B_1</td>
+<td align="left">B</td>
+<td align="left">1</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">351.0</td>
+<td align="right">12.727922</td>
+<td align="right">0.0362619</td>
+<td align="right">3.490284</td>
+<td align="right">0.1268353</td>
+<td align="right">0.0363395</td>
+</tr>
+<tr class="even">
+<td align="left">B5</td>
+<td align="left">D_1</td>
+<td align="left">D</td>
+<td align="left">1</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">228.5</td>
+<td align="right">3.535534</td>
+<td align="right">0.0154728</td>
+<td align="right">2.269557</td>
+<td align="right">0.0352320</td>
+<td align="right">0.0155237</td>
+</tr>
+<tr class="odd">
+<td align="left">C5</td>
+<td align="left">B_2</td>
+<td align="left">B</td>
+<td align="left">2</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">421.5</td>
+<td align="right">12.020815</td>
+<td align="right">0.0285191</td>
+<td align="right">4.192825</td>
+<td align="right">0.1197889</td>
+<td align="right">0.0285700</td>
+</tr>
+<tr class="even">
+<td align="left">D5</td>
+<td align="left">D_2</td>
+<td align="left">D</td>
+<td align="left">2</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">114.5</td>
+<td align="right">6.363961</td>
+<td align="right">0.0555804</td>
+<td align="right">1.133533</td>
+<td align="right">0.0634176</td>
+<td align="right">0.0559469</td>
+</tr>
+</tbody>
+</table>
+<pre><code>#&gt; NULL</code></pre>
 </div>
 
 

@@ -5,7 +5,7 @@
 \title{Read a data set from a data-sheet and turn it into a multi-column tibble.}
 \usage{
 set_read(file_name = "set_#NUM#.csv", path = ".", num = 1, sep = ",",
-  cols = 0, rows = 0, additional_vars = vector(),
+  dec = ".", cols = 0, rows = 0, additional_vars = vector(),
   additional_sep = "[^[:alnum:]]+")
 }
 \arguments{
@@ -17,7 +17,10 @@ set_read(file_name = "set_#NUM#.csv", path = ".", num = 1, sep = ",",
 \item{num}{Number of the set to read, inserted for "#NUM#".}
 
 \item{sep}{Separator used in the csv-file, either "," or ";" (see
-\code{\link[utils:read.csv]{utils::read.csv()}})}
+\code{\link[utils:read.csv]{utils::read.csv()}}).}
+
+\item{dec}{The character used for decimal points (see \code{\link[utils:read.csv]{utils::read.csv()}}).
+"AUTO" will result in "." if \code{sep} is "," and "," for ";".}
 
 \item{cols}{Number of columns in the input matrix (\code{0} means auto-detect).}
 
@@ -116,5 +119,6 @@ set_read(
 }
 \seealso{
 Other set functions: \code{\link{set_calc_concentrations}},
-  \code{\link{set_calc_variability}}
+  \code{\link{set_calc_variability}},
+  \code{\link{sets_read}}
 }

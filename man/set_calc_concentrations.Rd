@@ -115,5 +115,5 @@ rm(cals, data)
 }
 \seealso{
 Other set functions: \code{\link{set_calc_variability}},
-  \code{\link{set_read}}
+  \code{\link{set_read}}, \code{\link{sets_read}}
 }
