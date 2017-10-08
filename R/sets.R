@@ -163,7 +163,7 @@ sets_read <- function(
   results["all"] <- list(data_all)
 
   for (i in 1 : sets) {
-    results[[paste0("sets", i)]] <- list(
+    results[[paste0("set", i)]] <- list(
       get_plot_model(
         data = data,
         set_number = i,
@@ -226,18 +226,18 @@ sets_process <- function(
         exclude = FALSE
       )
 
-    exclude_on_plate <- exclude_cals[[paste0("plate", i)]]
+    exclude_from_set <- exclude_cals[[paste0("set", i)]]
 
     # make R CMD check happy
     real <- NULL
 
-    if (!is.null(exclude_on_plate)) {
+    if (!is.null(exclude_from_set)) {
       data_plate <- data_plate %>%
         dplyr::mutate(
           exclude = ifelse(
-            sample_id %in% exclude_on_plate, TRUE, FALSE),
+            sample_id %in% exclude_from_set, TRUE, FALSE),
           sample_id = ifelse(
-            sample_id %in% exclude_on_plate, paste0("x", sample_id), sample_id)
+            sample_id %in% exclude_from_set, paste0("x", sample_id), sample_id)
         )
     }
 
