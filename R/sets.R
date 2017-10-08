@@ -70,12 +70,16 @@ sets_read <- function(
 
   results <- list()
 
-  if (use_written_data) {
+  file_samples <- get_path(path, "data_samples.csv")
+  file_all <- get_path(path, "data_all.csv")
+
+  if (use_written_data &&
+      check_file(file = file_samples) &&
+      check_file(file = file_all)) {
      data_samples <- read_data(
-       file = get_path(path, "data_samples.csv"), sep = sep, dec = dec,
-       raw = FALSE)
+       file = file_samples, sep = sep, dec = dec, raw = FALSE)
      data_all <- read_data(
-       file = get_path(path, "data_all.csv"), sep = sep, dec = dec, raw = FALSE)
+       file = file_all, sep = sep, dec = dec, raw = FALSE)
   } else {
     data <- sets_process(
       sets = sets,
