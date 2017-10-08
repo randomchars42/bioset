@@ -28,6 +28,23 @@ package_available <- function(package) {
   return(length(find.package(package = package, quiet = TRUE)) != 0)
 }
 
+get_path <- function(...) {
+  return(normalizePath(file.path(...), mustWork = FALSE))
+}
+
+check_file <- function(file, stop = FALSE) {
+  if (! file.exists(file)) {
+    message <- paste0("Cannot find file \"", file,"\".")
+    if (stop) {
+      stop(message)
+    } else {
+      warning(message)
+    }
+    return(FALSE)
+  }
+  return(TRUE)
+}
+
 release_questions <- function() {
   c(
     "devtools::revdep_check()?",

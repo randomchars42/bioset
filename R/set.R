@@ -15,7 +15,9 @@
 #' @param path The path to the file (no trailing "/" or "\\"!).
 #' @param num Number of the set to read, inserted for "#NUM#".
 #' @param sep Separator used in the csv-file, either "," or ";" (see
-#'   [utils::read.csv()])
+#'   [utils::read.csv()]).
+#' @param dec The character used for decimal points (see [utils::read.csv()]).
+#'   "AUTO" will result in "." if `sep` is "," and "," for ";".
 #' @param cols Number of columns in the input matrix (`0` means auto-detect).
 #' @param rows Number of rows containing values (not names / additional data)
 #'   in the input matrix (`0` means auto-detect).
@@ -102,6 +104,7 @@ set_read <- function(
   path = ".",
   num = 1,
   sep = ",",
+  dec = ".",
   cols = 0,
   rows = 0,
   additional_vars = vector(),
@@ -112,34 +115,21 @@ set_read <- function(
     is.character(file_name),
     is.character(path),
     is_number(num),
-    is.character(sep),
     is_number(cols),
     is_number(rows),
     is.vector(additional_vars),
     is.character(additional_sep)
     )
 
+  dec <- get_dec(dec = dec, sep = sep)
+
   # make the pipe operator available to us
   `%>%` <- magrittr::`%>%`
 
   # load file
-
-  file_name <- gsub(pattern = "#NUM#", replacement = num, x = file_name)
-  file_name <- normalizePath(file.path(path, file_name))
-
-  if (!file.exists(file_name)) {
-    throw_error(
-      "Cannot find file \"", file_name,
-      "\". Please check path (must not end with \"/\") ",
-      "and name_scheme (must contain \"#NUM#\")")
-  }
-
-  data_raw <- tibble::as_tibble(utils::read.csv(
-    file = file_name,
-    header = FALSE,
-    sep = sep,
-    colClasses = "character"
-  ))
+  file <- get_path_set(path = path, file_name = file_name, set_number = num)
+  check_file(file = file, stop = TRUE)
+  data_raw <- read_data(file = file, sep = sep, dec = dec, raw = TRUE)
 
   # check dimenions of input
 
@@ -518,10 +508,26 @@ set_calc_variability <- function(data, ids, ...) {
   return(data)
 }
 
-# define as "global" to get rid of warnigns in R CMD check
-name <- NULL
-value <- NULL
-conc <- NULL
-recovery <- NULL
-real <- NULL
-n <- function() {}
+get_path_set <- function(path, file_name, set_number) {
+  file_name <- gsub(pattern = "#NUM#", replacement = set_number, x = file_name)
+  file <- get_path(path, file_name)
+  return(file)
+}
+
+get_dec <- function(dec, sep) {
+  stopifnot(
+    is.character(sep),
+    sep %in% c(";", ","),
+    is.character(dec),
+    dec %in% c(",", ".", "AUTO"),
+    is.character(sep)
+  )
+
+  if (dec != "AUTO") {
+    return(dec)
+  } else if (dec == ",") {
+    return(".")
+  } else if (dec == ";") {
+    return(",")
+  }
+}
