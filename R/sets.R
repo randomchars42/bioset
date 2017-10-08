@@ -126,7 +126,7 @@ sets_read <- function(
 
     data_all <- data %>%
       dplyr::mutate(
-        plate = set,
+        set = set,
         n = value_n,
         raw = value,
         raw_mean = value_mean,
@@ -137,8 +137,6 @@ sets_read <- function(
         concentration_cv = conc_cv
       ) %>%
       dplyr::select(
-        -set,
-        -value,
         -conc,
         -value_n,
         -value_mean,
@@ -163,14 +161,13 @@ sets_read <- function(
   results["all"] <- list(data_all)
 
   for (i in 1 : sets) {
-    results[[paste0("set", i)]] <- list(
+    results[[paste0("set", i)]] <-
       get_plot_model(
-        data = data,
+        data = data_all,
         set_num = i,
         model_func = model_func,
         plot_func = plot_func
       )
-    )
   }
 
   return(results)
@@ -298,7 +295,8 @@ read_data <- function(file, sep, dec, raw) {
 write_data <- function(data, file, sep, dec) {
   dec <- get_dec(dec = dec, sep = sep)
 
-  utils::read.csv(
+  utils::write.table(
+    data,
     file = file,
     col.names = TRUE,
     row.names = FALSE,
