@@ -128,7 +128,7 @@ set_read <- function(
 
   # load file
   file <- get_path_set(path = path, file_name = file_name, set_number = num)
-  check_file(file = file, stop = TRUE)
+  check_file(file = file, report = "stop")
   data_raw <- read_data(file = file, sep = sep, dec = dec, raw = TRUE)
 
   # check dimenions of input

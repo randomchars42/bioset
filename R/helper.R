@@ -32,12 +32,15 @@ get_path <- function(...) {
   return(normalizePath(file.path(...), mustWork = FALSE))
 }
 
-check_file <- function(file, stop = FALSE) {
+check_file <- function(file, report = "none") {
+
   if (! file.exists(file)) {
     message <- paste0("Cannot find file \"", file,"\".")
-    if (stop) {
+    if (report == "stop") {
       stop(message)
-    } else {
+    } else if (report == "warning") {
+      warning(message)
+    } else if (report == "message") {
       warning(message)
     }
     return(FALSE)

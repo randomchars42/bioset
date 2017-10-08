@@ -74,8 +74,8 @@ sets_read <- function(
   file_all <- get_path(path, "data_all.csv")
 
   if (use_written_data &&
-      check_file(file = file_samples) &&
-      check_file(file = file_all)) {
+      check_file(file = file_samples, report = "message") &&
+      check_file(file = file_all, report = "message")) {
      data_samples <- read_data(
        file = file_samples, sep = sep, dec = dec, raw = FALSE)
      data_all <- read_data(
