@@ -119,7 +119,7 @@ set_read <- function(
     is_number(rows),
     is.vector(additional_vars),
     is.character(additional_sep)
-    )
+  )
 
   dec <- get_dec(dec = dec, sep = sep)
 
@@ -519,15 +519,14 @@ get_dec <- function(dec, sep) {
     is.character(sep),
     sep %in% c(";", ","),
     is.character(dec),
-    dec %in% c(",", ".", "AUTO"),
-    is.character(sep)
+    dec %in% c(",", ".", "AUTO")
   )
 
-  if (dec != "AUTO") {
+  if (dec %in% c(",", ".")) {
     return(dec)
-  } else if (dec == ",") {
+  } else if (sep == ",") {
     return(".")
-  } else if (dec == ";") {
+  } else if (sep == ";") {
     return(",")
   }
 }

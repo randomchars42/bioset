@@ -166,7 +166,7 @@ sets_read <- function(
     results[[paste0("set", i)]] <- list(
       get_plot_model(
         data = data,
-        set_number = i,
+        set_num = i,
         model_func = model_func,
         plot_func = plot_func
       )
@@ -176,10 +176,17 @@ sets_read <- function(
   return(results)
 }
 
-get_plot_model <- function(data, set_number, model_func, plot_func) {
+get_plot_model <- function(data, set_num, model_func, plot_func) {
   `%>%` <- magrittr::`%>%`
   data_plate  <- data %>%
-    dplyr::filter(set == set_number)
+    dplyr::filter(set == set_num)
+
+  if (nrow(data_plate) == 0) {
+    return(list(
+      model = NA,
+      plot = NA
+    ))
+  }
 
   return(list(
     model = model_func(data_plate$real, data_plate$value),
