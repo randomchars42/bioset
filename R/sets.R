@@ -214,7 +214,7 @@ sets_process <- function(
   for (i in 1 : sets) {
     file <- get_path_set(path = path, file_name = file_name, set_number = i)
 
-    if (! check_file(file = file, stop = FALSE)) {
+    if (! check_file(file = file, report = "message")) {
       next()
     }
 
