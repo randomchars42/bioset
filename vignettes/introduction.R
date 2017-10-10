@@ -5,6 +5,13 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+## ----echo = TRUE, eval = FALSE-------------------------------------------
+#  install.packages("bioset")
+
+## ---- echo = TRUE, eval = FALSE------------------------------------------
+#  # install.packages("githubinstall")
+#  gh_install_packages("bioset", ref = "vX.Y.Z-pre.N")
+
 ## ----gh-installation, echo = TRUE, eval = FALSE--------------------------
 #  # install.packages("devtools")
 #  devtools::install_github("randomchars42/bioset")

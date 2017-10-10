@@ -24,7 +24,26 @@ Working in a lab it is not uncommon to have a data set of raw values (because yo
 
 ## Installation
 
-You can install `bioset` from github with:
+A stable version of `bioset` is available on CRAN: <https://cran.r-project.org/package=bioset>
+
+So all you need to do is:
+
+```{r echo = TRUE, eval = FALSE}
+install.packages("bioset")
+```
+
+You can find the latest additions and changes on GitHub. To spare CRAN administrators' time it is requested of all package authors not to submit changes too frequently.
+
+Consequently, I will make new features available on GitHub first. Packages I have not yet submitted to CRAN will be labelled `vX.Y.Z-pre.N` and appear under: <https://github.com/randomchars42/bioset/releases>. 
+
+To install those packages you can use [`githubinstall`](https://cran.r-project.org/package=githubinstall)
+
+```{r, echo = TRUE, eval = FALSE}
+# install.packages("githubinstall")
+gh_install_packages("bioset", ref = "vX.Y.Z-pre.N")
+```
+
+You can install the very latest changes in `bioset`-master from github with:
 
 ```{r gh-installation, echo = TRUE, eval = FALSE}
 # install.packages("devtools")
