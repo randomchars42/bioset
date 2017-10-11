@@ -1,20 +1,27 @@
-exp_mass_si <- c(0, -1, -2, -3, -4, -5, -6)
-names(exp_mass_si) <- c("kg", "g", "mg", "\u00B5g", "ng", "pg", "fg")
+exp_mass_si <- c(0, -3, -4, -5, -6, -9, -12, -15, -18)
+names(exp_mass_si) <- c("kg", "g", "dg", "cg", "mg", "\u00B5g", "ng", "pg", "fg")
 
-exp_vol <- c(0, -1, -1, -2, -2, -3, -3, -4, -5, -6)
-names(exp_vol) <- c("m^3", "l", "dm^3", "ml", "cm^3", "\u00B5l", "mm^3", "nl", "pl", "fl")
+exp_vol <- c(0, -3, -3, -4, -5, -6, -6, -9, -9, -12, -15, -18)
+names(exp_vol) <- c("m^3", "l", "dm^3", "dl", "cl", "ml", "cm^3", "\u00B5l", "mm^3", "nl", "pl", "fl")
 
-exp_molar_si <- c(0, -1, -2, -3, -4, -5)
-names(exp_molar_si) <- c("mol", "mmol", "\u00B5mol", "nmol", "pmol", "fmol")
+exp_molar_si <- c(0, -1, -2, -3, -6, -9, -12, -15)
+names(exp_molar_si) <- c("mol", "dmol", "cmol", "mmol", "\u00B5mol", "nmol", "pmol", "fmol")
 
-exp_molar_metric <- c(0, -1, -2, -3, -4, -5)
-names(exp_molar_metric) <- c("M", "mM", "\u00B5M", "nM", "pM", "fM")
+exp_molar <- c(0, -1, -2, -3, -6, -9, -12, -15)
+names(exp_molar) <- c("M", "dM", "cM", "mM", "\u00B5M", "nM", "pM", "fM")
 
 numerator_base <- c("g", "mol", "l", "g")
 names(numerator_base) <- c("mass_vol", "molar_vol", "vol_vol", "mass_mass")
 
 denominator_base <- c("l", "l", "l", "g")
 names(denominator_base) <- c("mass_vol", "molar_vol", "vol_vol", "mass_mass")
+
+recognised_units <- c(
+  names(exp_mass_si),
+  names(exp_vol),
+  names(exp_molar_si),
+  names(exp_molar)
+)
 
 #'
 #' Get a factor to convert concentrations.
@@ -39,11 +46,12 @@ names(denominator_base) <- c("mass_vol", "molar_vol", "vol_vol", "mass_mass")
 #'
 #' Where "." symbolises a metric prefix (see [calc_factor_prefix()]) :
 #'
-#' For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
+#' For g, l, mol and M: d (deci), c (centi), m (milli), µ (micro), n (nano),
+#' p (pico) and f (femto).
 #'
 #' For g you might use k (kilo) as well.
 #'
-#' For m^3 (cubic metres): d (deci), c (centi) and m (milli)
+#' For m^3 (cubic metres) you may only use: d (deci), c (centi) and m (milli).
 #'
 #' Note: \% w / v is (incorrectly) taken as a short hand for 0.1 g / l.
 #'
@@ -66,37 +74,180 @@ calc_factor_conc <- function(
   density_solute = 0,
   density_solution = 0) {
 
-  from <- enc2utf8(from)
-  to <- enc2utf8(to)
+  stopifnot(
+    is_number(molar_mass),
+    molar_mass >= 0,
+    is_number(density_solute),
+    density_solute >= 0,
+    is_number(density_solution),
+    density_solution >= 0
+  )
+
+  from <- canonicalise_units(from)
+  to <- canonicalise_units(to)
+
+  factor <- factor_conc(
+      from = from,
+      to = to,
+      molar_mass = molar_mass,
+      density_solute = density_solute,
+      density_solution = density_solution)
+
+  return(factor)
+}
+
+#'
+#' Get a factor to convert metric prefixes.
+#'
+#' @description
+#' Get a factor to convert metric prefixes into one another.
+#'
+#' @details
+#' Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".M", ".m^3"
+#' (cubic metres), where "." symbolises a metric prefix:
+#'
+#' For g, l, mol and M: d (deci), c (centi), m (milli), µ (micro), n (nano),
+#' p (pico) and f (femto).
+#'
+#' For g you might use k (kilo) as well.
+#'
+#' For m^3 (cubic metres) you may only use: d (deci), c (centi) and m (milli).
+#'
+#' @export
+#' @family conversion functions
+#' @param from A string containing the prefixed unit A.
+#' @param to A string containing the prefixed unit B.
+#' @return A factor for multiplication with the value.
+#' @examples
+#' calc_factor_prefix(from = "ng", to = "kg")
+#' calc_factor_prefix(from = "dm^3", to = "cm^3")
+#' calc_factor_prefix(from = "fl", to = "pl")
+#' calc_factor_prefix(from = "pmol", to = "nmol")
+#' calc_factor_prefix(from = "pM", to = "nM")
+#'
+calc_factor_prefix <- function(from, to) {
+  from <- canonicalise_units(from)
+  to <- canonicalise_units(to)
+
+  factor <- factor_prefix(from = from, to = to)
+
+  return(factor)
+}
+
+#'
+#' Convert between metric prefixes.
+#'
+#' @description
+#' A convenience wrapper around [calc_factor_conc()].
+#'
+#' @inherit calc_factor_conc details
+#'
+#' @export
+#' @family conversion functions
+#' @param x The value to convert.
+#' @inheritParams calc_factor_conc
+#' @return The converted value.
+#' @examples
+#' convert_conc(x = 2, from = "ng / ml", to = "g / l")
+#' convert_conc(x = 2, from = "ng / ml", to = "mmol / l", molar_mass = 150000)
+#'
+convert_conc <- function(
+  x,
+  from,
+  to,
+  molar_mass = 0,
+  density_solute = 0,
+  density_solution = 0) {
+  x <- x * calc_factor_conc(
+    from = from,
+    to = to,
+    molar_mass = molar_mass,
+    density_solute = density_solute,
+    density_solution = density_solution)
+  return(x)
+}
+
+#'
+#' Convert a value of the given concentration into another concentration.
+#'
+#' @description
+#' A convenience wrapper around [calc_factor_prefix()].
+#'
+#' @inherit calc_factor_prefix details
+#'
+#' @export
+#' @family conversion functions
+#' @param x The value to convert.
+#' @inheritParams calc_factor_prefix
+#' @return The converted value.
+#' @examples
+#' convert_prefix(x = 2, from = "ng", to = "kg")
+#' convert_prefix(x = 2, from = "dm^3", to = "cm^3")
+#' convert_prefix(x = 2, from = "fl", to = "pl")
+#' convert_prefix(x = 2, from = "pmol", to = "nmol")
+#' convert_prefix(x = 2, from = "pM", to = "nM")
+#'
+convert_prefix <- function(x, from, to) {
+  x <- x * calc_factor_prefix(from = from, to = to)
+  return(x)
+}
+
+canonicalise_units <- function(unit) {
+  unit <- enc2utf8(unit)
+  unit_orig <- unit
+  unit <- gsub("\\s", "", unit)
+
+  if (unit == "%w/v") {
+    warning("Using '0.1 g / l' instead of '% w / v'")
+    unit <- "dg/l"
+  } else if (unit == "%v/v") {
+    # convert to "v / v" (same as "l / l")
+    unit <- "cl/l"
+  } else if (unit == "v/v") {
+    # same as "l / l"
+    unit <- "l/l"
+  } else if (unit == "%w/w") {
+    # convert to "w / w" (same as "g / g")
+    unit <- "cg/g"
+  } else if (unit == "w/w") {
+    # same as "g / g"
+    unit <- "g/g"
+  } else if (substr(unit, nchar(unit), nchar(unit)) == "M") {
+    # unit: .M
+    unit <- paste0(substr(unit, 0, nchar(unit) - 1), "mol/l")
+  }
+
+  parts <- strsplit(unit, split = "/", fixed = TRUE)[[1]]
+
+  if (FALSE %in% is_recognised_unit(parts)) {
+    stop("Not recognised: ", unit, "(",  unit_orig, ")")
+  }
+
+  return(unit)
+}
+
+factor_conc <- function(
+  from,
+  to,
+  molar_mass,
+  density_solute,
+  density_solution) {
 
   from_type <- get_conc_type(from)
   to_type <- get_conc_type(to)
 
-  stopifnot(
-    is_number(molar_mass),
-    is_number(density_solute),
-    is_number(density_solution),
-    is.character(from_type),
-    is.character(to_type)
-  )
-
-  #throw_message('calc_factor_conc - from: ', from)
-  #throw_message('calc_factor_conc - to: ', to)
-
   if (needs_density_solute(from, to) && density_solute == 0) {
-    throw_error(
-      "The density of the solute is required to convert ", from, " to ", to)
+    stop("The density of the solute is required to convert ", from, " to ", to)
   }
 
   if (needs_density_solution(from, to) && density_solution == 0) {
-    throw_error(
+    stop(
       "The density of the solution (not the solvent!) is required to convert ",
       from, " to ", to)
   }
 
   if (needs_molar_mass(from, to) && molar_mass == 0) {
-    throw_error(
-      "The molar mass is required to convert ", from, " to ", to)
+    stop("The molar mass is required to convert ", from, " to ", to)
   }
 
   factor <- 1
@@ -172,59 +323,20 @@ calc_factor_conc <- function(
   return(factor)
 }
 
-#'
-#' Get a factor to convert metric prefixes.
-#'
-#' @description
-#' Get a factor to convert metric prefixes into one another.
-#'
-#' @details
-#' Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".M", ".m^3"
-#' (cubic metres), where "." symbolises a metric prefix:
-#'
-#' For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
-#'
-#' For g you might use k (kilo) as well.
-#'
-#' For m^3 (cubic metres): d (deci), c (centi) and m (milli)
-#'
-#' "." symbolises a metric prefix:
-#'
-#' For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
-#'
-#' For g you might use k (kilo) as well.
-#'
-#' For m^3 (cubic metres): d (deci), c (centi) and m (milli)
-#'
-#' @export
-#' @family conversion functions
-#' @param from A string containing the prefixed unit A.
-#' @param to A string containing the prefixed unit B.
-#' @return A factor for multiplication with the value.
-#' @examples
-#' calc_factor_prefix(from = "ng", to = "kg")
-#' calc_factor_prefix(from = "dm^3", to = "cm^3")
-#' calc_factor_prefix(from = "fl", to = "pl")
-#' calc_factor_prefix(from = "pmol", to = "nmol")
-#' calc_factor_prefix(from = "pM", to = "nM")
-#'
-calc_factor_prefix <- function(from, to) {
-  from <- enc2utf8(from)
-  to <- enc2utf8(to)
-
+factor_prefix <- function(from, to) {
   factor <- 1
 
   if (from %in% names(exp_mass_si) && to %in% names(exp_mass_si)) {
-    factor <- 1000^(exp_mass_si[from]-exp_mass_si[to])
+    factor <- 10^(exp_mass_si[from]-exp_mass_si[to])
   } else if (from %in% names(exp_vol) && to %in% names(exp_vol)) {
-    factor <- 1000^(exp_vol[from]-exp_vol[to])
+    factor <- 10^(exp_vol[from]-exp_vol[to])
   } else if (from %in% names(exp_molar_si) && to %in% names(exp_molar_si)) {
-    factor <- 1000^(exp_molar_si[from]-exp_molar_si[to])
+    factor <- 10^(exp_molar_si[from]-exp_molar_si[to])
   } else if (
     from %in% names(exp_molar_metric) && to %in% names(exp_molar_metric)) {
-    factor <- 1000^(exp_molar_metric[from]-exp_molar_metric[to])
+    factor <- 10^(exp_molar_metric[from]-exp_molar_metric[to])
   } else {
-    throw_error("Could not convert ", from, " to ", to)
+    stop("Could not convert ", from, " to ", to)
   }
 
   names(factor) <- NULL
@@ -232,137 +344,52 @@ calc_factor_prefix <- function(from, to) {
   return(factor)
 }
 
-#'
-#' Convert between metric prefixes.
-#'
-#' @description
-#' A convenience wrapper around [calc_factor_conc()].
-#'
-#' @inherit calc_factor_conc details
-#'
-#' @export
-#' @family conversion functions
-#' @param x The value to convert.
-#' @inheritParams calc_factor_conc
-#' @return The converted value.
-#' @examples
-#' convert_conc(x = 2, from = "ng / ml", to = "g / l")
-#' convert_conc(x = 2, from = "ng / ml", to = "mmol / l", molar_mass = 150000)
-#'
-convert_conc <- function(
-  x,
-  from,
-  to,
-  molar_mass = 0,
-  density_solute = 0,
-  density_solution = 0) {
-  x <- x * calc_factor_conc(
-    from = from,
-    to = to,
-    molar_mass = molar_mass,
-    density_solute = density_solute,
-    density_solution = density_solution)
-  return(x)
-}
-
-#'
-#' Convert a value of the given concentration into another concentration.
-#'
-#' @description
-#' A convenience wrapper around [calc_factor_prefix()].
-#'
-#' @inherit calc_factor_prefix details
-#'
-#' @export
-#' @family conversion functions
-#' @param x The value to convert.
-#' @inheritParams calc_factor_prefix
-#' @return The converted value.
-#' @examples
-#' convert_prefix(x = 2, from = "ng", to = "kg")
-#' convert_prefix(x = 2, from = "dm^3", to = "cm^3")
-#' convert_prefix(x = 2, from = "fl", to = "pl")
-#' convert_prefix(x = 2, from = "pmol", to = "nmol")
-#' convert_prefix(x = 2, from = "pM", to = "nM")
-#'
-convert_prefix <- function(
-  x,
-  from,
-  to) {
-  x <- x * calc_factor_prefix(
-    from = from,
-    to = to)
-  return(x)
-}
-
-get_conc_type <- function(unit) {
-  stopifnot(is.character(unit))
-  unit <- enc2utf8(unit)
-
-  #throw_message('get_conc_type - unit: ', unit)
-
-  if (grepl("(([km\u00B5nfp]?g / ([km\u00B5nfp]?l|[dcm]?m.3))|(% w / v))", unit)) {
-    # ".g / .l", ".g / .m^3", "% w / v" (= 0.1 g / l)
-    type <- "mass_vol"
-  } else if (grepl("(([km\u00B5nfp]?mol / ([km\u00B5nfp]?l|[dcm]?m.3))|([km\u00B5nfp]?M))", unit)) {
-    # ".M", ".mol / .l",  ".mol / .m^3"
-    type <- "molar_vol"
-  } else if (grepl("((([km\u00B5nfp]?l|[dcm]?m.3) / ([km\u00B5nfp]?l|[dcm]?m.3))|((% )?v / v))", unit)) {
-    # ".l/.l", ".l / m^3", ".m^3/.m^3", ".m^3 / .l", "% v / v", "v / v"
-    type <- "vol_vol"
-  } else if (grepl("(([km\u00B5nfp]?g / [km\u00B5nfp]?g)|((% )?w / w))", unit)) {
-    # ".g / .g", "w / w", "% w / w"
-    type <- "mass_mass"
-  } else {
-    type <- FALSE
+is_concentration <- function(x) {
+  if (is.character(x) && nchar(x) > 0) {
+    return(grepl("/", x, fixed = TRUE))
   }
+  return(FALSE)
+}
 
-  #throw_message('get_conc_type - type: ', type)
-
-  return(type)
+is_recognised_unit <- function(x) {
+  if (is.character(x) && nchar(x) > 0) {
+    return(x %in% recognised_units)
+  }
+  return(FALSE)
 }
 
 bring_to_base <- function(unit, type) {
-  unit <- enc2utf8(unit)
   factor <- 1
-
-  if (unit == "% w / v") {
-    throw_warning("Using '0.1 g / l' instead of '% w / v'")
-    factor <- factor * 0.1
-    unit <- "g / l"
-  } else if (unit == "% v / v") {
-    # convert to "v / v" (same as "l / l")
-    factor <- factor * 100
-    unit <- "l / l"
-  } else if (unit == "v / v") {
-    # same as "l / l"
-    unit <- "l / l"
-  } else if (unit == "% w / w") {
-    # convert to "w / w" (same as "g / g")
-    factor <- factor * 100
-    unit <- "g / g"
-  } else if (unit == "w / w") {
-    # same as "g / g"
-    unit <- "g / g"
-  } else if (substr(unit, length(unit), length(unit)) == "M") {
-    # unit: .M
-    unit <- paste0(substr(unit, 0, length(unit)), "mol / l")
-  }
-
-  # now unit contains an "/"
-
+  # unit should have been filtered through canonicalise_units
+  # so should contain "/"
   parts <- strsplit(unit, split = "/", fixed = TRUE)[[1]]
   if (length(parts) != 2) {
-    throw_error("Cannot process unit: ", unit)
+    stop("Cannot process unit: ", unit)
   }
-  numerator <- trimws(parts[1])
-  denominator <- trimws(parts[2])
-  #throw_message(type, " ", numerator, "->", numerator_base[type], ": ", calc_factor_prefix(numerator, numerator_base[type]))
+  numerator <- parts[1]
+  denominator <- parts[2]
   factor <- factor * calc_factor_prefix(numerator, numerator_base[type])
-  #throw_message(type, " ", denominator, "->", denominator_base[type], ": ", calc_factor_prefix(denominator, denominator_base[type]))
   factor <- factor / calc_factor_prefix(denominator, denominator_base[type])
 
   return(factor)
+}
+
+get_conc_type <- function(unit) {
+  # unit should have been filtered through canonicalise_units
+
+  if (grepl("(.?g/(.?l|.?m.3))", unit)) {
+    type <- "mass_vol"
+  } else if (grepl(".?mol/(.?l|.?m.3)", unit)) {
+    type <- "molar_vol"
+  } else if (grepl("(.?l|.?m.3)/(.?l|.?m.3)", unit)) {
+    type <- "vol_vol"
+  } else if (grepl(".?g/.?g", unit)) {
+    type <- "mass_mass"
+  } else {
+    stop("Unrecognised unit: ", unit)
+  }
+
+  return(type)
 }
 
 needs_density_solute <- function(from, to) {

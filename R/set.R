@@ -147,13 +147,13 @@ set_read <- function(
     cols <- actual_cols
   } else {
     if (actual_cols < cols) {
-      throw_error(
+      stop(
         "Column count in sheet (", actual_cols,
         ") lower than expected (", cols,
         "). Reducing cols to actual column count.")
       cols <- actual_cols
     } else if (actual_cols > cols) {
-      throw_error(
+      stop(
         "Column count in sheet (", actual_cols,
         ") larger than expected (", cols,
         "). Ignoring residual columns.")
@@ -174,12 +174,12 @@ set_read <- function(
     required_rows <- rows * ifelse(actual_vars > 0, 2, 1)
 
     if (actual_rows < required_rows) {
-      throw_error(
+      stop(
         "Row count in sheet (", actual_rows,
         ") lower than required (", required_rows,
         ").")
     } else if (actual_rows > required_rows) {
-      throw_error(
+      stop(
         "Row count in sheet (", actual_rows,
         ") larger than expected (", required_rows,
         ").")

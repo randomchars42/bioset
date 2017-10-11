@@ -23,19 +23,12 @@ A convenience wrapper around \code{\link[=calc_factor_prefix]{calc_factor_prefix
 Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".M", ".m^3"
 (cubic metres), where "." symbolises a metric prefix:
 
-For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
+For g, l, mol and M: d (deci), c (centi), m (milli), µ (micro), n (nano),
+p (pico) and f (femto).
 
 For g you might use k (kilo) as well.
 
-For m^3 (cubic metres): d (deci), c (centi) and m (milli)
-
-"." symbolises a metric prefix:
-
-For g, l, mol and M: m (milli), µ (micro), n (nano), p (pico) and f (femto).
-
-For g you might use k (kilo) as well.
-
-For m^3 (cubic metres): d (deci), c (centi) and m (milli)
+For m^3 (cubic metres) you may only use: d (deci), c (centi) and m (milli).
 }
 \examples{
 convert_prefix(x = 2, from = "ng", to = "kg")
