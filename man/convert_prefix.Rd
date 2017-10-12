@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc.R
 \name{convert_prefix}
 \alias{convert_prefix}
-\title{Convert a value of the given concentration into another concentration.}
+\title{Convert between metric prefixes.}
 \usage{
 convert_prefix(x, from, to)
 }
@@ -20,10 +20,10 @@ The converted value.
 A convenience wrapper around \code{\link[=calc_factor_prefix]{calc_factor_prefix()}}.
 }
 \details{
-Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".M", ".m^3"
+Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".m^3"
 (cubic metres), where "." symbolises a metric prefix:
 
-For g, l, mol and M: d (deci), c (centi), m (milli), µ (micro), n (nano),
+For g, l and mol: d (deci), c (centi), m (milli), µ (micro), n (nano),
 p (pico) and f (femto).
 
 For g you might use k (kilo) as well.
@@ -35,7 +35,6 @@ convert_prefix(x = 2, from = "ng", to = "kg")
 convert_prefix(x = 2, from = "dm^3", to = "cm^3")
 convert_prefix(x = 2, from = "fl", to = "pl")
 convert_prefix(x = 2, from = "pmol", to = "nmol")
-convert_prefix(x = 2, from = "pM", to = "nM")
 
 }
 \seealso{

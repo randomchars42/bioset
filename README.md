@@ -3,7 +3,8 @@
 bioset
 ======
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/bioset)](https://cran.r-project.org/package=bioset)
+<!--[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/bioset)](https://cran.r-project.org/package=bioset)-->
+[![CRAN\_Status\_Badge](badge_cran_release.svg)](https://cran.r-project.org/package=bioset) [![GitHub\_Status\_Badge](badge_github_release.svg)](https://github.com/randomchars42/bioset/releases) [![GitHub\_Check\_Badge](badge_r_check_passing.svg)](https://github.com/randomchars42/bioset/releases) [![GitHub\_Build\_Badge](badge_r_build_passing.svg)](https://github.com/randomchars42/bioset/releases)
 
 `bioset` is intended to help you working with sets of raw data.
 
@@ -336,6 +337,21 @@ It returns a list and may (`write_data == TRUE`) create two files in your curren
 
 Take a look at the data
 
+``` r
+# now you may run it :)
+result_list <- sets_read(
+  sets = 1,
+  sep = ",",
+  additional_vars = c("name", "day"),
+  cal_names = c("CAL1", "CAL2", "CAL3", "CAL4"),
+  cal_values = c(1, 2, 3, 4) # ng / ml
+)
+```
+
+``` r
+result_list$all
+```
+
 |  set| position | sample\_id | name | day |  value|  real|   recovery|    n|  raw|  raw\_mean|    raw\_sd|    raw\_cv|  concentration|  concentration\_sd|  concentration\_cv|
 |----:|:---------|:-----------|:-----|:----|------:|-----:|----------:|----:|----:|----------:|----------:|----------:|--------------:|------------------:|------------------:|
 |    1| A1       | CAL1       | CAL1 | NA  |    102|     1|  1.0089686|    2|  102|      104.5|   3.535534|  0.0338329|       1.033881|          0.0352320|          0.0340774|
@@ -363,6 +379,10 @@ Take a look at the data
 |    1| C6       | B\_2       | B    | 2   |    413|    NA|         NA|    2|  413|      421.5|  12.020815|  0.0285191|       4.192825|          0.1197889|          0.0285700|
 |    1| D6       | D\_2       | D    | 2   |    119|    NA|         NA|    2|  119|      114.5|   6.363961|  0.0555804|       1.133533|          0.0634176|          0.0559469|
 
+``` r
+result_list$samples
+```
+
 | position | sample\_id | name | day |  plate|    n|    raw|    raw\_sd|    raw\_cv|  concentration|  concentration\_sd|  concentration\_cv|
 |:---------|:-----------|:-----|:----|------:|----:|------:|----------:|----------:|--------------:|------------------:|------------------:|
 | A3       | A\_1       | A    | 1   |      1|    2|  150.5|   7.778175|  0.0516822|       1.492277|          0.0775105|          0.0519411|
@@ -374,7 +394,10 @@ Take a look at the data
 | C5       | B\_2       | B    | 2   |      1|    2|  421.5|  12.020815|  0.0285191|       4.192825|          0.1197889|          0.0285700|
 | D5       | D\_2       | D    | 2   |      1|    2|  114.5|   6.363961|  0.0555804|       1.133533|          0.0634176|          0.0559469|
 
-    #> Warning: Removed 16 rows containing non-finite values (stat_smooth).
-    #> Warning: Removed 16 rows containing missing values (geom_point).
+``` r
+result_list$set1$plot
+#> Warning: Removed 16 rows containing non-finite values (stat_smooth).
+#> Warning: Removed 16 rows containing missing values (geom_point).
+```
 
-![](README-unnamed-chunk-27-1.png)
+![](README-unnamed-chunk-28-1.png)

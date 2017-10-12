@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc.R
 \name{convert_conc}
 \alias{convert_conc}
-\title{Convert between metric prefixes.}
+\title{Convert a value of the given concentration into another concentration.}
 \usage{
 convert_conc(x, from, to, molar_mass = 0, density_solute = 0,
   density_solution = 0)

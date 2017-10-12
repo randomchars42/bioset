@@ -37,8 +37,32 @@ test_that("concentration types are detected correctly", {
   expect_equal(bioset:::get_conc_type("\u00B5g/kg"), "mass_mass")
 })
 
-test_that("concentration are converted correctly", {
+test_that("prefixes are converted correctly", {
   # same concentration type
+  expect_error(calc_factor_prefix("M", "mM"))
+  expect_error(calc_factor_prefix("", "mg"))
+  expect_error(calc_factor_prefix("mg", ""))
+  expect_error(calc_factor_prefix("mg", 0))
+  expect_error(calc_factor_prefix(0, "mg"))
+  expect_error(calc_factor_prefix(NA, "mg"))
+  expect_error(calc_factor_prefix(NULL, "mg"))
+  expect_equal(calc_factor_prefix("l", "dl"), 10)
+  expect_equal(calc_factor_prefix("l", "cl"), 100)
+  expect_equal(calc_factor_prefix("l", "ml"), 1000)
+  expect_error(calc_factor_prefix("\u00B5m^3", "m^3"))
+  expect_equal(calc_factor_prefix("dm^3", "m^3"), 0.001)
+  expect_equal(calc_factor_prefix("cm^3", "m^3"), 0.000001)
+  expect_error(calc_factor_prefix("\u00B5g", "ng / l"))
+})
+
+test_that("concentration are converted correctly", {
+  expect_error(calc_factor_conc("M", ""))
+  expect_error(calc_factor_conc("M"))
+  expect_error(calc_factor_conc("M", 0))
+  expect_error(calc_factor_conc("M", NULL))
+  expect_error(calc_factor_conc("M", NA))
+  # same concentration type
+  expect_equal(calc_factor_conc("M", "mM"), 1000)
   expect_equal(calc_factor_conc("\u00B5g / ml", "ng / l"), 1000000)
   expect_warning(calc_factor_conc("% w / v", "\u00B5g / \u00B5l"))
   expect_equal(calc_factor_conc("g / l", "\u00B5g / \u00B5l"), 1)

@@ -13,7 +13,6 @@ vignette: >
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  echo = FALSE,
   comment = "#>"
 )
 ```
@@ -28,7 +27,7 @@ A stable version of `bioset` is available on CRAN: <https://cran.r-project.org/p
 
 So all you need to do is:
 
-```{r echo = TRUE, eval = FALSE}
+```{r, eval = FALSE}
 install.packages("bioset")
 ```
 
@@ -38,14 +37,14 @@ Consequently, I will make new features available on GitHub first. Packages I hav
 
 To install those packages you can use [`githubinstall`](https://cran.r-project.org/package=githubinstall)
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, eval = FALSE}
 # install.packages("githubinstall")
 gh_install_packages("bioset", ref = "vX.Y.Z-pre.N")
 ```
 
 You can install the very latest changes in `bioset`-master from github with:
 
-```{r gh-installation, echo = TRUE, eval = FALSE}
+```{r, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("randomchars42/bioset")
 ```
@@ -65,7 +64,7 @@ devtools::install_github("randomchars42/bioset")
 
 Suppose you have an `ods` / `xls(x)` file with raw values obtained from a measurement like this:
 
-```{r}
+```{r, echo = FALSE}
 data <-
   utils::read.csv(
     system.file("extdata", "values.csv", package = "bioset"),
@@ -82,18 +81,18 @@ Save them as `set_1.csv`- thats like an `ods` / `xls(x)` file but its basically 
 
 Load the package.
 
-```{r, echo = TRUE}
+```{r, eval = FALSE}
 library("bioset")
 ```
 
 
 Then you can use `set_read()` to get all values with their position as name in a nice tibble:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, eval = FALSE}
 set_read()
 ```
 
-```{r}
+```{r, echo = FALSE}
 data <- bioset::set_read(
   file_name = "values.csv",
   path = system.file("extdata", package = "bioset")
@@ -111,7 +110,7 @@ If your files are stored in `./files/` tell `set_read()` where to look via `path
 
 Before feeding your samples into your measuring device you most likely drafted some sort of plan which position corresponds to which sample (didn't you?).
 
-```{r}
+```{r, echo = FALSE}
 data <-
   utils::read.csv(
     system.file("extdata", "names.csv", package = "bioset"),
@@ -128,7 +127,7 @@ So you had some calibrators (1-4) and samples A, B, C, D, E, F, G, H, each in du
 
 To easily set the names for your samples just copy the names into your `set_1.csv`:
 
-```{r}
+```{r, echo = FALSE}
 data <-
   utils::read.csv(
     system.file("extdata", "values_names.csv", package = "bioset"),
@@ -143,7 +142,7 @@ knitr::kable(
 
 Tell `set_read()` your data contains the names and which column should hold those names by setting `additional_vars = c("name")`.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, eval = FALSE}
 set_read(
   additional_vars = c("name")
 )
@@ -151,7 +150,7 @@ set_read(
 
 This will get you:
 
-```{r}
+```{r, echo = FALSE}
 data <- bioset::set_read(
   file_name = "values_names.csv",
   path = system.file("extdata", package = "bioset"),
@@ -166,7 +165,7 @@ Suppose samples A, B, C, D were taken at day 1 and E, F, G, H were taken from th
 
 It would be more elegant to encode that into the data:
 
-```{r}
+```{r, echo = FALSE}
 data <-
   utils::read.csv(
     system.file("extdata", "values_names_properties.csv", package = "bioset"),
@@ -181,13 +180,13 @@ knitr::kable(
 
 Now, tell `set_read()` your data contains the names and day by setting `additional_vars = c("name", "day")`. This will get you:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, eval = FALSE}
 set_read(
   additional_vars = c("name", "day")
 )
 ```
 
-```{r}
+```{r, echo = FALSE}
 data <- bioset::set_read(
   file_name = "values_names_properties.csv",
   path = system.file("extdata", package = "bioset"),
@@ -203,7 +202,7 @@ Propably, your measuring device only gave you raw values (extinction rates / rel
 
 `set_calc_concentrations()` does exactly this for you:
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, eval = FALSE}
 set_calc_concentrations(
   data,
   cal_names = c("CAL1", "CAL2", "CAL3", "CAL4"),
@@ -211,7 +210,7 @@ set_calc_concentrations(
 )
 ```
 
-```{r}
+```{r, echo = FALSE}
 data <- bioset::set_calc_concentrations(
   data,
   cal_names = c("CAL1", "CAL2", "CAL3", "CAL4"),
@@ -229,7 +228,7 @@ So samples were measured in duplicates. For our further research you might want 
 
 `set_calc_variability()` to the rescue.
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, eval = FALSE}
 data <- set_calc_variability(
   data = data,
   ids = sample_id,
@@ -240,7 +239,7 @@ data <- set_calc_variability(
 
 This will give you the mean and coefficient of variation (as well as n of the samples and the standard deviation) for the columns `value` and `conc`. It will use `sample_id` to determine which rows belong to the same sample.
 
-```{r}
+```{r, echo = FALSE}
 data <- bioset::set_calc_variability(
   data = data,
   ids = sample_id,

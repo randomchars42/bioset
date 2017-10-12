@@ -1,22 +1,21 @@
 ## ---- echo = FALSE-------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
-  echo = FALSE,
   comment = "#>"
 )
 
-## ----echo = TRUE, eval = FALSE-------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  install.packages("bioset")
 
-## ---- echo = TRUE, eval = FALSE------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  # install.packages("githubinstall")
 #  gh_install_packages("bioset", ref = "vX.Y.Z-pre.N")
 
-## ----gh-installation, echo = TRUE, eval = FALSE--------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  # install.packages("devtools")
 #  devtools::install_github("randomchars42/bioset")
 
-## ------------------------------------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 data <-
   utils::read.csv(
     system.file("extdata", "values.csv", package = "bioset"),
@@ -28,20 +27,20 @@ knitr::kable(
   row.names = TRUE,
   col.names = as.character(1:6))
 
-## ---- echo = TRUE--------------------------------------------------------
-library("bioset")
+## ---- eval = FALSE-------------------------------------------------------
+#  library("bioset")
 
-## ---- echo = TRUE, eval = FALSE------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  set_read()
 
-## ------------------------------------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 data <- bioset::set_read(
   file_name = "values.csv",
   path = system.file("extdata", package = "bioset")
 )
 knitr::kable(data)
 
-## ------------------------------------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 data <-
   utils::read.csv(
     system.file("extdata", "names.csv", package = "bioset"),
@@ -53,7 +52,7 @@ knitr::kable(
   row.names = TRUE,
   col.names = as.character(1:6))
 
-## ------------------------------------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 data <-
   utils::read.csv(
     system.file("extdata", "values_names.csv", package = "bioset"),
@@ -65,12 +64,12 @@ knitr::kable(
   row.names = TRUE,
   col.names = as.character(1:6))
 
-## ---- echo = TRUE, eval = FALSE------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  set_read(
 #    additional_vars = c("name")
 #  )
 
-## ------------------------------------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 data <- bioset::set_read(
   file_name = "values_names.csv",
   path = system.file("extdata", package = "bioset"),
@@ -78,7 +77,7 @@ data <- bioset::set_read(
 )
 knitr::kable(data)
 
-## ------------------------------------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 data <-
   utils::read.csv(
     system.file("extdata", "values_names_properties.csv", package = "bioset"),
@@ -90,12 +89,12 @@ knitr::kable(
   row.names = TRUE,
   col.names = as.character(1:6))
 
-## ---- echo = TRUE, eval = FALSE------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  set_read(
 #    additional_vars = c("name", "day")
 #  )
 
-## ------------------------------------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 data <- bioset::set_read(
   file_name = "values_names_properties.csv",
   path = system.file("extdata", package = "bioset"),
@@ -104,14 +103,14 @@ data <- bioset::set_read(
 
 knitr::kable(data)
 
-## ---- echo = TRUE, eval = FALSE------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  set_calc_concentrations(
 #    data,
 #    cal_names = c("CAL1", "CAL2", "CAL3", "CAL4"),
 #    cal_values = c(1, 2, 3, 4) # ng / ml
 #  )
 
-## ------------------------------------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 data <- bioset::set_calc_concentrations(
   data,
   cal_names = c("CAL1", "CAL2", "CAL3", "CAL4"),
@@ -120,7 +119,7 @@ data <- bioset::set_calc_concentrations(
 
 knitr::kable(data)
 
-## ---- echo = TRUE, eval = FALSE------------------------------------------
+## ---- eval = FALSE-------------------------------------------------------
 #  data <- set_calc_variability(
 #    data = data,
 #    ids = sample_id,
@@ -128,7 +127,7 @@ knitr::kable(data)
 #    conc
 #  )
 
-## ------------------------------------------------------------------------
+## ---- echo = FALSE-------------------------------------------------------
 data <- bioset::set_calc_variability(
   data = data,
   ids = sample_id,
