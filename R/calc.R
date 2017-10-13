@@ -103,10 +103,10 @@ calc_factor_conc <- function(
 #' Get a factor to convert metric prefixes into one another.
 #'
 #' @details
-#' Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".M", ".m^3"
+#' Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".m^3"
 #' (cubic metres), where "." symbolises a metric prefix:
 #'
-#' For g, l, mol and M: d (deci), c (centi), m (milli), µ (micro), n (nano),
+#' For g, l and mol: d (deci), c (centi), m (milli), µ (micro), n (nano),
 #' p (pico) and f (femto).
 #'
 #' For g you might use k (kilo) as well.
@@ -123,11 +123,22 @@ calc_factor_conc <- function(
 #' calc_factor_prefix(from = "dm^3", to = "cm^3")
 #' calc_factor_prefix(from = "fl", to = "pl")
 #' calc_factor_prefix(from = "pmol", to = "nmol")
-#' calc_factor_prefix(from = "pM", to = "nM")
 #'
 calc_factor_prefix <- function(from, to) {
   from <- canonicalise_units(from)
   to <- canonicalise_units(to)
+
+  if (is_concentration(from)) {
+    stop(
+      "Given unit (", from, ") is a concentration. Please use ",
+      "calc_factor_conc() or convert_factor_conc() instead.")
+  }
+
+  if (is_concentration(to)) {
+    stop(
+      "Given unit (", to, ") is a concentration. Please use ",
+      "calc_factor_conc() or convert_factor_conc() instead.")
+  }
 
   factor <- factor_prefix(from = from, to = to)
 
@@ -135,7 +146,7 @@ calc_factor_prefix <- function(from, to) {
 }
 
 #'
-#' Convert between metric prefixes.
+#' Convert a value of the given concentration into another concentration.
 #'
 #' @description
 #' A convenience wrapper around [calc_factor_conc()].
@@ -168,7 +179,7 @@ convert_conc <- function(
 }
 
 #'
-#' Convert a value of the given concentration into another concentration.
+#' Convert between metric prefixes.
 #'
 #' @description
 #' A convenience wrapper around [calc_factor_prefix()].
@@ -185,7 +196,6 @@ convert_conc <- function(
 #' convert_prefix(x = 2, from = "dm^3", to = "cm^3")
 #' convert_prefix(x = 2, from = "fl", to = "pl")
 #' convert_prefix(x = 2, from = "pmol", to = "nmol")
-#' convert_prefix(x = 2, from = "pM", to = "nM")
 #'
 convert_prefix <- function(x, from, to) {
   x <- x * calc_factor_prefix(from = from, to = to)
@@ -332,9 +342,9 @@ factor_prefix <- function(from, to) {
     factor <- 10^(exp_vol[from]-exp_vol[to])
   } else if (from %in% names(exp_molar_si) && to %in% names(exp_molar_si)) {
     factor <- 10^(exp_molar_si[from]-exp_molar_si[to])
-  } else if (
-    from %in% names(exp_molar_metric) && to %in% names(exp_molar_metric)) {
-    factor <- 10^(exp_molar_metric[from]-exp_molar_metric[to])
+  #} else if (
+  #  from %in% names(exp_molar) && to %in% names(exp_molar)) {
+  #  factor <- 10^(exp_molar[from]-exp_molar[to])
   } else {
     stop("Could not convert ", from, " to ", to)
   }
