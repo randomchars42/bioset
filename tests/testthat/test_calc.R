@@ -68,3 +68,13 @@ test_that("concentration are converted correctly", {
   expect_equal(calc_factor_conc("g / l", "\u00B5g / \u00B5l"), 1)
   expect_equal(calc_factor_conc("g / dm^3", "\u00B5g / \u00B5l"), 1)
 })
+
+test_that("concentration requirements are stated", {
+  expect_error(calc_factor_conc("g/l", "M"))
+  expect_error(calc_factor_conc("M", "g/l"))
+  expect_error(calc_factor_conc("M", "g/g"))
+  expect_error(calc_factor_conc("M", "l/l"))
+  expect_error(calc_factor_conc("g/l", "g/g"))
+  expect_error(calc_factor_conc("l/l", "g/g"))
+  expect_error(calc_factor_conc("g/l", "l/l"))
+})

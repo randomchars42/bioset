@@ -246,17 +246,20 @@ factor_conc <- function(
   from_type <- get_conc_type(from)
   to_type <- get_conc_type(to)
 
-  if (needs_density_solute(from, to) && density_solute == 0) {
+  message(from_type)
+  message(to_type)
+
+  if (needs_density_solute(from_type, to_type) & density_solute == 0) {
     stop("The density of the solute is required to convert ", from, " to ", to)
   }
 
-  if (needs_density_solution(from, to) && density_solution == 0) {
+  if (needs_density_solution(from_type, to_type) & density_solution == 0) {
     stop(
       "The density of the solution (not the solvent!) is required to convert ",
       from, " to ", to)
   }
 
-  if (needs_molar_mass(from, to) && molar_mass == 0) {
+  if (needs_molar_mass(from_type, to_type) & molar_mass == 0) {
     stop("The molar mass is required to convert ", from, " to ", to)
   }
 
@@ -407,22 +410,22 @@ needs_density_solute <- function(from, to) {
 
   if (from == to) {
     needed <- FALSE
-  } else if ("mass_vol" %in% types && "molar_vol" %in% types) {
+  } else if ("mass_vol" %in% types & "molar_vol" %in% types) {
     # mass_vol <-> molar_vol
     needed <- FALSE
-  } else if ("mass_vol" %in% types && "vol_vol" %in% types) {
+  } else if ("mass_vol" %in% types & "vol_vol" %in% types) {
     # mass_vol <-> vol_vol
     needed <- TRUE
-  } else if ("mass_vol" %in% types && "mass_mass" %in% types) {
+  } else if ("mass_vol" %in% types & "mass_mass" %in% types) {
     # mass_vol <-> mass_mass
     needed <- FALSE
-  } else if ("molar_vol" %in% types && "vol_vol" %in% types) {
+  } else if ("molar_vol" %in% types & "vol_vol" %in% types) {
     # molar_vol <-> vol_vol
     needed <- TRUE
-  } else if ("molar_vol" %in% types && "mass_mass" %in% types) {
+  } else if ("molar_vol" %in% types & "mass_mass" %in% types) {
     # molar_vol <-> mass_mass
     needed <- FALSE
-  } else if ("mass_mass" %in% types && "vol_vol" %in% types) {
+  } else if ("mass_mass" %in% types & "vol_vol" %in% types) {
     # mass_mass <-> vol_vol
     needed <- TRUE
   } else {
@@ -437,22 +440,22 @@ needs_density_solution <- function(from, to) {
 
   if (from == to) {
     needed <- FALSE
-  } else if ("mass_vol" %in% types && "molar_vol" %in% types) {
+  } else if ("mass_vol" %in% types & "molar_vol" %in% types) {
     # mass_vol <-> molar_vol
     needed <- FALSE
-  } else if ("mass_vol" %in% types && "vol_vol" %in% types) {
+  } else if ("mass_vol" %in% types & "vol_vol" %in% types) {
     # mass_vol <-> vol_vol
     needed <- FALSE
-  } else if ("mass_vol" %in% types && "mass_mass" %in% types) {
+  } else if ("mass_vol" %in% types & "mass_mass" %in% types) {
     # mass_vol <-> mass_mass
     needed <- TRUE
-  } else if ("molar_vol" %in% types && "vol_vol" %in% types) {
+  } else if ("molar_vol" %in% types & "vol_vol" %in% types) {
     # molar_vol <-> vol_vol
     needed <- FALSE
-  } else if ("molar_vol" %in% types && "mass_mass" %in% types) {
+  } else if ("molar_vol" %in% types & "mass_mass" %in% types) {
     # molar_vol <-> mass_mass
     needed <- TRUE
-  } else if ("mass_mass" %in% types && "vol_vol" %in% types) {
+  } else if ("mass_mass" %in% types & "vol_vol" %in% types) {
     # mass_mass <-> vol_vol
     needed <- TRUE
   } else {
@@ -467,22 +470,22 @@ needs_molar_mass <- function(from, to) {
 
   if (from == to) {
     needed <- FALSE
-  } else if ("mass_vol" %in% types && "molar_vol" %in% types) {
+  } else if ("mass_vol" %in% types & "molar_vol" %in% types) {
     # mass_vol <-> molar_vol
     needed <- TRUE
-  } else if ("mass_vol" %in% types && "vol_vol" %in% types) {
+  } else if ("mass_vol" %in% types & "vol_vol" %in% types) {
     # mass_vol <-> vol_vol
     needed <- FALSE
-  } else if ("mass_vol" %in% types && "mass_mass" %in% types) {
+  } else if ("mass_vol" %in% types & "mass_mass" %in% types) {
     # mass_vol <-> mass_mass
     needed <- FALSE
-  } else if ("molar_vol" %in% types && "vol_vol" %in% types) {
+  } else if ("molar_vol" %in% types & "vol_vol" %in% types) {
     # molar_vol <-> vol_vol
     needed <- TRUE
-  } else if ("molar_vol" %in% types && "mass_mass" %in% types) {
+  } else if ("molar_vol" %in% types & "mass_mass" %in% types) {
     # molar_vol <-> mass_mass
     needed <- TRUE
-  } else if ("mass_mass" %in% types && "vol_vol" %in% types) {
+  } else if ("mass_mass" %in% types & "vol_vol" %in% types) {
     # mass_mass <-> vol_vol
     needed <- FALSE
   } else {

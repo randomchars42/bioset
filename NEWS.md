@@ -8,6 +8,10 @@
       * be more permissive with whitespace in input
       * add more tests
       * permit more metric prefixes
+  * fix error in `factor_conc`:
+      * `factor_conc` did stop if `molar_mass` / `density_solute` /
+        `densitiy_solution` were needed but missing
+      * add unit tests
 
 # bioset 0.1.0
 
