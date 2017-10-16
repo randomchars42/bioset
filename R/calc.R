@@ -64,9 +64,32 @@ recognised_units <- c(
 #' @param density_solution The density of the solution (g / l), not the solvent!
 #' @return The factor to convert A into B.
 #' @examples
-#' calc_factor_conc(from = "ng / ml", to = "g / l")
-#' calc_factor_conc(from = "ng / ml", to = "mmol / l", molar_mass = 150000)
+#' library("dplyr")
 #'
+#' # generate test data
+#' data <- tibble(
+#'   sample = c("A", "B", "C"),
+#'   conc = c(4.5, 2.3, 5.1),       # concentration in g  / l
+#' )
+#'
+#' fctr_ng_ml <- calc_factor_conc(from = "g/l", to = "ng/ml")
+#' # give molar mass in g / mol
+#' fctr_mol_l <- calc_factor_conc(from = "g/l", to = "M", molar_mass = 78.971)
+#' # give densities in g / l
+#' fctr_pc <- calc_factor_conc(from = "g/l", to = "%v/v", density_solute = 4810)
+#'
+#' data %>%
+#'   mutate(
+#'     conc_ng_ml = conc * fctr_ng_ml,
+#'     conc_mol_l = conc * fctr_mol_l,
+#'     conc_pc = conc * fctr_pc
+#' )
+#'
+#' # throws an error
+#' \dontrun{
+#' # will throw an error because molar_mass is missing
+#' fctr_fail <- calc_factor_conc(from = "g/l", to = "mol/l")
+#' }
 calc_factor_conc <- function(
   from,
   to,
@@ -159,8 +182,30 @@ calc_factor_prefix <- function(from, to) {
 #' @inheritParams calc_factor_conc
 #' @return The converted value.
 #' @examples
-#' convert_conc(x = 2, from = "ng / ml", to = "g / l")
-#' convert_conc(x = 2, from = "ng / ml", to = "mmol / l", molar_mass = 150000)
+#' library("dplyr")
+#'
+#' # generate test data
+#' data <- tibble(
+#'   sample = c("A", "B", "C"),
+#'   conc = c(4.5, 2.3, 5.1),       # concentration in g  / l
+#' )
+#'
+#' data %>%
+#'   mutate(
+#'     conc_ng_ml = convert_conc(x = conc, from = "g/l", to = "ng/ml"),
+#'     # give molar mass in g / mol
+#'     conc_mol_l = convert_conc(
+#'       x = conc, from = "g/l", to = "M", molar_mass = 78.971),
+#'     # give densities in g / l
+#'     conc_pc = convert_conc(
+#'       x = conc, from = "g/l", to = "%v/v", density_solute = 4810)
+#' )
+#'
+#' # throws an error
+#' \dontrun{
+#' # will throw an error because molar_mass is missing
+#' fail <- convert_conc(x = 5, from = "g/l", to = "mol/l")
+#' }
 #'
 convert_conc <- function(
   x,
@@ -245,9 +290,6 @@ factor_conc <- function(
 
   from_type <- get_conc_type(from)
   to_type <- get_conc_type(to)
-
-  message(from_type)
-  message(to_type)
 
   if (needs_density_solute(from_type, to_type) & density_solute == 0) {
     stop("The density of the solute is required to convert ", from, " to ", to)

@@ -39,7 +39,7 @@
 #'   colClasses = "character"
 #' )
 #'
-#' # read into tibble
+#' # read into a tibble
 #' set_read(
 #'   file_name = "values_names.csv",
 #'   path = system.file("extdata", package = "bioset"),
@@ -314,6 +314,7 @@ set_read <- function(
 #'
 #' \dontrun{
 #' # notice that col_target is given a string
+#' # this will fail
 #' set_calc_concentrations(
 #'   data = data,
 #'   cal_names = names(cals),

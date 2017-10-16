@@ -56,7 +56,7 @@ read.csv(
   colClasses = "character"
 )
 
-# read into tibble
+# read into a tibble
 set_read(
   file_name = "values_names.csv",
   path = system.file("extdata", package = "bioset"),

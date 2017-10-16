@@ -83,6 +83,7 @@ set_calc_concentrations(
 
 \dontrun{
 # notice that col_target is given a string
+# this will fail
 set_calc_concentrations(
   data = data,
   cal_names = names(cals),

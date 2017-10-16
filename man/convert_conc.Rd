@@ -53,8 +53,30 @@ For m^3 (cubic metres) you may only use: d (deci), c (centi) and m (milli).
 Note: \% w / v is (incorrectly) taken as a short hand for 0.1 g / l.
 }
 \examples{
-convert_conc(x = 2, from = "ng / ml", to = "g / l")
-convert_conc(x = 2, from = "ng / ml", to = "mmol / l", molar_mass = 150000)
+library("dplyr")
+
+# generate test data
+data <- tibble(
+  sample = c("A", "B", "C"),
+  conc = c(4.5, 2.3, 5.1),       # concentration in g  / l
+)
+
+data \%>\%
+  mutate(
+    conc_ng_ml = convert_conc(x = conc, from = "g/l", to = "ng/ml"),
+    # give molar mass in g / mol
+    conc_mol_l = convert_conc(
+      x = conc, from = "g/l", to = "M", molar_mass = 78.971),
+    # give densities in g / l
+    conc_pc = convert_conc(
+      x = conc, from = "g/l", to = "\%v/v", density_solute = 4810)
+)
+
+# throws an error
+\dontrun{
+# will throw an error because molar_mass is missing
+fail <- convert_conc(x = 5, from = "g/l", to = "mol/l")
+}
 
 }
 \seealso{
