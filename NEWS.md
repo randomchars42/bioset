@@ -13,6 +13,8 @@
       * `factor_conc` did not stop if `molar_mass` / `density_solute` /
         `densitiy_solution` were needed but missing
       * add unit tests
+  * fix error in `plot_lnln`:
+      * did not apply ln transformation to x and y correctly
 
 # bioset 0.1.0
 
