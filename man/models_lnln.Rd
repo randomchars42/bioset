@@ -39,8 +39,8 @@ to visually insepct goodness of fit.
 \itemize{
 \item \code{fit_lnln}: Apply ln to x and y and calculate a linear model from x and y.
 \item \code{plot_lnln}: Draw the plot for the model that can be calculated with
-\code{fit_lnln}.
-\item \code{interpolate_linear}: Inverse \code{fit_lnln} using \code{model} and calculate x
+\code{fit_lnln}. Uses \link[ggplot2:ggplot]{ggplot2::ggplot} if available.
+\item \code{interpolate_lnln}: Inverse \code{fit_lnln} using \code{model} and calculate x
 values from y values.
 }
 }

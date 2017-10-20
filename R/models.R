@@ -13,7 +13,7 @@
 #'
 #' * `fit_linear`: Calculate a linear model from x and y.
 #' * `plot_linear`: Draw the plot for the model that can be calculated with
-#'   `fit_linear`. Uses [ggplot2] if available.
+#'   `fit_linear`. [ggplot2::ggplot].
 #' * `interpolate_linear`: Inverse `fit_linear` using `model` and calculate x
 #'   values from y values.
 #'
@@ -52,8 +52,6 @@ fit_linear <- function(x, y) {
 #' @export
 #' @rdname models_linear
 plot_linear <- function(x, y) {
-  x <- ln(x)
-  y <- ln(y)
   if (package_available("ggplot2")) {
     data <- tibble::tibble(x = x, y = y)
     plot <- ggplot2::ggplot(ggplot2::aes(x = x, y = y), data = data) +
@@ -92,7 +90,7 @@ interpolate_linear <- function(y, model) {
 #'
 #' * `fit_lnln`: Apply ln to x and y and calculate a linear model from x and y.
 #' * `plot_lnln`: Draw the plot for the model that can be calculated with
-#'   `fit_lnln`.
+#'   `fit_lnln`. Uses [ggplot2::ggplot] if available.
 #' * `interpolate_lnln`: Inverse `fit_lnln` using `model` and calculate x
 #'   values from y values.
 #'
