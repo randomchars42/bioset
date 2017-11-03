@@ -2,8 +2,8 @@ library(bioset)
 context("Calculations")
 
 test_that("canonicalise_units works as expected", {
-  expect_equal(bioset:::canonicalise_units("   µ   l   "), "µl")
-  expect_equal(bioset:::canonicalise_units(" µ   l  / \t f g\t"), "µl/fg")
+  expect_equal(bioset:::canonicalise_units("   \u00B5   l   "), "\u00B5l")
+  expect_equal(bioset:::canonicalise_units(" \u00B5 l / \tf g\t"), "\u00B5l/fg")
   expect_error(bioset:::canonicalise_units("%"))
   expect_error(bioset:::canonicalise_units(""))
   expect_error(bioset:::canonicalise_units(" \t "))
@@ -16,7 +16,7 @@ test_that("canonicalise_units works as expected", {
   expect_equal(bioset:::canonicalise_units("w/w"), "g/g")
   expect_equal(bioset:::canonicalise_units("%v/v"), "cl/l")
   expect_equal(bioset:::canonicalise_units("%w/w"), "cg/g")
-  expect_equal(bioset:::canonicalise_units("µM"), "µmol/l")
+  expect_equal(bioset:::canonicalise_units("\u00B5M"), "\u00B5mol/l")
   expect_equal(bioset:::canonicalise_units("M"), "mol/l")
 })
 
