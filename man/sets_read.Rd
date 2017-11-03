@@ -15,7 +15,7 @@ sets_read(sets, cal_names, cal_values, exclude_cals = list(),
 \item{sets}{The number of sets (e.g. \code{3`` attempts to read}set_1.csv\code{,}set_2.csv\code{,}set_3.csv\code{), see}file_name`.}
 
 \item{cal_names}{A vector of strings containing the names of the samples used
-as calibrators,}
+as calibrators.}
 
 \item{cal_values}{A numeric vector with the known concentrations of those
 samples (must be in the same order).}
@@ -28,10 +28,10 @@ additional columns.}
 
 \item{additional_sep}{String / RegExp that separates additional vars, e.g.:
 \code{"ID_blue_cold"} with \code{additional_sep = "_"} will be separated
-into three columns containg \code{"ID"}, \code{"blue"} and \code{"cold"}.
+into three columns containing \code{"ID"}, \code{"blue"} and \code{"cold"}.
 If the separated data would exceed the columns in \code{additional_vars}
 the last column will contain a string with separator (e.g.: \code{"blue_cold"}).
-If data is missing `NA`` is inserted.}
+If data is missing \code{NA} is inserted.}
 
 \item{sep}{Separator used in the csv-file, either "," or ";" (see
 \code{\link[utils:read.csv]{utils::read.csv()}}).}
@@ -39,10 +39,10 @@ If data is missing `NA`` is inserted.}
 \item{dec}{The character used for decimal points (see \code{\link[utils:read.csv]{utils::read.csv()}}).
 "AUTO" will result in "." if \code{sep} is "," and "," for ";".}
 
-\item{path}{The path to the file (no trailing "/" or "\"!).}
+\item{path}{The path to the file (no trailing "/" or "\" !).}
 
 \item{file_name}{Name of the file from which to read the data. May contain
-"#NUM#" as a placeholder if you have multiple files (see num).}
+"#NUM#" as a placeholder if you have multiple files.}
 
 \item{model_func}{A function generating a model to fit the calibrators,
 e.g. \code{\link[=fit_linear]{fit_linear()}}, \code{\link[=fit_lnln]{fit_lnln()}}.}
@@ -64,41 +64,32 @@ data does not change.}
 A list:
 \itemize{
 \item \code{$all}: here you will find all the data , including calibrators,
-duplicates, ... (saved in \code{data_all.csv})
-\item \code{$samples}: only samples here - no calibrators, no duplicates -> most
-often you will work with this data  (saved in \code{data_samples.csv})
+duplicates, ... (saved in \code{data_all.csv} if \code{write_data = TRUE})
+\item \code{$samples}: only one row per distinct sample here - no calibrators, no
+duplicates -> most often you will work with this data
+(saved in \code{data_samples.csv} if \code{write_data = TRUE})
 \item \code{$set1}: a list
 \itemize{
-\item \code{$plot}: a plot showing you the linear function used to calculate the
-concentrations for this plate.
-
-The points are the calibrators. They should more or less lie close
-to the line.
-\item \code{$model}: the model
+\item \code{$plot}: a plot showing you the function used to calculate the
+concentrations for this set. The points represent the calibrators.
+\item \code{$model}: the model as returned by \code{model_func}
 }
-\item (\code{$set2}): the same information for every plate you have
+\item (\code{$set2} - \code{$setN}): the same information for every set you have
 }
 }
 \description{
 Basicaly a wrapper around \code{\link[=set_read]{set_read()}}, \code{\link[=set_calc_concentrations]{set_calc_concentrations()}} and
 \code{\link[=set_calc_variability]{set_calc_variability()}}.
 
+For a gentler introduction see examples and Vignette "Introduction".
+
 May write the processed data into two files: \code{data_samples.csv},
-\code{data_all.csv} and returns a list containing:
-\itemize{
-\item all: all rows including duplicate and calibrators.
-\item samples: samples only, no calibrators, no duplicates.
-\item plateNUMBER:
-\itemize{
-\item plot: plot of the calibrators
-\item model: model used to fit a line to the calibrators
-}
-}
+\code{data_all.csv}.
 }
 \examples{
-# files "set_1.csv" and "set_2.csv" containing raw values, the
-# corresponding lables consisting of ID and point in time like
-# "ID_TIME"
+# files "set_1.csv" and "set_2.csv" containing raw values and the
+# corresponding lables (consisting of ID and point in time like
+# "ID_TIME")
 read.csv(
   file = system.file("extdata", "set_1.csv", package = "bioset"),
   header = FALSE,
@@ -115,7 +106,7 @@ cals <- c(10, 20, 30, 40)      # ng / ml
 names(cals) <- c("CAL1", "CAL2", "CAL3", "CAL4")
 
 # read both files into a tibble
-#  separated by "_"
+# columns "ID" and "time" separated by "_"
 # and calculate concentrations using the calibrators
 result <- sets_read(
   sets = 2,                      # expect 2 plates

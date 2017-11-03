@@ -13,7 +13,7 @@ set_calc_concentrations(data, cal_names, cal_values, col_names = name,
 \item{data}{A tibble containing the data.}
 
 \item{cal_names}{A vector of strings containing the names of the samples used
-as calibrators,}
+as calibrators.}
 
 \item{cal_values}{A numeric vector with the known concentrations of those
 samples (must be in the same order).}

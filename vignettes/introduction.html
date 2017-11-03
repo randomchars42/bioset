@@ -1766,20 +1766,17 @@ devtools::<span class="kw">install_github</span>(<span class="st">&quot;randomch
 <h2>The short way</h2>
 <p>If you need to read and transform multiple sets <code>sets_read</code> can do that for you.</p>
 <p>It takes basically the same arguments as <code>set_read</code>, <code>set_calc_concentrations</code> and <code>set_calc_variability</code> combined and combines their functionality. The principal difference is, that <code>sets_read</code> takes <code>sets</code> - the number of sets to process.</p>
-<p>It returns a list and may (<code>write_data == TRUE</code>) create two files in your current directory: <code>data_all.csv</code> and <code>data_samples.csv</code> with the processed data.</p>
+<p>It returns a list and may (<code>write_data = TRUE</code>) create two files in your current directory: <code>data_all.csv</code> and <code>data_samples.csv</code> with the processed data.</p>
 <p><code>sets_read()</code>’s list holds the following items:</p>
 <ul>
-<li><code>$all</code>: here you will find all the data , including calibrators, duplicates, … (saved in <code>data_all.csv</code>)</li>
-<li><code>$samples</code>: only samples here - no calibrators, no duplicates -&gt; most often you will work with this data (saved in <code>data_samples.csv</code>)</li>
-<li><code>$set1</code>: another list ;)
+<li><code>$all</code>: here you will find all the data , including calibrators, duplicates, … (saved in <code>data_all.csv</code> if <code>write_data = TRUE</code>)</li>
+<li><code>$samples</code>: only one row per distinct sample here - no calibrators, no duplicates -&gt; most often you will work with this data (saved in <code>data_samples.csv</code> if <code>write_data = TRUE</code>)</li>
+<li><code>$set1</code>: a list
 <ul>
-<li><code>$plot</code>: a plot showing you the linear function used to calculate the concentrations for this plate.</li>
-</ul>
-The points are the calibrators. They should more or less lie close to the line.
-<ul>
-<li><code>$model</code>: the model - you won’t need this too often ;)</li>
+<li><code>$plot</code>: a plot showing you the function used to calculate the concentrations for this set. The points represent the calibrators.</li>
+<li><code>$model</code>: the model as returned by <code>model_func</code></li>
 </ul></li>
-<li>(<code>$set2</code>): the same information for every plate you have</li>
+<li>(<code>$set2</code> - <code>$setN</code>): the same information for every set you have</li>
 </ul>
 <p>Take a look at the data</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># now you may run it :)</span>

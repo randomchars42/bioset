@@ -5,13 +5,10 @@
 #' Basicaly a wrapper around [set_read()], [set_calc_concentrations()] and
 #' [set_calc_variability()].
 #'
+#' For a gentler introduction see examples and Vignette "Introduction".
+#'
 #' May write the processed data into two files: `data_samples.csv`,
-#' `data_all.csv` and returns a list containing:
-#'  * all: all rows including duplicate and calibrators.
-#'  * samples: samples only, no calibrators, no duplicates.
-#'  * plateNUMBER:
-#'    * plot: plot of the calibrators
-#'    * model: model used to fit a line to the calibrators
+#' `data_all.csv`.
 #'
 #' @export
 #' @family set functions
@@ -32,21 +29,19 @@
 #' A list:
 #'
 #'   * `$all`: here you will find all the data , including calibrators,
-#'     duplicates, ... (saved in `data_all.csv`)
-#'   * `$samples`: only samples here - no calibrators, no duplicates -> most
-#'     often you will work with this data  (saved in `data_samples.csv`)
+#'     duplicates, ... (saved in `data_all.csv` if `write_data = TRUE`)
+#'   * `$samples`: only one row per distinct sample here - no calibrators, no
+#'     duplicates -> most often you will work with this data
+#'     (saved in `data_samples.csv` if `write_data = TRUE`)
 #'   * `$set1`: a list
-#'       * `$plot`: a plot showing you the linear function used to calculate the
-#'          concentrations for this plate.
-#'
-#'          The points are the calibrators. They should more or less lie close
-#'          to the line.
-#'       * `$model`: the model
-#'   * (`$set2`): the same information for every plate you have
+#'       * `$plot`: a plot showing you the function used to calculate the
+#'          concentrations for this set. The points represent the calibrators.
+#'       * `$model`: the model as returned by `model_func`
+#'   * (`$set2` - `$setN`): the same information for every set you have
 #' @examples
-#' # files "set_1.csv" and "set_2.csv" containing raw values, the
-#' # corresponding lables consisting of ID and point in time like
-#' # "ID_TIME"
+#' # files "set_1.csv" and "set_2.csv" containing raw values and the
+#' # corresponding lables (consisting of ID and point in time like
+#' # "ID_TIME")
 #' read.csv(
 #'   file = system.file("extdata", "set_1.csv", package = "bioset"),
 #'   header = FALSE,
@@ -63,7 +58,7 @@
 #' names(cals) <- c("CAL1", "CAL2", "CAL3", "CAL4")
 #'
 #' # read both files into a tibble
-#' #  separated by "_"
+#' # columns "ID" and "time" separated by "_"
 #' # and calculate concentrations using the calibrators
 #' result <- sets_read(
 #'   sets = 2,                      # expect 2 plates

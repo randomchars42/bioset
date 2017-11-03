@@ -11,7 +11,7 @@
       * add more examples
   * fix error in `factor_conc`:
       * `factor_conc` did not stop if `molar_mass` / `density_solute` /
-        `densitiy_solution` were needed but missing
+        `densitiy_solution` were required but missing
       * add unit tests
 
 # bioset 0.1.0

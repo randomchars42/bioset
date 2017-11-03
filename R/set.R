@@ -11,8 +11,8 @@
 #' @export
 #' @family set functions
 #' @param file_name Name of the file from which to read the data. May contain
-#'   "#NUM#" as a placeholder if you have multiple files (see num).
-#' @param path The path to the file (no trailing "/" or "\\"!).
+#'   "#NUM#" as a placeholder if you have multiple files.
+#' @param path The path to the file (no trailing "/" or "\\" !).
 #' @param num Number of the set to read, inserted for "#NUM#".
 #' @param sep Separator used in the csv-file, either "," or ";" (see
 #'   [utils::read.csv()]).
@@ -25,10 +25,10 @@
 #'   additional columns.
 #' @param additional_sep String / RegExp that separates additional vars, e.g.:
 #'   `"ID_blue_cold"` with `additional_sep = "_"` will be separated
-#'   into three columns containg `"ID"`, `"blue"` and `"cold"`.
+#'   into three columns containing `"ID"`, `"blue"` and `"cold"`.
 #'   If the separated data would exceed the columns in `additional_vars`
 #'   the last column will contain a string with separator (e.g.: `"blue_cold"`).
-#'   If data is missing `NA`` is inserted.
+#'   If data is missing `NA` is inserted.
 #' @return A tibble containing (at minimum) `set`, `position`, `sample_id`,
 #'   `name` and `value`.
 #' @examples
@@ -264,7 +264,7 @@ set_read <- function(
 #' @family set functions
 #' @param data A tibble containing the data.
 #' @param cal_names A vector of strings containing the names of the samples used
-#'   as calibrators,
+#'   as calibrators.
 #' @param cal_values A numeric vector with the known concentrations of those
 #'   samples (must be in the same order).
 #' @param col_names The name of the column where the `cal_names` can be

@@ -10,9 +10,9 @@ set_read(file_name = "set_#NUM#.csv", path = ".", num = 1, sep = ",",
 }
 \arguments{
 \item{file_name}{Name of the file from which to read the data. May contain
-"#NUM#" as a placeholder if you have multiple files (see num).}
+"#NUM#" as a placeholder if you have multiple files.}
 
-\item{path}{The path to the file (no trailing "/" or "\"!).}
+\item{path}{The path to the file (no trailing "/" or "\" !).}
 
 \item{num}{Number of the set to read, inserted for "#NUM#".}
 
@@ -32,10 +32,10 @@ additional columns.}
 
 \item{additional_sep}{String / RegExp that separates additional vars, e.g.:
 \code{"ID_blue_cold"} with \code{additional_sep = "_"} will be separated
-into three columns containg \code{"ID"}, \code{"blue"} and \code{"cold"}.
+into three columns containing \code{"ID"}, \code{"blue"} and \code{"cold"}.
 If the separated data would exceed the columns in \code{additional_vars}
 the last column will contain a string with separator (e.g.: \code{"blue_cold"}).
-If data is missing `NA`` is inserted.}
+If data is missing \code{NA} is inserted.}
 }
 \value{
 A tibble containing (at minimum) \code{set}, \code{position}, \code{sample_id},

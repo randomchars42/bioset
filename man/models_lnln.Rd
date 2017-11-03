@@ -29,8 +29,8 @@ interpolate_lnln(y, model)
 }
 \description{
 Use these functions to transform x and y using the natural logarithm and
-calculate a linear model, plot the model and use it calculated x-values from
-the model data and y-values (inverse function).
+calculate a linear model, plot the model and use it to calculate x-values
+from the model data and y-values (inverse function).
 
 Those function are intended to be used in \link{set_calc_concentrations} /
 \link{sets_read} to be applied to the calibrators (\code{fit_lnln}) and interpolate

@@ -256,19 +256,21 @@ If you need to read and transform multiple sets `sets_read` can do that for you.
 
 It takes basically the same arguments as `set_read`, `set_calc_concentrations` and `set_calc_variability` combined and combines their functionality. The principal difference is, that `sets_read` takes `sets` - the number of sets to process. 
 
-It returns a list and may (`write_data == TRUE`) create two files in your current directory:
+It returns a list and may (`write_data = TRUE`) create two files in your current directory:
 `data_all.csv` and `data_samples.csv` with the processed data.
 
 `sets_read()`'s list holds the following items:
 
-* `$all`: here you will find all the data , including calibrators, duplicates, ... (saved in `data_all.csv`)
-* `$samples`: only samples here - no calibrators, no duplicates -> most often you will work with this data  (saved in `data_samples.csv`)
-* `$set1`: another list ;)
-    * `$plot`: a plot showing you the linear function used to calculate the concentrations for this plate.
-
-    The points are the calibrators. They should more or less lie close to the line.
-    * `$model`: the model - you won't need this too often ;)
-* (`$set2`): the same information for every plate you have
+  * `$all`: here you will find all the data , including calibrators,
+    duplicates, ... (saved in `data_all.csv` if `write_data = TRUE`)
+  * `$samples`: only one row per distinct sample here - no calibrators, no
+    duplicates -> most often you will work with this data
+    (saved in `data_samples.csv` if `write_data = TRUE`)
+  * `$set1`: a list
+      * `$plot`: a plot showing you the function used to calculate the
+         concentrations for this set. The points represent the calibrators.
+      * `$model`: the model as returned by `model_func`
+  * (`$set2` - `$setN`): the same information for every set you have
 
 Take a look at the data
 

@@ -29,7 +29,7 @@ interpolate_linear(y, model)
 }
 \description{
 Use these functions to calculate a linear model from data, plot the model and
-use it calculated x-values from the model data and y-values (inverse
+use it to calculate x-values from the model data and y-values (inverse
 function).
 
 Those function are intended to be used in \link{set_calc_concentrations} /
@@ -39,7 +39,7 @@ to visually insepct goodness of fit.
 \itemize{
 \item \code{fit_linear}: Calculate a linear model from x and y.
 \item \code{plot_linear}: Draw the plot for the model that can be calculated with
-\code{fit_linear}. \link[ggplot2:ggplot]{ggplot2::ggplot}.
+\code{fit_linear}. Uses \link[ggplot2:ggplot]{ggplot2::ggplot} if available.
 \item \code{interpolate_linear}: Inverse \code{fit_linear} using \code{model} and calculate x
 values from y values.
 }

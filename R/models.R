@@ -3,7 +3,7 @@
 #'
 #' @description
 #' Use these functions to calculate a linear model from data, plot the model and
-#' use it calculated x-values from the model data and y-values (inverse
+#' use it to calculate x-values from the model data and y-values (inverse
 #' function).
 #'
 #' Those function are intended to be used in [set_calc_concentrations] /
@@ -13,7 +13,7 @@
 #'
 #' * `fit_linear`: Calculate a linear model from x and y.
 #' * `plot_linear`: Draw the plot for the model that can be calculated with
-#'   `fit_linear`. [ggplot2::ggplot].
+#'   `fit_linear`. Uses [ggplot2::ggplot] if available.
 #' * `interpolate_linear`: Inverse `fit_linear` using `model` and calculate x
 #'   values from y values.
 #'
@@ -80,8 +80,8 @@ interpolate_linear <- function(y, model) {
 #'
 #' @description
 #' Use these functions to transform x and y using the natural logarithm and
-#' calculate a linear model, plot the model and use it calculated x-values from
-#' the model data and y-values (inverse function).
+#' calculate a linear model, plot the model and use it to calculate x-values
+#' from the model data and y-values (inverse function).
 #'
 #' Those function are intended to be used in [set_calc_concentrations] /
 #' [sets_read] to be applied to the calibrators (`fit_lnln`) and interpolate
