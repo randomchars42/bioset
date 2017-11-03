@@ -311,6 +311,6 @@ result_list$samples
 knitr::kable(result_list$samples)
 ```
 
-```{r, warnings = FALSE}
+```{r, eval = FALSE, warnings = FALSE}
 result_list$set1$plot
 ```

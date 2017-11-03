@@ -170,6 +170,6 @@ knitr::kable(result_list$all)
 ## ---- echo = FALSE-------------------------------------------------------
 knitr::kable(result_list$samples)
 
-## ---- warnings = FALSE---------------------------------------------------
-result_list$set1$plot
+## ---- eval = FALSE, warnings = FALSE-------------------------------------
+#  result_list$set1$plot
 

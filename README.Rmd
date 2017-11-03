@@ -14,12 +14,7 @@ knitr::opts_chunk$set(
 
 # bioset
 
-<!--[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/bioset)](https://cran.r-project.org/package=bioset)-->
-[![CRAN_Status_Badge](badge_cran_release.svg)](https://cran.r-project.org/package=bioset)
-[![GitHub_Status_Badge](badge_github_release.svg)](https://github.com/randomchars42/bioset/releases)
-[![GitHub_Check_Badge](badge_r_check_passing.svg)](https://github.com/randomchars42/bioset/releases)
-[![GitHub_Build_Badge](badge_r_build_passing.svg)](https://github.com/randomchars42/bioset/releases)
-
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/bioset)](https://cran.r-project.org/package=bioset)
 
 ```{r, child = "vignettes/introduction.Rmd"}
 ```

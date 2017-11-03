@@ -3,8 +3,7 @@
 bioset
 ======
 
-<!--[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/bioset)](https://cran.r-project.org/package=bioset)-->
-[![CRAN\_Status\_Badge](badge_cran_release.svg)](https://cran.r-project.org/package=bioset) [![GitHub\_Status\_Badge](badge_github_release.svg)](https://github.com/randomchars42/bioset/releases) [![GitHub\_Check\_Badge](badge_r_check_passing.svg)](https://github.com/randomchars42/bioset/releases) [![GitHub\_Build\_Badge](badge_r_build_passing.svg)](https://github.com/randomchars42/bioset/releases)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/bioset)](https://cran.r-project.org/package=bioset)
 
 `bioset` is intended to help you working with sets of raw data.
 
@@ -396,8 +395,4 @@ result_list$samples
 
 ``` r
 result_list$set1$plot
-#> Warning: Removed 16 rows containing non-finite values (stat_smooth).
-#> Warning: Removed 16 rows containing missing values (geom_point).
 ```
-
-![](README-unnamed-chunk-28-1.png)
