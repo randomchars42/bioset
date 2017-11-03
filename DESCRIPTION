@@ -16,10 +16,10 @@ License: MIT + file LICENSE
 Depends:
     R (>= 3.4.2)
 Imports:
-    utils (>= 3.4.2),
-    stats (>= 3.4.2),
-    graphics (>= 3.4.2),
-    grDevices (>= 3.4.2),
+    utils,
+    stats,
+    graphics,
+    grDevices,
     tidyr (>= 0.7.1),
     dplyr (>= 0.7.4),
     rlang (>= 0.1.2),
