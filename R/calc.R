@@ -44,7 +44,7 @@ recognised_units <- c(
 #' mass / mass:
 #' ".g / .g", "w / w", "\% w / w"
 #'
-#' Where "." symbolises a metric prefix (see [calc_factor_prefix()]) :
+#' Where "." symbolizes a metric prefix (see [calc_factor_prefix()]) :
 #'
 #' For g, l, mol and M: d (deci), c (centi), m (milli), µ (micro), n (nano),
 #' p (pico) and f (femto).
@@ -127,7 +127,7 @@ calc_factor_conc <- function(
 #'
 #' @details
 #' Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".m^3"
-#' (cubic metres), where "." symbolises a metric prefix:
+#' (cubic metres), where "." symbolizes a metric prefix:
 #'
 #' For g, l and mol: d (deci), c (centi), m (milli), µ (micro), n (nano),
 #' p (pico) and f (femto).

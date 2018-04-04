@@ -2,7 +2,7 @@
 #' Read sets and calculate concentrations and variability.
 #'
 #' @description
-#' Basicaly a wrapper around [set_read()], [set_calc_concentrations()] and
+#' Basically a wrapper around [set_read()], [set_calc_concentrations()] and
 #' [set_calc_variability()].
 #'
 #' For a gentler introduction see examples and Vignette "Introduction".

@@ -9,7 +9,7 @@
 #' Those function are intended to be used in [set_calc_concentrations] /
 #' [sets_read] to be applied to the calibrators (`fit_linear`) and interpolate
 #' concentrations from the raw values (`interpolate_linear`). Use `plot_linear`
-#' to visually insepct goodness of fit.
+#' to visually inspect goodness of fit.
 #'
 #' * `fit_linear`: Calculate a linear model from x and y.
 #' * `plot_linear`: Draw the plot for the model that can be calculated with
@@ -86,7 +86,7 @@ interpolate_linear <- function(y, model) {
 #' Those function are intended to be used in [set_calc_concentrations] /
 #' [sets_read] to be applied to the calibrators (`fit_lnln`) and interpolate
 #' concentrations from the raw values (`interpolate_lnln`). Use `plot_lnln`
-#' to visually insepct goodness of fit.
+#' to visually inspect goodness of fit.
 #'
 #' * `fit_lnln`: Apply ln to x and y and calculate a linear model from x and y.
 #' * `plot_lnln`: Draw the plot for the model that can be calculated with
