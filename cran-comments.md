@@ -8,10 +8,8 @@
 
   * local ubuntu: There were no ERRORs / WARNINGs / NOTEs.
   * rhub devel: There were no ERRORs / WARNINGs / NOTEs.
-  * win-builder: There were no ERRORs / 1 WARNINGs / NOTEs.
-    * WARNING: Dependence on R version '3.4.2' not with patchlevel 0: I cannot see why this warning is raised, earlier builds checked out just fine against 3.4.2
+  * win-builder: There were no ERRORs / WARNINGs / NOTEs.
 
 ## Downstream dependencies
 
 There are no (conflicts with) downstream dependencies.
-

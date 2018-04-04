@@ -1,6 +1,7 @@
 # bioset 0.2.1
 
   * remove `tidyverse` from "Suggests" as advised by tidyverse authors
+  * fix "Dependence on R version '3.4.2' not with patchlevel 0"
 
 # bioset 0.2.0
 
