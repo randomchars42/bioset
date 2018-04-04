@@ -35,7 +35,7 @@ function).
 Those function are intended to be used in \link{set_calc_concentrations} /
 \link{sets_read} to be applied to the calibrators (\code{fit_linear}) and interpolate
 concentrations from the raw values (\code{interpolate_linear}). Use \code{plot_linear}
-to visually insepct goodness of fit.
+to visually inspect goodness of fit.
 \itemize{
 \item \code{fit_linear}: Calculate a linear model from x and y.
 \item \code{plot_linear}: Draw the plot for the model that can be calculated with

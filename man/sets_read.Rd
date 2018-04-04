@@ -78,7 +78,7 @@ concentrations for this set. The points represent the calibrators.
 }
 }
 \description{
-Basicaly a wrapper around \code{\link[=set_read]{set_read()}}, \code{\link[=set_calc_concentrations]{set_calc_concentrations()}} and
+Basically a wrapper around \code{\link[=set_read]{set_read()}}, \code{\link[=set_calc_concentrations]{set_calc_concentrations()}} and
 \code{\link[=set_calc_variability]{set_calc_variability()}}.
 
 For a gentler introduction see examples and Vignette "Introduction".

@@ -35,7 +35,7 @@ from the model data and y-values (inverse function).
 Those function are intended to be used in \link{set_calc_concentrations} /
 \link{sets_read} to be applied to the calibrators (\code{fit_lnln}) and interpolate
 concentrations from the raw values (\code{interpolate_lnln}). Use \code{plot_lnln}
-to visually insepct goodness of fit.
+to visually inspect goodness of fit.
 \itemize{
 \item \code{fit_lnln}: Apply ln to x and y and calculate a linear model from x and y.
 \item \code{plot_lnln}: Draw the plot for the model that can be calculated with

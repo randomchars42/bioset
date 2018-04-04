@@ -41,7 +41,7 @@ volume / volume:
 mass / mass:
 ".g / .g", "w / w", "\% w / w"
 
-Where "." symbolises a metric prefix (see \code{\link[=calc_factor_prefix]{calc_factor_prefix()}}) :
+Where "." symbolizes a metric prefix (see \code{\link[=calc_factor_prefix]{calc_factor_prefix()}}) :
 
 For g, l, mol and M: d (deci), c (centi), m (milli), µ (micro), n (nano),
 p (pico) and f (femto).

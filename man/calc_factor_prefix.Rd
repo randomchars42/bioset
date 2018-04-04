@@ -19,7 +19,7 @@ Get a factor to convert metric prefixes into one another.
 }
 \details{
 Convert, e.g. "kg" to "µg". You can convert ".g", ".l", ".mol", ".m^3"
-(cubic metres), where "." symbolises a metric prefix:
+(cubic metres), where "." symbolizes a metric prefix:
 
 For g, l and mol: d (deci), c (centi), m (milli), µ (micro), n (nano),
 p (pico) and f (femto).
