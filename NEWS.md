@@ -1,3 +1,7 @@
+# bioset 0.2.1
+
+  * remove `tidyverse` from "Suggests" as advised by tidyverse authors
+
 # bioset 0.2.0
 
   * add `sets_read`
