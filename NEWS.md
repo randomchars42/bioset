@@ -1,3 +1,7 @@
+# bioset 0.2.2
+
+  * adapt code to changes coming dplyr 0.7.5 (thanks to krlmlr)
+
 # bioset 0.2.1
 
   * remove `tidyverse` from "Suggests" as advised by tidyverse authors

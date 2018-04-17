@@ -40,6 +40,7 @@ release_questions <- function() {
     "devtools::revdep_check()?",
     "devtools::build_win()?",
     "rhub::check_with_rdevel()?",
-    "Are you feeling good?"
+    "Are you feeling good?",
+    "devtools::release()"
   )
 }

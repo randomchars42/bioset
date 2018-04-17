@@ -475,6 +475,7 @@ set_calc_variability <- function(data, ids, ...) {
   `%>%` <- magrittr::`%>%`
   `!!` <- rlang::`!!`
   `:=` <- rlang::`:=`
+  n <- dplyr::n
 
   stopifnot(tibble::is.tibble(data))
 
