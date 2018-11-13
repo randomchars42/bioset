@@ -253,8 +253,8 @@ canonicalise_units <- function(unit) {
   unit <- gsub("\\s", "", unit)
 
   if (unit == "%w/v") {
-    warning("Using '0.1 g / l' instead of '% w / v'")
-    unit <- "dg/l"
+    warning("Using '10 g / l' instead of '% w / v'")
+    unit <- "g/dl"
   } else if (unit == "%v/v") {
     # convert to "v / v" (same as "l / l")
     unit <- "cl/l"
