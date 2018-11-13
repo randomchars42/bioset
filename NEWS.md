@@ -1,3 +1,8 @@
+# bioset 0.2.3
+
+  * `set_read`: check `additional_vars` for column names that might get overwritten
+  * `canonicalise_units`: fix unit conversion for % w / v (will throw warning)
+  
 # bioset 0.2.2
 
   * adapt code to changes coming dplyr 0.7.5 (thanks to krlmlr)

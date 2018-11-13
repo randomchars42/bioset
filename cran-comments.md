@@ -1,8 +1,8 @@
 ## Test environments
 
-  * local ubuntu 17.04 install, R 3.4.2
-  * r-hub x86_64-pc-linux-gnu 64-bit (devel: 2018-04-14 r74601)
-  * win-builder (devel: 2018-04-16 r74611)
+  * local ubuntu 17.04 install, R 3.5.1
+  * r-hub x86_64-pc-linux-gnu 64-bit, R devel: 2018-11-10 r75583
+  * win-builder, R 3.5.1
 
 ## R CMD check results
 

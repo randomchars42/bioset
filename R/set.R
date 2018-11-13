@@ -121,10 +121,12 @@ set_read <- function(
     is.character(additional_sep)
   )
 
-  # check additional_vars for column names that will get overwritten
-  for (i in 1 : length(additional_vars)) {
-    if (additional_vars[[i]] %in% c("name", "real", "recovery", "conc", "value")) {
-      warning("\"", paste0(additional_vars[[i]], "\" may not be used as column name"))
+  if (length(additional_vars) > 0) {
+    # check additional_vars for column names that will get overwritten
+    for (i in 1 : length(additional_vars)) {
+      if (additional_vars[[i]] %in% c("name", "real", "recovery", "conc", "value")) {
+        warning("\"", paste0(additional_vars[[i]], "\" may not be used as column name"))
+      }
     }
   }
 
