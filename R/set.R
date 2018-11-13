@@ -121,6 +121,13 @@ set_read <- function(
     is.character(additional_sep)
   )
 
+  # check additional_vars for column names that will get overwritten
+  for (i in 1 : length(additional_vars)) {
+    if (additional_vars[[i]] %in% c("name", "real", "recovery", "conc", "value")) {
+      warning("\"", paste0(additional_vars[[i]], "\" may not be used as column name"))
+    }
+  }
+
   dec <- get_dec(dec = dec, sep = sep)
 
   # make the pipe operator available to us
@@ -369,7 +376,7 @@ set_calc_concentrations <- function(
     is.function(interpolate_func)
   )
 
-  # enquose the give column names
+  # enquose the given column names
   # for columns that appear to the left of := (i.e. are mutated) a string is
   # stored in col_*_name
 
